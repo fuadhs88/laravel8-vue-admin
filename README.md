@@ -53,7 +53,7 @@ Installation
 First, install laravel 5.5, and make sure that the database connection settings are correct.
 
 ```
-composer require pucoder/laravel-admin
+composer require explore/laravel-admin
 ```
 
 Then run these commands to publish assets and config：

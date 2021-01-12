@@ -16,20 +16,21 @@ class AuthController extends Controller
     /**
      * @var string
      */
-    protected $loginView = 'admin::login';
+    protected $loginView = 'Auth/Login';
 
     /**
      * Show the login page.
      *
      * @return \Illuminate\Contracts\View\Factory|Redirect|\Illuminate\View\View
+     * @throws \Throwable
      */
-    public function getLogin()
+    public function login()
     {
         if ($this->guard()->check()) {
             return redirect($this->redirectPath());
         }
 
-        return view($this->loginView);
+        return admin_view($this->loginView);
     }
 
     /**
@@ -38,6 +39,7 @@ class AuthController extends Controller
      * @param Request $request
      *
      * @return mixed
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function postLogin(Request $request)
     {
@@ -77,9 +79,10 @@ class AuthController extends Controller
     /**
      * User logout.
      *
+     * @param Request $request
      * @return Redirect
      */
-    public function getLogout(Request $request)
+    public function logout(Request $request)
     {
         $this->guard()->logout();
 
@@ -198,7 +201,8 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended($this->redirectPath());
+        return admin_redirect('home');
+//        return redirect()->intended($this->redirectPath());
     }
 
     /**

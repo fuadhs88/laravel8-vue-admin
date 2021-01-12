@@ -65,6 +65,7 @@ class AdminServiceProvider extends ServiceProvider
      * Boot the service provider.
      *
      * @return void
+     * @throws \ReflectionException
      */
     public function boot()
     {
@@ -150,11 +151,13 @@ PHP;
      */
     protected function registerPublishing()
     {
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config' => config_path()], 'laravel-admin-config');
             $this->publishes([__DIR__.'/../resources/lang' => resource_path('lang')], 'laravel-admin-lang');
-            $this->publishes([__DIR__.'/../database/migrations' => database_path('migrations')], 'laravel-admin-migrations');
-            $this->publishes([__DIR__.'/../resources/assets' => public_path('vendor/laravel-admin')], 'laravel-admin-assets');
+            $this->publishes([__DIR__.'/../database/seeders' => database_path('seeders')], 'laravel-admin-seeders');
+//            $this->publishes([__DIR__.'/../resources/assets' => public_path('vendor/laravel-admin')], 'laravel-admin-assets');
         }
     }
 
@@ -162,6 +165,7 @@ PHP;
      * Remove default feature of double encoding enable in laravel 5.6 or later.
      *
      * @return void
+     * @throws \ReflectionException
      */
     protected function compatibleBlade()
     {
