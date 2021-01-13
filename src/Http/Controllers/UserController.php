@@ -19,7 +19,7 @@ class UserController extends AdminController
     /**
      * Make a table builder.
      *
-     * @return Table
+     * @return array|string
      */
     protected function table()
     {
@@ -60,7 +60,7 @@ class UserController extends AdminController
             $filter->like('name', trans('admin.name'));
         });
 
-        return $table;
+        return $table->render();
     }
 
     /**

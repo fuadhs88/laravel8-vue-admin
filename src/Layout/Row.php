@@ -2,21 +2,19 @@
 
 namespace Encore\Admin\Layout;
 
-use Illuminate\Contracts\Support\Renderable;
-
-class Row implements Buildable, Renderable
+class Row
 {
     /**
      * @var Column[]
      */
-    protected $columns = [];
+    public $columns = [];
 
     /**
      * row classes.
      *
      * @var array
      */
-    protected $class = [];
+    public $class = [];
 
     /**
      * Row constructor.
@@ -49,6 +47,7 @@ class Row implements Buildable, Renderable
      * Add class in row.
      *
      * @param array|string $class
+     * @return Row
      */
     public function class($class)
     {
@@ -67,55 +66,5 @@ class Row implements Buildable, Renderable
     protected function addColumn(Column $column)
     {
         $this->columns[] = $column;
-    }
-
-    /**
-     * Build row column.
-     */
-    public function build()
-    {
-        $this->startRow();
-
-        foreach ($this->columns as $column) {
-            $column->build();
-        }
-
-        $this->endRow();
-    }
-
-    /**
-     * Start row.
-     */
-    protected function startRow()
-    {
-        $class = $this->class;
-        $class[] = 'row';
-        echo '<div class="'.implode(' ', $class).'">';
-    }
-
-    /**
-     * End column.
-     */
-    protected function endRow()
-    {
-        echo '</div>';
-    }
-
-    /**
-     * Render row.
-     *
-     * @return string
-     */
-    public function render()
-    {
-        ob_start();
-
-        $this->build();
-
-        $contents = ob_get_contents();
-
-        ob_end_clean();
-
-        return $contents;
     }
 }

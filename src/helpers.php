@@ -3,6 +3,7 @@
 use Encore\Admin\Admin;
 use Illuminate\Support\MessageBag;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Config;
 
 if (!function_exists('admin_path')) {
 
@@ -401,11 +402,11 @@ if (!function_exists('admin_view')) {
      */
     function admin_view($view, $data = [])
     {
-        Inertia::setRootView('admin::app');
-
         $merge = [
-            'config' => config('admin'),
+            'configs' => Config::all(),
         ];
+
+        Inertia::setRootView('admin::app');
 
         return Inertia::render($view, array_merge($merge, $data));
     }
@@ -414,15 +415,15 @@ if (!function_exists('admin_view')) {
 if (!function_exists('admin_redirect')) {
     /**
      * @param $route_name
+     * @param array $parameters
+     * @param bool $absolute
      * @return string
      */
-    function admin_redirect($route_name)
+    function admin_redirect($route_name, $parameters = [], $absolute = true)
     {
-        return Inertia::location(admin_route($route_name));
+        return Inertia::location(admin_route($route_name, $parameters, $absolute));
     }
 }
-
-
 
 if (!function_exists('admin_user')) {
     function admin_user()

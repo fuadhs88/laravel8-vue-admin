@@ -53,14 +53,14 @@ class Table
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $columns;
+    public $columns;
 
     /**
      * Collection of all data rows.
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $rows;
+    public $rows;
 
     /**
      * Rows callable fucntion.
@@ -88,28 +88,21 @@ class Table
      *
      * @var array
      */
-    protected $variables = [];
+    public $variables = [];
 
     /**
      * Resource path of the table.
      *
      * @var
      */
-    protected $resourcePath;
+    public $resourcePath;
 
     /**
      * Default primary key name.
      *
      * @var string
      */
-    protected $keyName = 'id';
-
-    /**
-     * View for table to render.
-     *
-     * @var string
-     */
-    protected $view = 'admin::table.table';
+    public $keyName = 'id';
 
     /**
      * Per-page options.
@@ -135,7 +128,7 @@ class Table
      *
      * @var array
      */
-    protected $options = [
+    public $options = [
         'show_pagination'        => true,
         'show_tools'             => true,
         'show_filter'            => true,
@@ -150,7 +143,7 @@ class Table
     /**
      * @var string
      */
-    public $tableID;
+    public $table_id;
 
     /**
      * Initialization closure array.
@@ -184,7 +177,7 @@ class Table
      */
     protected function initialize()
     {
-        $this->tableID = uniqid('table-');
+        $this->table_id = uniqid('table-');
 
         $this->columns = Collection::make();
         $this->rows = Collection::make();
@@ -499,7 +492,7 @@ class Table
             return;
         }
 
-        admin_assets_require('icheck');
+//        admin_assets_require('icheck');
 
         $check = <<<'HTML'
 <div class='icheck-%s d-inline'>
@@ -804,40 +797,6 @@ HTML;
     }
 
     /**
-     * Get all variables will used in table view.
-     *
-     * @return array
-     */
-    protected function variables()
-    {
-        $this->variables = array_merge($this->variables, [
-            'table'       => $this,
-            'table_class' => 'table table-hover table-table',
-        ]);
-
-        if ($this->hasColumnGroup()) {
-            $this->variables['table_class'] .= ' table-bordered text-center';
-        }
-
-        return $this->variables;
-    }
-
-    /**
-     * Set a view to render.
-     *
-     * @param string $view
-     * @param array  $variables
-     */
-    public function setView($view, $variables = [])
-    {
-        if (!empty($variables)) {
-            $this->with($variables);
-        }
-
-        $this->view = $view;
-    }
-
-    /**
      * Set table title.
      *
      * @param string $title
@@ -908,7 +867,7 @@ HTML;
     /**
      * Get the string contents of the table view.
      *
-     * @return string
+     * @return array|string
      */
     public function render()
     {
@@ -922,8 +881,20 @@ HTML;
 
         $this->callRenderingCallback();
 
-        $this->with(['__table' => "$('#{$this->tableID}')"]);
+        $this->with([
+            '__table' => "$('#{$this->table_id}')",
+            'tableClass' => 'table table-hover table-table',
+        ]);
 
-        return Admin::view($this->view, $this->variables());
+        if ($this->hasColumnGroup()) {
+            $this->variables['table_class'] .= ' table-bordered text-center';
+        }
+
+        $this->resourcePath = $this->resource();
+
+        return [
+            'view' => 'Tables/Table',
+            'data' => $this
+        ];
     }
 }

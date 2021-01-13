@@ -17,7 +17,7 @@
     <script src="{{ admin_url('_require_config') }}"></script>
 </head>
 
-<body class="hold-transition {{ join(' ', config('admin.theme.layout')) }} {{ config('admin.theme.accent') ? 'accent-'.config('admin.theme.accent') : '' }} {{ isset($_COOKIE["sidebar-collapse"]) ? $_COOKIE["sidebar-collapse"] : '' }}">
+<body class="hold-transition {{ config('admin.theme.layout') }} {{ config('admin.theme.accent') }} {{ isset($_COOKIE["sidebar-collapse"]) ? $_COOKIE["sidebar-collapse"] : '' }}">
 
 @if($alert = config('admin.top_alert'))
     <div style="text-align: center;padding: 5px;font-size: 12px;background-color: #ffffd5;color: #ff0000;">

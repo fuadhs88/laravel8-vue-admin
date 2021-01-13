@@ -34,14 +34,14 @@ class Column
      *
      * @var string
      */
-    protected $name;
+    public $name;
 
     /**
      * Label of column.
      *
      * @var string
      */
-    protected $label;
+    public $label;
 
     /**
      * Original value of column.
@@ -55,21 +55,21 @@ class Column
      *
      * @var array
      */
-    protected $attributes = [];
+    public $attributes = [];
 
     /**
      * Relation name.
      *
      * @var bool
      */
-    protected $relation = false;
+    public $relation = false;
 
     /**
      * Relation column.
      *
      * @var string
      */
-    protected $relationColumn;
+    public $relationColumn;
 
     /**
      * Original table data.

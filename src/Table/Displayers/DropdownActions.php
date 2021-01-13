@@ -199,7 +199,7 @@ class DropdownActions extends Actions
             'default'  => $this->default,
             'custom'   => $this->custom,
             'dblclick' => $this->getDblclickElement(),
-            'table'    => $this->table->tableID,
+            'table'    => $this->table->table_id,
         ];
 
         if (empty($variables['default']) && empty($variables['custom'])) {

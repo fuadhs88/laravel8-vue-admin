@@ -22,19 +22,19 @@ class Row
      *
      * @var
      */
-    protected $data;
+    public $data;
 
     /**
      * Attributes of row.
      *
      * @var array
      */
-    protected $attributes = [];
+    public $attributes = [];
 
     /**
      * @var mixed
      */
-    protected $key;
+    public $key;
 
     /**
      * Row constructor.

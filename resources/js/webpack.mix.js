@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const mixAdmin = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -17,9 +18,11 @@ mix.js('resources/js/app.js', 'public/js').vue()
         require('tailwindcss'),
         require('autoprefixer'),
     ])
-    .js('resources/js/admin.js', 'public/vendor/laravel-admin/laravel-admin/js/app.js').vue()
-    .postCss('resources/css/admin.css', 'public/vendor/laravel-admin/laravel-admin/css/app.css')
     .webpackConfig(require('./webpack.config'));
+
+mixAdmin.js('app/Vendor/PuCoder/LaravelVueAdmin/resources/js/app.js', 'public/vendor/laravel-admin/laravel-admin/js').vue()
+    .css('app/Vendor/PuCoder/LaravelVueAdmin/resources/css/app.css', 'public/vendor/laravel-admin/laravel-admin/css');
+
 
 if (mix.inProduction()) {
     mix.version();

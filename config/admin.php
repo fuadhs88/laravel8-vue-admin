@@ -21,7 +21,7 @@ return [
     */
     'logo' => [
 
-        'image' => '/vendor/laravel-admin/AdminLTE/img/AdminLTELogo.png',
+        'image' => '/vendor/laravel-admin/admin-lte/dist/img/AdminLTELogo.png',
 
         'text' => '<span class="font-weight-bolder">Laravel-admin</span>',
     ],
@@ -200,7 +200,7 @@ return [
     | Set a default avatar for newly created users.
     |
     */
-    'default_avatar' => '/vendor/laravel-admin/AdminLTE/img/user2-160x160.jpg',
+    'default_avatar' => '/vendor/laravel-admin/admin-lte/dist/img/user2-160x160.jpg',
 
     /*
     |--------------------------------------------------------------------------
@@ -224,7 +224,7 @@ return [
         | Top Navigation: use the class `.layout-top-nav` to remove the sidebar and have your links at the top navbar.
         |
         */
-        'layout' => ['sidebar-mini', 'layout-fixed', 'text-sm'],
+        'layout' => 'sidebar-mini layout-fixed text-sm',
 
         /*
         |--------------------------------------------------------------------------
@@ -252,7 +252,7 @@ return [
         |    light indigo  navy purple fuchsia pink maroon orange lime teal olive
         |
         */
-        'accent' => 'info',
+        'accent' => 'accent-info',
 
         /*
         |--------------------------------------------------------------------------
@@ -266,7 +266,7 @@ return [
         |    light indigo  navy purple fuchsia pink maroon orange lime teal olive
         |
         */
-        'sidebar' => 'light-info',
+        'sidebar' => 'sidebar-light-info',
 
         /*
         |--------------------------------------------------------------------------
@@ -288,7 +288,7 @@ return [
         |    light indigo  navy purple fuchsia pink maroon orange lime teal olive
         |
         */
-        'logo' => 'light',
+        'logo' => 'navbar-light',
     ],
 
     /*

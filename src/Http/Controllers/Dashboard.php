@@ -8,40 +8,45 @@ use Illuminate\Support\Arr;
 class Dashboard
 {
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array
      */
     public static function title()
     {
-        return view('admin::dashboard.title');
+        return [
+            'view' => 'Dashboard/Title'
+        ];
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array
      */
     public static function environment()
     {
-        $envs = [
-            ['name' => 'PHP version',       'value' => 'PHP/'.PHP_VERSION],
-            ['name' => 'Laravel version',   'value' => app()->version()],
-            ['name' => 'CGI',               'value' => php_sapi_name()],
-            ['name' => 'Uname',             'value' => php_uname()],
-            ['name' => 'Server',            'value' => Arr::get($_SERVER, 'SERVER_SOFTWARE')],
+        return [
+            'view' => 'Dashboard/Environment',
+            'data' => [
+                'envs' => [
+                    ['name' => 'PHP version',       'value' => 'PHP/'.PHP_VERSION],
+                    ['name' => 'Laravel version',   'value' => app()->version()],
+                    ['name' => 'CGI',               'value' => php_sapi_name()],
+                    ['name' => 'Uname',             'value' => php_uname()],
+                    ['name' => 'Server',            'value' => Arr::get($_SERVER, 'SERVER_SOFTWARE')],
 
-            ['name' => 'Cache driver',      'value' => config('cache.default')],
-            ['name' => 'Session driver',    'value' => config('session.driver')],
-            ['name' => 'Queue driver',      'value' => config('queue.default')],
+                    ['name' => 'Cache driver',      'value' => config('cache.default')],
+                    ['name' => 'Session driver',    'value' => config('session.driver')],
+                    ['name' => 'Queue driver',      'value' => config('queue.default')],
 
-            ['name' => 'Timezone',          'value' => config('app.timezone')],
-            ['name' => 'Locale',            'value' => config('app.locale')],
-            ['name' => 'Env',               'value' => config('app.env')],
-            ['name' => 'URL',               'value' => config('app.url')],
+                    ['name' => 'Timezone',          'value' => config('app.timezone')],
+                    ['name' => 'Locale',            'value' => config('app.locale')],
+                    ['name' => 'Env',               'value' => config('app.env')],
+                    ['name' => 'URL',               'value' => config('app.url')],
+                ]
+            ]
         ];
-
-        return view('admin::dashboard.environment', compact('envs'));
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array
      */
     public static function extensions()
     {
@@ -98,11 +103,16 @@ class Dashboard
             $extension['installed'] = array_key_exists(end($name), Admin::$extensions);
         }
 
-        return view('admin::dashboard.extensions', compact('extensions'));
+        return [
+            'view' => 'Dashboard/Extensions',
+            'data' => [
+                'extensions' => $extensions
+            ]
+        ];
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array
      */
     public static function dependencies()
     {
@@ -110,6 +120,11 @@ class Dashboard
 
         $dependencies = json_decode($json, true)['require'];
 
-        return Admin::view('admin::dashboard.dependencies', compact('dependencies'));
+        return [
+            'view' => 'Dashboard/Dependencies',
+            'data' => [
+                'dependencies' => $dependencies
+            ]
+        ];
     }
 }

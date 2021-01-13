@@ -55,15 +55,16 @@ class AdminController extends Controller
      * Index interface.
      *
      * @param Content $content
-     *
-     * @return Content
+     * @return string
+     * @throws \Throwable
      */
     public function index(Content $content)
     {
         return $content
             ->title($this->title())
             ->description($this->description['index'] ?? trans('admin.list'))
-            ->body($this->table());
+            ->body($this->table())
+            ->render();
     }
 
     /**

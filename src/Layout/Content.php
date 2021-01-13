@@ -14,31 +14,31 @@ class Content implements Renderable
      *
      * @var string
      */
-    protected $title = ' ';
+    public $title = ' ';
 
     /**
      * Content description.
      *
      * @var string
      */
-    protected $description = ' ';
+    public $description = ' ';
 
     /**
      * Page breadcrumb.
      *
      * @var array
      */
-    protected $breadcrumb = [];
+    public $breadcrumb = [];
 
     /**
      * @var Row[]
      */
-    protected $rows = [];
+    public $rows = [];
 
     /**
      * @var array
      */
-    protected $view;
+    public $view;
 
     /**
      * Content constructor.
@@ -192,26 +192,6 @@ class Content implements Renderable
     }
 
     /**
-     * Build html of content.
-     *
-     * @return string
-     */
-    public function build()
-    {
-        ob_start();
-
-        foreach ($this->rows as $row) {
-            $row->build();
-        }
-
-        $contents = ob_get_contents();
-
-        ob_end_clean();
-
-        return $contents;
-    }
-
-    /**
      * Set success message for content.
      *
      * @param string $title
@@ -272,20 +252,12 @@ class Content implements Renderable
     }
 
     /**
-     * Render this content.
-     *
      * @return string
+     * @throws \Throwable
      */
     public function render()
     {
-        $items = [
-            'header'      => $this->title,
-            'description' => $this->description,
-            'breadcrumb'  => $this->breadcrumb,
-            '__content'   => $this->build(),
-            '__view'      => $this->view,
-        ];
-
-        return view('admin::content', $items)->render();
+//        dd($this);
+        return admin_view('Layouts/Content', ['contents' => $this]);
     }
 }
