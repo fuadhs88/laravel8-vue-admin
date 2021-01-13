@@ -35,6 +35,8 @@ class Admin
      */
     protected $menu = [];
 
+    protected $menus;
+
     /**
      * @var string
      */
@@ -73,6 +75,23 @@ class Admin
     public static function getLongVersion()
     {
         return sprintf('Laravel-admin <comment>version</comment> <info>%s</info>', self::VERSION);
+    }
+
+    /**
+     * Left sider-bar menu.
+     *
+     * @return array
+     */
+    public function menus()
+    {
+        if (!empty($this->menus)) {
+            return $this->menus;
+        }
+
+        /** @var Menu $menuModel */
+        $menuModel = config('admin.database.menus_model');
+
+        return $this->menus = $menuModel::with('children')->where(['parent_id' => 0])->get();
     }
 
     /**

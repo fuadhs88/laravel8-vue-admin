@@ -404,10 +404,12 @@ if (!function_exists('admin_view')) {
     {
         $merge = [
             'configs' => Config::all(),
+            'menus' => \Encore\Admin\Facades\Admin::menu(),
         ];
 
         Inertia::setRootView('admin::app');
-
+        Inertia::share('configs', Config::all());
+        Inertia::share('menus', \Encore\Admin\Facades\Admin::menu());
         return Inertia::render($view, array_merge($merge, $data));
     }
 }

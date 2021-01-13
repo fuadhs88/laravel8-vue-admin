@@ -26,7 +26,7 @@ trait BuiltinRoutes
             $authController = config('admin.auth.controller', AuthController::class);
             $router->get('login', $authController.'@login')->name('login');
             $router->post('login', $authController.'@postLogin')->name('login_post');
-            $router->get('logout', $authController.'@logout')->name('logout');
+            $router->post('logout', $authController.'@logout')->name('logout');
             $router->get('self_setting', $authController.'@getSetting')->name('self_setting');
             $router->put('self_setting', $authController.'@putSetting')->name('self_setting_put');
 

@@ -1,6 +1,8 @@
 const color = 'danger';
+// const menus = {};
 const configs = {};
 export default {
-    color, // 用户token身份
-    configs // 用户登录状态
+    color, // 主题颜色
+    // menus, // 菜单
+    configs // 配置信息
 }

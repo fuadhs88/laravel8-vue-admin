@@ -32,16 +32,16 @@
             <ul class="navbar-nav ml-auto">
                 <!-- user Dropdown Menu -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#"></a>
+                    <a class="nav-link" data-toggle="dropdown" href="#">{{ $page.props.user.name }}</a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="#" class="dropdown-item">
                             <i class="fas fa-envelope mr-3"></i>个人设置
                         </a>
                         <div class="dropdown-divider"></div>
-                        <form method="POST" @submit.prevent="logout">
-                            <a :href="this.admin_base_route('logout')" class="dropdown-item">
+                        <form @submit.prevent="logout">
+                            <button type="submit" class="dropdown-item">
                                 <i class="fas fa-share mr-3"></i>注销
-                            </a>
+                            </button>
                         </form>
                     </div>
                 </li>
@@ -66,16 +66,32 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="" class="img-circle elevation-2" alt="User Image">
+                        <img :src="$page.props.user.avatar" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block"></a>
+                        <a href="#" class="d-block">{{ $page.props.user.name }}</a>
                     </div>
                 </div>
 
                 <!-- Sidebar Menu -->
 
                 <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                        <li class="nav-item" v-for="(menu, i) in $page.props.menus" :key="i" v-if="menu.children.length === 0" :only="['contents']">
+                            <inertia-link :href="admin_base_url(menu.uri)" class="nav-link">
+                                <i :class="'nav-icon ' + menu.icon" v-if="menu.icon"></i>
+                                <p>{{ menu.title }}</p>
+                            </inertia-link>
+                        </li>
+                        <li class="nav-item" v-else>
+                            <a href="#" class="nav-link">
+                                <i :class="'nav-icon ' + menu.icon" v-if="menu.icon"></i>
+                                <p>{{ menu.title }}<i class="right fas fa-angle-left"></i></p>
+                            </a>
+                            <menu-children :menus="menu.children" />
+                        </li>
+                    </ul>
 <!--                    <sidebar-menu :menus="menus" />-->
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -123,34 +139,26 @@
 </template>
 
 <script>
-    import SidebarMenu from './SidebarMenu'
+    import MenuChildren from './MenuChildren'
 
     export default {
-        name: 'AdminLayout',
+        name: 'AppLayout',
 
         components: {
-            SidebarMenu,
+            MenuChildren,
         },
 
         data() {
             return {
-                menus: [],
+
             }
         },
 
-        mounted() {
-            // this.getMenus();
+        created() {
+
         },
 
         methods: {
-            getMenus() {
-                axios.get(route('admin.admin_menus.sidebar_menus'), {
-                    preserveScroll: true,
-                }).then((res) => {
-                    this.menus = res.data
-                });
-            },
-
             logout() {
                 this.$inertia.post(this.admin_base_route('logout'));
             },

@@ -7,13 +7,17 @@ exports.install = function (Vue, options) {
      * @returns {*}
      */
     Vue.prototype.config = function (_key = null, _default = null) {
-        let keys = _key.split('.');
-        let return_val = this.GLOBAL.configs;
-        $.each(keys, function (k, v) {
-            return_val = return_val[v];
-        });
+        if (_key) {
+            let keys = _key.split('.');
+            let return_val = this.GLOBAL.configs;
+            $.each(keys, function (k, v) {
+                return_val = return_val[v];
+            });
 
-        return _key ? return_val : _default;
+            return return_val;
+        } else {
+            return _default;
+        }
     };
 
     /**
@@ -23,7 +27,7 @@ exports.install = function (Vue, options) {
      * @param prefix
      * @returns {string|string|string}
      */
-    Vue.prototype.admin_base_url = function (path = '', prefix = this.configs('admin.route.prefix')) {
+    Vue.prototype.admin_base_url = function (path = '', prefix = this.config('admin.route.prefix')) {
         prefix = '/' + prefix.replace(/(^\/*)|(\/*$)/g, "");
 
         prefix = (prefix === '/') ? '' : prefix;
