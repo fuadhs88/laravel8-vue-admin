@@ -29,14 +29,14 @@
                     </div>
                     <div class="row">
                         <div class="col-8">
-                            <div class="icheck-primary">
+                            <div :class="'icheck-' + $page.props.color">
                                 <input type="checkbox" id="remember" name="remember" v-model="form.remember">
                                 <label for="remember">记住我</label>
                             </div>
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">登录</button>
+                            <button type="submit" :class="'btn btn-' + $page.props.color + ' btn-block'">登录</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -50,10 +50,6 @@
 
 <script>
     export default {
-        components: {
-
-        },
-
         props: {
             configs: Object,
             errors: Object

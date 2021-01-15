@@ -1,5 +1,5 @@
 <template>
-    <div :class="'card card-' + this.GLOBAL.color + ' card-outline'">
+    <div :class="'card card-' + $page.props.color + ' card-outline'">
         <div class="card-header">
             <h3 class="card-title">Dependencies</h3>
 

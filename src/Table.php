@@ -501,7 +501,7 @@ class Table
 </div>
 HTML;
 
-        $this->prependColumn(Column::SELECT_COLUMN_NAME, ' ')
+        $this->prependColumn(Column::SELECT_COLUMN_NAME, admin_color($check))
             ->displayUsing(Displayers\RowSelector::class)
             ->addHeader(admin_color($check));
     }
@@ -881,20 +881,30 @@ HTML;
 
         $this->callRenderingCallback();
 
-        $this->with([
-            '__table' => "$('#{$this->table_id}')",
-            'tableClass' => 'table table-hover table-table',
-        ]);
+//        $this->with([
+//            '__table' => "$('#{$this->table_id}')",
+//            'table_class' => 'table table-hover table-table',
+//        ]);
+
+        $table_class = 'table table-hover table-table';
 
         if ($this->hasColumnGroup()) {
-            $this->variables['table_class'] .= ' table-bordered text-center';
+            $table_class .= ' table-bordered text-center';
         }
 
         $this->resourcePath = $this->resource();
 
         return [
             'view' => 'Tables/Table',
-            'data' => $this
+            'data' => [
+                'table_class' => $table_class,
+                'table_id' => $this->table_id,
+                'columns' => $this->visibleColumns(),
+                'hasQuickCreate' => $this->hasQuickCreate(),
+                'rows' => $this->rows(),
+                'columnNames' => $this->visibleColumnNames(),
+                'paginator' => $this->paginator()->render(),
+            ]
         ];
     }
 }

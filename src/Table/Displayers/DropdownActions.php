@@ -17,12 +17,12 @@ class DropdownActions extends Actions
     /**
      * @var array
      */
-    protected $custom = [];
+    public $custom = [];
 
     /**
      * @var array
      */
-    protected $default = [];
+    public $default = [];
 
     /**
      * @var array
@@ -175,6 +175,16 @@ class DropdownActions extends Actions
         return $dblclick;
     }
 
+    protected function getDefault() {
+        $defaults = [];
+
+        foreach ($this->default as $default) {
+            array_push($defaults, $default->render());
+        }
+
+        return $defaults;
+    }
+
     /**
      * @param []\Closure $callback
      *
@@ -196,7 +206,8 @@ class DropdownActions extends Actions
         $this->prependDefaultActions();
 
         $variables = [
-            'default'  => $this->default,
+//            'default'  => $this->default,
+            'default'  => $this->getDefault(),
             'custom'   => $this->custom,
             'dblclick' => $this->getDblclickElement(),
             'table'    => $this->table->table_id,
@@ -206,6 +217,8 @@ class DropdownActions extends Actions
             return;
         }
 
-        return Admin::view($this->view, $variables);
+//        dd($variables);
+        return ['view' => 'Tables/Actions/Dropdown', 'data' => $variables];
+//        return Admin::view($this->view, $variables);
     }
 }

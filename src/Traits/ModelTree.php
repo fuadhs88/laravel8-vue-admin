@@ -27,7 +27,7 @@ trait ModelTree
      */
     public function children()
     {
-        return $this->hasMany(static::class, $this->getParentColumn());
+        return $this->hasMany(static::class, $this->getParentColumn())->with('children');
     }
 
     /**
@@ -37,7 +37,7 @@ trait ModelTree
      */
     public function parent()
     {
-        return $this->belongsTo(static::class, $this->getParentColumn());
+        return $this->belongsTo(static::class, $this->getParentColumn())->with('parent');
     }
 
     /**

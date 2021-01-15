@@ -165,25 +165,36 @@ abstract class RowAction extends TableAction
     }
 
     /**
-     * Render row action.
-     *
-     * @return string
+     * @return array|mixed|string
+     * @throws \Throwable
      */
     public function render()
     {
         if ($href = $this->href()) {
-            return "<a href='{$href}' class='{$this->getElementClass()}'>{$this->name()}</a>";
+            return [
+                'href' => $href,
+                'class' => $this->getElementClass(),
+                'name' => $this->name(),
+            ];
+//            return "<a href='{$href}' class='{$this->getElementClass()}'>{$this->name()}</a>";
         }
 
         $this->addScript();
 
         $attributes = $this->formatAttributes();
 
-        return sprintf(
-            "<a data-_key='%s' href='javascript:void(0);' class='%s' {$attributes}>%s</a>",
-            $this->getKey(),
-            $this->getElementClass(),
-            $this->asColumn ? $this->display($this->row($this->column->getName())) : $this->name()
-        );
+        return [
+            'key' => $this->getKey(),
+            'class' => $this->getElementClass(),
+            'attributes' => $attributes,
+            'name' => $this->asColumn ? $this->display($this->row($this->column->getName())) : $this->name(),
+//            'script' => $this->addScript(),
+        ];
+//        return sprintf(
+//            "<a data-_key='%s' href='javascript:void(0);' class='%s' {$attributes}>%s</a>",
+//            $this->getKey(),
+//            $this->getElementClass(),
+//            $this->asColumn ? $this->display($this->row($this->column->getName())) : $this->name()
+//        );
     }
 }

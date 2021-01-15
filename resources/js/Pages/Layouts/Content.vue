@@ -57,7 +57,7 @@
         },
 
         created() {
-            this.GLOBAL.color = this.configs.admin.theme.color;
+            console.dir(this.contents);
             this.GLOBAL.configs = this.configs;
         },
 

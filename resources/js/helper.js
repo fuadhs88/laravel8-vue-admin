@@ -54,6 +54,24 @@ exports.install = function (Vue, options) {
     };
 
     /**
+     * 判断当前菜单路径是否在当前地址中
+     *
+     * @param uri
+     * @returns {string}
+     */
+    Vue.prototype.has_menu_active = function (uri) {
+        let href = window.location.pathname;
+
+        if (href === this.admin_base_url('/')) {
+            return href === this.admin_base_url(uri) ? 'active' : '';
+        } else if (this.admin_base_url(uri) !== this.admin_base_url('/') && href.indexOf(this.admin_base_url(uri)) !== -1) {
+            return 'active';
+        } else {
+            return '';
+        }
+    };
+
+    /**
      * 向某个注释元素插入新元素
      *
      * @param search_el string

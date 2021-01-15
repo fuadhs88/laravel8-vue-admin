@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-12">
-            <div :class="'card card-' + this.GLOBAL.color + ' card-outline'">
+            <div :class="'card card-' + $page.props.color + ' card-outline'">
                 <div class="card-header">
                     <h3 class="card-title">card-title</h3>
 
@@ -13,21 +13,22 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    <table :class="data.variables.tableClass">
+                    <table :class="data.table_class">
+
                         <thead>
                         <tr>
-                            <th>
-                                <span :class="'icheck-' + this.GLOBAL.color">
-                                    <input type="checkbox" id="all-select">
-                                    <label for="all-select"></label>
-                                </span>
-                            </th>
-                            <th v-for="(column, label) in data.columns" :key="label">{{ column.label }}</th>
+                            <th v-for="(column, label) in data.columns" :key="label" v-if="column.name === '__row_selector__'" v-html="column.label"></th>
+                            <th v-else>{{ column.label }}</th>
                         </tr>
                         </thead>
+
                         <tbody>
                         <tr v-for="(row, i) in data.rows" :key="i">
-                            <td v-for="(column, name) in data.columns" :key="name">{{ row.data[column.name] }}</td>
+                            <td v-for="(columnName, name) in data.columnNames" :key="name" v-if="columnName === '__row_selector__'" v-html="row.data[columnName]"></td>
+                            <td v-else-if="columnName === '__actions__'">
+                                <component :is="importComponent(row.data[columnName].view)" :data="row.data[columnName].data"></component>
+                            </td>
+                            <td v-else>{{ row.data[columnName] }}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -43,15 +44,29 @@
 </template>
 
 <script>
+    import TablesActionsDropdown from './../Tables/Actions/Dropdown'
+
     export default {
         name: "Table",
 
-        props: ['data'],
+        components: {
+            TablesActionsDropdown,
+        },
+
+        props: {
+            data: Object,
+        },
 
         created() {
-            console.dir(this.data);
+            // console.dir(this.data);
             this.el_insert('icheck bootstrap', '<!--icheck bootstrap-->\n<link rel="stylesheet" href="/vendor/laravel-admin/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">');
         },
+
+        methods: {
+            importComponent(view) {
+                return view.replace(/\//g, '');
+            },
+        }
     }
 </script>
 
