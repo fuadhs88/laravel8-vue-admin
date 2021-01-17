@@ -96,6 +96,7 @@ class Content implements Renderable
      * @param array ...$breadcrumb
      *
      * @return $this
+     * @throws \Exception
      */
     public function breadcrumb(...$breadcrumb)
     {
@@ -104,6 +105,29 @@ class Content implements Renderable
         $this->breadcrumb = (array) $breadcrumb;
 
         return $this;
+    }
+
+
+    public function getBreadcrumb()
+    {
+        if (!$this->breadcrumb && config('admin.enable_default_breadcrumb')) {
+            $path = explode('/', admin_restore_path(request()->path()));
+
+            $breadcrumb = [];
+            foreach ($path as $value) {
+                if ($value) {
+                    if (is_numeric($value)) {
+                        $breadcrumb['text'] = $value;
+                    } else {
+                        $breadcrumb['text'] = trans('admin.' . $value);
+                    }
+
+                    array_push($this->breadcrumb, $breadcrumb);
+                }
+            }
+        }
+
+        return $this->breadcrumb;
     }
 
     /**
@@ -257,6 +281,7 @@ class Content implements Renderable
      */
     public function render()
     {
+        $this->getBreadcrumb();
 //        dd($this);
         return admin_view('Layouts/Content', ['contents' => $this]);
     }

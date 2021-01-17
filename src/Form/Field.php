@@ -10,6 +10,7 @@ use Encore\Admin\Table\Column\InsertPosition;
 use Encore\Admin\Widgets\Form as WidgetForm;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
@@ -1066,7 +1067,7 @@ class Field implements Renderable
 
         $class = explode('\\', static::class);
 
-        return 'admin::form.'.strtolower(end($class));
+        return 'Forms/' . ucwords(end($class));
     }
 
     /**
@@ -1140,7 +1141,8 @@ class Field implements Renderable
     /**
      * Render this filed.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     * @return array|string
+     * @throws \ReflectionException
      */
     public function render()
     {
@@ -1158,11 +1160,16 @@ class Field implements Renderable
             Admin::script($this->script);
         }
 
-        return Admin::view($this->getView(), $this->variables());
+        return [
+            'view' => $this->getView(),
+            'data' => $this->variables()
+        ];
+//        return Admin::view($this->getView(), $this->variables());
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     * @return Factory|\Illuminate\View\View|string
+     * @throws \ReflectionException
      */
     protected function fieldRender(array $variables = [])
     {

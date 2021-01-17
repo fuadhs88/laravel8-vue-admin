@@ -39,20 +39,21 @@ class PerPageSelector extends AbstractTool
         return collect($this->table->perPages)
             ->push($this->table->perPage, $this->perPage)
             ->unique()
-            ->sort();
+            ->sort()
+            ->toArray();
     }
 
     /**
      * Render PerPageSelector。
      *
-     * @return string
+     * @return array|string
      */
     public function render()
     {
-        return Admin::view('admin::table.perpage-selector', [
+        return [
             'name'      => $this->perPageName,
             'perpage'   => $this->perPage,
             'options'   => $this->getOptions(),
-        ]);
+        ];
     }
 }

@@ -46,8 +46,7 @@ class Tools implements Renderable
      */
     protected function appendDefaultTools()
     {
-        $this->append(new BatchActions())
-            ->append(new FilterButton());
+        $this->append(new BatchActions())->append(new FilterButton());
     }
 
     /**
@@ -151,6 +150,7 @@ class Tools implements Renderable
             }
 
             return (string) $tool;
-        })->implode(' ');
+        });
+//        })->implode(' ');
     }
 }

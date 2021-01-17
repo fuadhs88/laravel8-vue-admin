@@ -25,7 +25,7 @@ class CreateButton extends AbstractTool
     /**
      * Render CreateButton.
      *
-     * @return string
+     * @return array|string
      */
     public function render()
     {
@@ -33,9 +33,9 @@ class CreateButton extends AbstractTool
             return '';
         }
 
-        return Admin::view('admin::table.create-btn', [
+        return [
             'url'   => $this->table->getCreateUrl(),
             'modal' => $this->table->modalForm,
-        ]);
+        ];
     }
 }

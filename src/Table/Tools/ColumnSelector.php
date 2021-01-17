@@ -51,9 +51,7 @@ class ColumnSelector extends AbstractTool
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @return string
+     * @return array|string
      */
     public function render()
     {
@@ -61,10 +59,10 @@ class ColumnSelector extends AbstractTool
             return '';
         }
 
-        return Admin::view('admin::table.column-selector', [
+        return [
             'columns'  => $this->getTableColumns(),
             'visible'  => $this->table->visibleColumnNames(),
             'defaults' => $this->table->getDefaultVisibleColumnNames(),
-        ]);
+        ];
     }
 }

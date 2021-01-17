@@ -80,7 +80,7 @@ trait PlainInput
     protected function initPlainInput()
     {
         if (empty($this->view)) {
-            $this->view = 'admin::form.input';
+            $this->view = 'Forms/Input';
         }
     }
 

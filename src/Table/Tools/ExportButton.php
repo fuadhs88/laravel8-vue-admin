@@ -25,7 +25,7 @@ class ExportButton extends AbstractTool
     /**
      * Render Export button.
      *
-     * @return string
+     * @return array|string
      */
     public function render()
     {
@@ -33,11 +33,11 @@ class ExportButton extends AbstractTool
             return '';
         }
 
-        return Admin::view('admin::table.export-btn', [
+        return [
             'name'     => $this->table->getExportSelectedName(),
             'all'      => $this->table->getExportUrl('all'),
             'page'     => $this->table->getExportUrl('page', request('page', 1)),
             'selected' => $this->table->getExportUrl('selected', '__rows__'),
-        ]);
+        ];
     }
 }

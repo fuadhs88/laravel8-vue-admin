@@ -32,6 +32,7 @@ trait HasValuePicker
      * @param string $picker
      * @param string $column
      * @param string $separator
+     * @return HasValuePicker
      */
     public function pickMany($picker, $column = '', $separator = ';')
     {
@@ -64,11 +65,13 @@ trait HasValuePicker
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     * @throws \ReflectionException
+     * @throws \Throwable
      */
     protected function renderFilePicker()
     {
         $this->mountPicker()
-            ->setView('admin::form.filepicker')
+            ->setView('Forms/Filepicker')
             ->attribute('type', 'text')
             ->attribute('id', $this->id)
             ->attribute('name', $this->elementName ?: $this->formatName($this->column))
@@ -80,6 +83,6 @@ trait HasValuePicker
                 'preview' => $this->picker->getPreview(get_called_class()),
             ]);
 
-        return Admin::view('admin::form.filepicker', $this->variables());
+        return Admin::view('Forms/Filepicker', $this->variables());
     }
 }

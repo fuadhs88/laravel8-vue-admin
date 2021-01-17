@@ -79,6 +79,7 @@ class BatchActions extends AbstractTool
      * Render BatchActions button groups.
      *
      * @return string
+     * @throws \Throwable
      */
     public function render()
     {
@@ -90,9 +91,9 @@ class BatchActions extends AbstractTool
             $action->setTable($this->table);
         });
 
-        return Admin::view('admin::table.batch-actions', [
+        return [
             'actions' => $this->actions,
             'holdAll' => $this->holdAll,
-        ]);
+        ];
     }
 }

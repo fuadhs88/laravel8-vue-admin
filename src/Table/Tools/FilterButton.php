@@ -7,7 +7,7 @@ use Encore\Admin\Admin;
 class FilterButton extends AbstractTool
 {
     /**
-     * {@inheritdoc}
+     * @return array|string
      */
     public function render()
     {
@@ -18,13 +18,13 @@ class FilterButton extends AbstractTool
             $label = "&nbsp;{$scope->getLabel()}&nbsp;";
         }
 
-        return Admin::view('admin::table.filter.button', [
+        return [
             'scopes'    => $filter->getScopes(),
             'label'     => $label,
             'cancel'    => $filter->urlWithoutScopes(),
             'btn_class' => uniqid('filter-btn-'),
             'expand'    => $filter->expand,
             'filter_id' => $filter->getFilterID(),
-        ]);
+        ];
     }
 }

@@ -22,7 +22,7 @@
 
         props: {
             menus: Array
-        }
+        },
     }
 </script>
 

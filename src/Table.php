@@ -494,16 +494,16 @@ class Table
 
 //        admin_assets_require('icheck');
 
-        $check = <<<'HTML'
+        $check = <<<HTML
 <div class='icheck-%s d-inline'>
     <input type="checkbox" class="table-select-all" id='select-all'/>
     <label for='select-all'></label>
 </div>
 HTML;
 
-        $this->prependColumn(Column::SELECT_COLUMN_NAME, admin_color($check))
-            ->displayUsing(Displayers\RowSelector::class)
-            ->addHeader(admin_color($check));
+        $this->prependColumn(Column::SELECT_COLUMN_NAME, '')
+            ->displayUsing(Displayers\RowSelector::class);
+//            ->addHeader(admin_color($check));
     }
 
     /**
@@ -897,11 +897,20 @@ HTML;
         return [
             'view' => 'Tables/Table',
             'data' => [
+                'this' => $this,
+                'showTools' => $this->showTools(),
+                'showExportBtn' => $this->showExportBtn(),
+                'showCreateBtn' => $this->showCreateBtn(),
+                'columnSelector' => $this->renderColumnSelector(),
+                'exportButton' => $this->renderExportButton(),
+                'createButton' => $this->renderCreateButton(),
+                'headerTools' => $this->renderHeaderTools(),
                 'table_class' => $table_class,
                 'table_id' => $this->table_id,
                 'columns' => $this->visibleColumns(),
                 'hasQuickCreate' => $this->hasQuickCreate(),
                 'rows' => $this->rows(),
+                'options' => $this->options,
                 'columnNames' => $this->visibleColumnNames(),
                 'paginator' => $this->paginator()->render(),
             ]

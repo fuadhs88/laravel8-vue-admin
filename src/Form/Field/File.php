@@ -15,7 +15,8 @@ class File extends Field
      * Create a new File instance.
      *
      * @param string $column
-     * @param array  $arguments
+     * @param array $arguments
+     * @throws \Exception
      */
     public function __construct($column, $arguments = [])
     {
@@ -174,6 +175,7 @@ class File extends Field
      * Render file upload field.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \ReflectionException
      */
     public function render()
     {

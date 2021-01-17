@@ -8,8 +8,18 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Starter Page</li>
+                            <li class="breadcrumb-item"><a :href="admin_base_route('home')"><i class="fas fa-home pr-1"></i>首页</a></li>
+                            <li class="breadcrumb-item active" v-for="(breadcrumb, i) in contents.breadcrumb" :key="i" v-if="breadcrumb.url">
+                                <inertia-link :href="breadcrumb.url">
+                                    <i :class="breadcrumb.icon + ' pr-1'" v-if="breadcrumb.icon"></i>{{ breadcrumb.text }}
+                                </inertia-link>
+                            </li>
+                            <li class="breadcrumb-item active" v-else-if="breadcrumb.icon">
+                                <i :class="breadcrumb.icon + ' pr-1'"></i>{{ breadcrumb.text }}
+                            </li>
+                            <li class="breadcrumb-item active" v-else>
+                                {{ breadcrumb.text }}
+                            </li>
                         </ol>
                     </div>
                     <!-- /.col -->
@@ -40,6 +50,7 @@
     import DashboardExtensions from './../Dashboard/Extensions'
     import DashboardDependencies from './../Dashboard/Dependencies'
     import TablesTable from './../Tables/Table'
+    import FormsForm from './../Forms/Form'
 
     export default {
         props: {
@@ -54,10 +65,10 @@
             DashboardExtensions,
             DashboardDependencies,
             TablesTable,
+            FormsForm,
         },
 
         created() {
-            console.dir(this.contents);
             this.GLOBAL.configs = this.configs;
         },
 

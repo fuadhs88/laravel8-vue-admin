@@ -4,6 +4,7 @@ namespace Encore\Admin\Table\Tools;
 
 use Encore\Admin\Table;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\UrlWindow;
 
 class Paginator extends AbstractTool
 {
@@ -47,11 +48,28 @@ class Paginator extends AbstractTool
     /**
      * Get Pagination links.
      *
-     * @return string
+     * @return array
      */
     protected function paginationLinks()
     {
-        return $this->paginator->render('admin::table.pagination');
+        $window = UrlWindow::make($this->paginator);
+
+        $elements = array_filter([
+            $window['first'],
+            is_array($window['slider']) ? '...' : null,
+            $window['slider'],
+            is_array($window['last']) ? '...' : null,
+            $window['last'],
+        ]);
+
+        return [
+            'onFirstPage' => $this->paginator->onFirstPage(),
+            'previousPageUrl' => $this->paginator->previousPageUrl(),
+            'currentPage' => (string)$this->paginator->currentPage(),
+            'hasMorePages' => $this->paginator->hasMorePages(),
+            'nextPageUrl' => $this->paginator->nextPageUrl(),
+            'elements' => $elements,
+        ];
     }
 
     /**
@@ -77,7 +95,7 @@ class Paginator extends AbstractTool
     {
         $parameters = [
             'first' => $this->paginator->firstItem(),
-            'last'  => $this->paginator->lastItem(),
+            'last' => $this->paginator->lastItem(),
             'total' => $this->paginator->total(),
         ];
 
@@ -91,7 +109,7 @@ class Paginator extends AbstractTool
     /**
      * Render Paginator.
      *
-     * @return string
+     * @return array|string
      */
     public function render()
     {
@@ -99,8 +117,13 @@ class Paginator extends AbstractTool
             return '';
         }
 
-        return $this->paginationRanger().
-            $this->paginationLinks().
-            $this->perPageSelector();
+        return [
+            'paginationRanger' => $this->paginationRanger(),
+            'paginationLinks' => $this->paginationLinks(),
+            'perPageSelector' => $this->perPageSelector()->render(),
+        ];
+//        return $this->paginationRanger().
+//            $this->paginationLinks().
+//            $this->perPageSelector();
     }
 }

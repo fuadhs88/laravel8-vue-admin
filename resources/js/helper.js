@@ -57,9 +57,10 @@ exports.install = function (Vue, options) {
      * 判断当前菜单路径是否在当前地址中
      *
      * @param uri
+     * @param el
      * @returns {string}
      */
-    Vue.prototype.has_menu_active = function (uri) {
+    Vue.prototype.has_menu_active = function (uri, el) {
         let href = window.location.pathname;
 
         if (href === this.admin_base_url('/')) {
@@ -75,13 +76,12 @@ exports.install = function (Vue, options) {
      * 向某个注释元素插入新元素
      *
      * @param search_el string
-     * @param insert_el string
      * @param head_label bool=true
      * @param parent_el string
      * @param is_after bool=true
      * @returns {*}
      */
-    Vue.prototype.el_insert = function (search_el, insert_el, head_label = true, parent_el = 'LaravelVueAdmin', is_after = false) {
+    Vue.prototype.require = function (search_el, head_label = true, parent_el = 'AdminLte', is_after = false) {
         let parent = null;
         let insert = true;
         let childNodes = head_label ? document.head.childNodes : document.body.childNodes ;
@@ -98,7 +98,17 @@ exports.install = function (Vue, options) {
         });
 
         if (insert) {
-            is_after ? $(parent).after(insert_el) : $(parent).before(insert_el);
+            let assets = this.GLOBAL.assets[search_el];
+            is_after ? $(parent).after(assets) : $(parent).before(assets);
         }
+    };
+
+    //为url字符串添加、修改参数
+    Vue.prototype.url_with_param = function (paramName, replaceWith) {
+        let url = new URL(location);
+
+        url.searchParams.set(paramName, replaceWith);
+
+        return url.toString();
     };
 };

@@ -144,17 +144,28 @@ class Form extends AbstractForm implements Renderable
      * Generate a edit form.
      *
      * @param $id
-     *
-     * @return $this
+     * @return array
      */
-    public function edit($id): self
+    public function edit($id)
     {
         $this->builder->setMode(Builder::MODE_EDIT);
         $this->builder->setResourceId($id);
 
         $this->setFieldValue($id);
 
-        return $this;
+        return [
+            'view' => 'Forms/Form',
+            'this' => $this,
+            'data' => [
+                'title' => $this->builder->title(),
+                'rows' => $this->getRows(),
+                'tabObj' => $this->getTab(),
+                'tools' => $this->builder->renderTools(),
+                'footer' => $this->builder->renderFooter(),
+                'hiddenFields' => $this->builder->getHiddenFields(),
+            ],
+        ];
+//        return $this;
     }
 
     /**
@@ -1037,11 +1048,12 @@ class Form extends AbstractForm implements Renderable
      * Render the form contents.
      *
      * @return string
+     * @throws \Throwable
      */
     public function render()
     {
         try {
-            return $this->builder->render();
+            return $this->builder()->render();
         } catch (\Exception $e) {
             return Handler::renderException($e);
         }

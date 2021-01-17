@@ -553,6 +553,7 @@ class Column
      * @param array $data
      *
      * @return mixed
+     * @throws \Exception
      */
     public function fill(array $data)
     {

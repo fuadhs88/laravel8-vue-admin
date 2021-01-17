@@ -79,7 +79,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item" v-for="(menu, i) in $page.props.menus" :key="i" v-if="menu.children.length === 0" :only="['contents']">
-                            <inertia-link :href="admin_base_url(menu.uri)" :class="'nav-link ' + has_menu_active(menu.uri)">
+                            <inertia-link :href="admin_base_url(menu.uri)" :class="'nav-link ' + has_menu_active(menu.uri, this)">
                                 <i :class="'nav-icon ' + menu.icon" v-if="menu.icon"></i>
                                 <p>{{ menu.title }}</p>
                             </inertia-link>

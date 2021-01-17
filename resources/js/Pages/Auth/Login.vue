@@ -57,7 +57,7 @@
 
         created() {
             this.GLOBAL.configs = this.configs;
-            this.el_insert('icheck bootstrap', '<!--icheck bootstrap-->\n<link rel="stylesheet" href="/vendor/laravel-admin/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">');
+            this.require('icheck-bootstrap');
         },
 
         data() {
@@ -65,7 +65,7 @@
                 form: this.$inertia.form({
                     username: '',
                     password: '',
-                    remember: false
+                    remember: this.configs.admin.auth.remember,
                 })
             }
         },

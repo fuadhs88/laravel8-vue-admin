@@ -1,8 +1,19 @@
 /*去掉按钮边框*/
 button:focus,button:active:focus,
 button.active:focus,button.focus,
-button:active.focus,button.active.focus {
+button:active.focus,button.active.focus,
+.page-link:focus,.page-link:active:focus,
+.page-link.active:focus,.page-link.focus,
+.page-link:active.focus,.page-link.active.focus{
     outline: none;
     border-color: transparent;
     box-shadow:none;
+}
+
+.table-dropdown-actions.dropleft .dropdown-toggle::before {
+    content: none;
+}
+
+.table-dropdown-actions.dropleft .dropdown-menu {
+    min-width: auto;
 }
