@@ -82,7 +82,7 @@ abstract class AbstractFilter
     /**
      * @var string
      */
-    protected $view = 'admin::table.filter.where';
+    protected $view = 'Tables/Filters/Where';
 
     /**
      * @var Collection
@@ -387,6 +387,16 @@ abstract class AbstractFilter
     }
 
     /**
+     * Get presenter object of filter.
+     *
+     * @return Presenter
+     */
+    protected function getPresenter()
+    {
+        return $this->presenter;
+    }
+
+    /**
      * Set default value for filter.
      *
      * @param null $default
@@ -499,24 +509,29 @@ abstract class AbstractFilter
             'name'      => $this->formatName($this->column),
             'label'     => $this->label,
             'value'     => $this->value ?: $this->defaultValue,
-            'presenter' => $this->presenter(),
+            'presenter' => $this->getPresenter()->view(),
         ], $this->presenter()->variables());
     }
 
     /**
      * Render this filter.
      *
-     * @return \Illuminate\View\View|string
+     * @return array
      */
     public function render()
     {
-        return Admin::view($this->view, $this->variables());
+        return [
+            'view' => $this->view,
+            'data' => $this->variables(),
+        ];
+//        return Admin::view($this->view, $this->variables());
     }
 
     /**
      * Render this filter.
      *
      * @return \Illuminate\View\View|string
+     * @throws \Throwable
      */
     public function __toString()
     {

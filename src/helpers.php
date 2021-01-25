@@ -3,7 +3,6 @@
 use Encore\Admin\Admin;
 use Illuminate\Support\MessageBag;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Config;
 
 if (!function_exists('admin_path')) {
 
@@ -402,16 +401,8 @@ if (!function_exists('admin_view')) {
      */
     function admin_view($view, $data = [])
     {
-//        $merge = [
-//            'configs' => Config::all(),
-//            'menus' => \Encore\Admin\Facades\Admin::menu(),
-//        ];
-
-        Inertia::setRootView('admin::app');
-        Inertia::share('configs', Config::all());
-        Inertia::share('color', config('admin.theme.color'));
-        Inertia::share('menus', \Encore\Admin\Facades\Admin::menu());
         return Inertia::render($view, $data);
+//        return Admin::view($view, $data);
     }
 }
 

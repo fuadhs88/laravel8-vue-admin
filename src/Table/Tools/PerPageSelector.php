@@ -55,5 +55,10 @@ class PerPageSelector extends AbstractTool
             'perpage'   => $this->perPage,
             'options'   => $this->getOptions(),
         ];
+//        return Admin::view('admin::table.perpage-selector', [
+//            'name'      => $this->perPageName,
+//            'perpage'   => $this->perPage,
+//            'options'   => $this->getOptions(),
+//        ]);
     }
 }

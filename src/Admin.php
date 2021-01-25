@@ -8,6 +8,7 @@ use Encore\Admin\Traits\BuiltinRoutes;
 use Encore\Admin\Traits\HasAssets;
 use Encore\Admin\Traits\RenderView;
 use Encore\Admin\Widgets\Navbar;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Traits\Macroable;
 
@@ -73,6 +74,21 @@ class Admin
     public static function getLongVersion()
     {
         return sprintf('Laravel-admin <comment>version</comment> <info>%s</info>', self::VERSION);
+    }
+
+    /**
+     * @return bool
+     */
+    public function check()
+    {
+        return $this->guard()->check();
+    }
+
+    public function menus()
+    {
+        $menu_model = config('admin.database.menus_model');
+        /** @var Model $menu_model*/
+        return $menu_model::with('children')->where('parent_id', 0)->get();
     }
 
     /**

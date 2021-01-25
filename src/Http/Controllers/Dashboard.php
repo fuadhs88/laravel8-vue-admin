@@ -2,7 +2,6 @@
 
 namespace Encore\Admin\Http\Controllers;
 
-use Encore\Admin\Admin;
 use Illuminate\Support\Arr;
 
 class Dashboard
@@ -12,9 +11,7 @@ class Dashboard
      */
     public static function title()
     {
-        return [
-            'view' => 'Dashboard/Title'
-        ];
+        return ['view' => 'Dashboard/Title'];
     }
 
     /**
@@ -98,10 +95,10 @@ class Dashboard
             ],
         ];
 
-        foreach ($extensions as &$extension) {
-            $name = explode('/', $extension['name']);
-            $extension['installed'] = array_key_exists(end($name), Admin::$extensions);
-        }
+//        foreach ($extensions as &$extension) {
+//            $name = explode('/', $extension['name']);
+//            $extension['installed'] = array_key_exists(end($name), Admin::$extensions);
+//        }
 
         return [
             'view' => 'Dashboard/Extensions',

@@ -12,17 +12,17 @@ use Illuminate\Support\Arr;
 
 class DropdownActions extends Actions
 {
-    protected $view = 'admin::table.actions.dropdown';
+    protected $view = 'Tables/Actions/Dropdown';
 
     /**
      * @var array
      */
-    public $custom = [];
+    protected $custom = [];
 
     /**
      * @var array
      */
-    public $default = [];
+    protected $default = [];
 
     /**
      * @var array
@@ -63,7 +63,7 @@ class DropdownActions extends Actions
 
             $this->prepareAction($action);
 
-            array_push($this->default, $action);
+            array_push($this->default, $action->render());
         }
     }
 
@@ -167,22 +167,12 @@ class DropdownActions extends Actions
                 break;
             }
 
-            if ($action->dblclick) {
+            if ($action['dblclick']) {
                 $dblclick = $action->getActiontElementClass();
             }
         }
 
         return $dblclick;
-    }
-
-    protected function getDefault() {
-        $defaults = [];
-
-        foreach ($this->default as $default) {
-            array_push($defaults, $default->render());
-        }
-
-        return $defaults;
     }
 
     /**
@@ -206,19 +196,20 @@ class DropdownActions extends Actions
         $this->prependDefaultActions();
 
         $variables = [
-//            'default'  => $this->default,
-            'default'  => $this->getDefault(),
+            'default'  => $this->default,
             'custom'   => $this->custom,
             'dblclick' => $this->getDblclickElement(),
-            'table'    => $this->table->table_id,
+            'table'    => $this->table->tableID,
         ];
 
         if (empty($variables['default']) && empty($variables['custom'])) {
             return;
         }
 
-//        dd($variables);
-        return ['view' => 'Tables/Actions/Dropdown', 'data' => $variables];
+        return [
+            'view' => $this->view,
+            'data' => $variables
+        ];
 //        return Admin::view($this->view, $variables);
     }
 }

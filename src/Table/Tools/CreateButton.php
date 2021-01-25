@@ -37,5 +37,9 @@ class CreateButton extends AbstractTool
             'url'   => $this->table->getCreateUrl(),
             'modal' => $this->table->modalForm,
         ];
+//        return Admin::view('admin::table.create-btn', [
+//            'url'   => $this->table->getCreateUrl(),
+//            'modal' => $this->table->modalForm,
+//        ]);
     }
 }

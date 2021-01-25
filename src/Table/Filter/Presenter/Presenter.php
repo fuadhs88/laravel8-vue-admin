@@ -30,7 +30,7 @@ abstract class Presenter
     {
         $reflect = new \ReflectionClass(get_called_class());
 
-        return 'admin::table.filter.'.strtolower($reflect->getShortName());
+        return 'Tables/Filters/' . ucwords(strtolower($reflect->getShortName()));
     }
 
     /**

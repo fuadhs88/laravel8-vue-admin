@@ -165,7 +165,9 @@ abstract class RowAction extends TableAction
     }
 
     /**
-     * @return array|mixed|string
+     * Render row action.
+     *
+     * @return array|mixed
      * @throws \Throwable
      */
     public function render()
@@ -175,6 +177,7 @@ abstract class RowAction extends TableAction
                 'href' => $href,
                 'class' => $this->getElementClass(),
                 'name' => $this->name(),
+                'dblclick' => $this->dblclick,
             ];
 //            return "<a href='{$href}' class='{$this->getElementClass()}'>{$this->name()}</a>";
         }
@@ -182,12 +185,12 @@ abstract class RowAction extends TableAction
         $this->addScript();
 
         $attributes = $this->formatAttributes();
-
         return [
             'key' => $this->getKey(),
             'class' => $this->getElementClass(),
             'attributes' => $attributes,
             'name' => $this->asColumn ? $this->display($this->row($this->column->getName())) : $this->name(),
+            'dblclick' => $this->dblclick,
 //            'script' => $this->addScript(),
         ];
 //        return sprintf(

@@ -5,19 +5,19 @@ namespace Encore\Admin\Layout;
 use Encore\Admin\Table;
 use Illuminate\Contracts\Support\Renderable;
 
-class Column
+class Column implements Renderable
 {
     /**
      * table system prefix width.
      *
      * @var array
      */
-    public $width = [];
+    protected $width = [];
 
     /**
      * @var array
      */
-    public $contents = [];
+    protected $contents = [];
 
     /**
      * Column constructor.
@@ -55,8 +55,41 @@ class Column
      */
     public function append($content)
     {
-        $this->contents[] = $content;
+        $this->contents[] = ($content instanceof Renderable) ? $content->render() : $content;
 
         return $this;
+    }
+
+    /**
+     * Add a row for column.
+     *
+     * @param $content
+     *
+     * @return Column
+     */
+    public function row($content)
+    {
+        if (!$content instanceof \Closure) {
+            $row = new Row($content);
+        } else {
+            $row = new Row();
+
+            call_user_func($content, $row);
+        }
+
+        return $this->append($row);
+    }
+
+    /**
+     * Render row.
+     *
+     * @return array|string
+     */
+    public function render()
+    {
+        return [
+            'width' => $this->width,
+            'contents' => $this->contents,
+        ];
     }
 }

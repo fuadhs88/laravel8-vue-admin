@@ -49,6 +49,22 @@ class Column
     }
 
     /**
+     * Get all filters in this column.
+     *
+     * @return array
+     */
+    public function getFilters()
+    {
+        $filters = [];
+
+        foreach ($this->filters as $filter) {
+            array_push($filters, $filter->render());
+        }
+
+        return $filters;
+    }
+
+    /**
      * Set column width.
      *
      * @param int $width

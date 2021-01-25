@@ -64,5 +64,10 @@ class ColumnSelector extends AbstractTool
             'visible'  => $this->table->visibleColumnNames(),
             'defaults' => $this->table->getDefaultVisibleColumnNames(),
         ];
+//        return Admin::view('admin::table.column-selector', [
+//            'columns'  => $this->getTableColumns(),
+//            'visible'  => $this->table->visibleColumnNames(),
+//            'defaults' => $this->table->getDefaultVisibleColumnNames(),
+//        ]);
     }
 }

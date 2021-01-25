@@ -11,7 +11,7 @@ class Image extends File
     /**
      * {@inheritdoc}
      */
-    protected $view = 'Forms/File';
+    protected $view = 'admin::form.file';
 
     /**
      *  Validation rules.

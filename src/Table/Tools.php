@@ -128,7 +128,7 @@ class Tools implements Renderable
     /**
      * Render header tools bar.
      *
-     * @return string
+     * @return array|string
      */
     public function render()
     {
@@ -150,7 +150,7 @@ class Tools implements Renderable
             }
 
             return (string) $tool;
-        });
+        })->toArray();
 //        })->implode(' ');
     }
 }

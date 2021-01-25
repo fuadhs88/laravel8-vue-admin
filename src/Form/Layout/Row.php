@@ -67,17 +67,7 @@ class Row
      */
     public function getColumns(): array
     {
-        $columns = [];
-
-        foreach ($this->columns as $column) {
-            $columns[] = [
-                'fields' => $column->getFields(),
-                'width' => $column->width()
-            ];
-        }
-
-        return $columns;
-//        return $this->columns;
+        return $this->columns;
     }
 
     /**

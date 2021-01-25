@@ -39,5 +39,11 @@ class ExportButton extends AbstractTool
             'page'     => $this->table->getExportUrl('page', request('page', 1)),
             'selected' => $this->table->getExportUrl('selected', '__rows__'),
         ];
+//        return Admin::view('admin::table.export-btn', [
+//            'name'     => $this->table->getExportSelectedName(),
+//            'all'      => $this->table->getExportUrl('all'),
+//            'page'     => $this->table->getExportUrl('page', request('page', 1)),
+//            'selected' => $this->table->getExportUrl('selected', '__rows__'),
+//        ]);
     }
 }

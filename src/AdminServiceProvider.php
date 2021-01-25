@@ -41,10 +41,11 @@ class AdminServiceProvider extends ServiceProvider
      */
     protected $routeMiddleware = [
         'admin.auth'       => Middleware\Authenticate::class,
-        'admin.pjax'       => Middleware\Pjax::class,
-        'admin.bootstrap'  => Middleware\Bootstrap::class,
-        'admin.session'    => Middleware\Session::class,
-        'admin.sul'        => Middleware\SingleUserLogin::class,
+        'admin.inertia'    => Middleware\HandleInertiaRequests::class,
+//        'admin.pjax'       => Middleware\Pjax::class,
+//        'admin.bootstrap'  => Middleware\Bootstrap::class,
+//        'admin.session'    => Middleware\Session::class,
+//        'admin.sul'        => Middleware\SingleUserLogin::class,
     ];
 
     /**
@@ -55,9 +56,10 @@ class AdminServiceProvider extends ServiceProvider
     protected $middlewareGroups = [
         'admin' => [
             'admin.auth',
-            'admin.pjax',
-            'admin.bootstrap',
-            //'admin.session',
+            'admin.inertia',
+//            'admin.pjax',
+//            'admin.bootstrap',
+//            'admin.session',
         ],
     ];
 
@@ -157,7 +159,7 @@ PHP;
             $this->publishes([__DIR__.'/../config' => config_path()], 'laravel-admin-config');
             $this->publishes([__DIR__.'/../resources/lang' => resource_path('lang')], 'laravel-admin-lang');
             $this->publishes([__DIR__.'/../database/seeders' => database_path('seeders')], 'laravel-admin-seeders');
-//            $this->publishes([__DIR__.'/../resources/assets' => public_path('vendor/laravel-admin')], 'laravel-admin-assets');
+            $this->publishes([__DIR__.'/../public/vendor/laravel-vue-admin' => public_path('vendor/laravel-vue-admin')], 'laravel-admin-vendor');
         }
     }
 

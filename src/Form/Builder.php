@@ -568,9 +568,9 @@ class Builder
     /**
      * Render form.
      *
-     * @return array
+     * @return string
      */
-    public function render()
+    public function render(): string
     {
         if ($this->form->isHorizontal()) {
             $this->fields()->each(function (Field $field) {
@@ -581,22 +581,13 @@ class Builder
 
         $this->hideReservedFields();
 
-        return [
+        return Admin::view($this->view, [
             'form'   => $this,
             'rows'   => $this->form->getRows(),
             'confirm'=> $this->confirm,
             'class'  => $this->formClass,
             'tabObj' => $this->form->getTab(),
             'width'  => $this->width,
-        ];
-
-//        return Admin::view($this->view, [
-//            'form'   => $this,
-//            'rows'   => $this->form->getRows(),
-//            'confirm'=> $this->confirm,
-//            'class'  => $this->formClass,
-//            'tabObj' => $this->form->getTab(),
-//            'width'  => $this->width,
-//        ]);
+        ]);
     }
 }

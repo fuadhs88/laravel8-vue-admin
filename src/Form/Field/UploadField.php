@@ -98,7 +98,6 @@ trait UploadField
      * Initialize the storage instance.
      *
      * @return void.
-     * @throws \Exception
      */
     protected function initStorage()
     {

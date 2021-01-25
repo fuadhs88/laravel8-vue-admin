@@ -53,14 +53,14 @@ class Table
      *
      * @var \Illuminate\Support\Collection
      */
-    public $columns;
+    protected $columns;
 
     /**
      * Collection of all data rows.
      *
      * @var \Illuminate\Support\Collection
      */
-    public $rows;
+    protected $rows;
 
     /**
      * Rows callable fucntion.
@@ -88,21 +88,28 @@ class Table
      *
      * @var array
      */
-    public $variables = [];
+    protected $variables = [];
 
     /**
      * Resource path of the table.
      *
      * @var
      */
-    public $resourcePath;
+    protected $resourcePath;
 
     /**
      * Default primary key name.
      *
      * @var string
      */
-    public $keyName = 'id';
+    protected $keyName = 'id';
+
+    /**
+     * View for table to render.
+     *
+     * @var string
+     */
+    protected $view = 'Tables/Table';
 
     /**
      * Per-page options.
@@ -116,7 +123,7 @@ class Table
      *
      * @var int
      */
-    public $perPage = 20;
+    public $perPage = 10;
 
     /**
      * @var []callable
@@ -128,7 +135,7 @@ class Table
      *
      * @var array
      */
-    public $options = [
+    protected $options = [
         'show_pagination'        => true,
         'show_tools'             => true,
         'show_filter'            => true,
@@ -143,7 +150,7 @@ class Table
     /**
      * @var string
      */
-    public $table_id;
+    public $tableID;
 
     /**
      * Initialization closure array.
@@ -177,7 +184,7 @@ class Table
      */
     protected function initialize()
     {
-        $this->table_id = uniqid('table-');
+        $this->tableID = uniqid('table-');
 
         $this->columns = Collection::make();
         $this->rows = Collection::make();
@@ -494,16 +501,16 @@ class Table
 
 //        admin_assets_require('icheck');
 
-        $check = <<<HTML
+        $check = <<<'HTML'
 <div class='icheck-%s d-inline'>
     <input type="checkbox" class="table-select-all" id='select-all'/>
     <label for='select-all'></label>
 </div>
 HTML;
 
-        $this->prependColumn(Column::SELECT_COLUMN_NAME, '')
-            ->displayUsing(Displayers\RowSelector::class);
-//            ->addHeader(admin_color($check));
+        $this->prependColumn(Column::SELECT_COLUMN_NAME, admin_color($check))
+            ->displayUsing(Displayers\RowSelector::class)
+            ->addHeader(admin_color($check));
     }
 
     /**
@@ -594,8 +601,8 @@ HTML;
     protected function buildRows(array $data, Collection $collection)
     {
         $this->rows = collect($data)->map(function ($model, $number) use ($collection) {
-            return new Row($number, $model, $collection->get($number)->getKey());
-        });
+            return (new Row($number, $model, $collection->get($number)->getKey(), $this->columnNames))->render();
+        })->toArray();
 
         if ($this->rowsCallback) {
             $this->rows->map($this->rowsCallback);
@@ -631,11 +638,7 @@ HTML;
             $queryString = http_build_query($constraints);
         }
 
-        return sprintf(
-            '%s/create%s',
-            $this->resource(),
-            $queryString ? ('?'.$queryString) : ''
-        );
+        return sprintf('%s/create%s', $this->resource(), $queryString ? ('?'.$queryString) : '');
     }
 
     /**
@@ -797,6 +800,21 @@ HTML;
     }
 
     /**
+     * Set a view to render.
+     *
+     * @param string $view
+     * @param array  $variables
+     */
+    public function setView($view, $variables = [])
+    {
+        if (!empty($variables)) {
+            $this->with($variables);
+        }
+
+        $this->view = $view;
+    }
+
+    /**
      * Set table title.
      *
      * @param string $title
@@ -865,55 +883,60 @@ HTML;
     }
 
     /**
-     * Get the string contents of the table view.
+     * Get all variables will used in table view.
+     *
+     * @return array
+     */
+    protected function variables()
+    {
+        $this->variables = array_merge($this->variables, [
+            'rows' => $this->rows(),
+            'options' => $this->options,
+            'columns' => $this->visibleColumns(),
+            'columnNames' => $this->visibleColumnNames(),
+            'showTools' => $this->showTools(),
+            'showExportBtn' => $this->showExportBtn(),
+            'showCreateBtn' => $this->showCreateBtn(),
+            'columnSelector' => $this->renderColumnSelector(),
+            'exportButton' => $this->renderExportButton(),
+            'createButton' => $this->renderCreateButton(),
+            'headerTools' => $this->renderHeaderTools(),
+            'filters' => $this->renderFilter(),
+            'paginator' => $this->paginator()->render(),
+            'table_class' => 'table table-hover table-table',
+        ]);
+
+        if ($this->hasColumnGroup()) {
+            $this->variables['table_class'] .= ' table-bordered text-center';
+        }
+
+        return $this->variables;
+    }
+
+    /**
+     * Get the string contents of the table
      *
      * @return array|string
      */
     public function render()
     {
-        $this->handleExportRequest(true);
-
-        try {
+//        $this->handleExportRequest(true);
+//
+//        try {
             $this->build();
-        } catch (\Exception $e) {
-            return Handler::renderException($e);
-        }
+//        } catch (\Exception $e) {
+//            return Handler::renderException($e);
+//        }
+//
+//        $this->callRenderingCallback();
+//
+//        $this->with(['__table' => "$('#{$this->tableID}')"]);
 
-        $this->callRenderingCallback();
-
-//        $this->with([
-//            '__table' => "$('#{$this->table_id}')",
-//            'table_class' => 'table table-hover table-table',
-//        ]);
-
-        $table_class = 'table table-hover table-table';
-
-        if ($this->hasColumnGroup()) {
-            $table_class .= ' table-bordered text-center';
-        }
-
-        $this->resourcePath = $this->resource();
-
+//        dd($this->variables());
         return [
             'view' => 'Tables/Table',
-            'data' => [
-                'this' => $this,
-                'showTools' => $this->showTools(),
-                'showExportBtn' => $this->showExportBtn(),
-                'showCreateBtn' => $this->showCreateBtn(),
-                'columnSelector' => $this->renderColumnSelector(),
-                'exportButton' => $this->renderExportButton(),
-                'createButton' => $this->renderCreateButton(),
-                'headerTools' => $this->renderHeaderTools(),
-                'table_class' => $table_class,
-                'table_id' => $this->table_id,
-                'columns' => $this->visibleColumns(),
-                'hasQuickCreate' => $this->hasQuickCreate(),
-                'rows' => $this->rows(),
-                'options' => $this->options,
-                'columnNames' => $this->visibleColumnNames(),
-                'paginator' => $this->paginator()->render(),
-            ]
+            'data' => $this->variables()
         ];
+//        return Admin::view($this->view, $this->variables());
     }
 }

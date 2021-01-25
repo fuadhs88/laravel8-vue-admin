@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Encore\Admin\Models\User;
-use Encore\Admin\Models\Menu;
+use Explore\Admin\Models\User;
+use Explore\Admin\Models\Menu;
 
 class AdminSeeder extends Seeder
 {
@@ -38,7 +38,7 @@ class AdminSeeder extends Seeder
             [
                 'parent_id'     => 0,
                 'order'         => 2,
-                'title'         => trans('admin.admin'),
+                'title'         => trans('admin.management'),
                 'icon'          => 'fas fa-bars',
                 'uri'           => '',
                 'created_at'    => date('Y-m-d H:i:s'),
@@ -47,7 +47,7 @@ class AdminSeeder extends Seeder
             [
                 'parent_id'     => 2,
                 'order'         => 3,
-                'title'         => trans('admin.admin_users'),
+                'title'         => trans('admin.administrator'),
                 'icon'          => 'fas fa-users',
                 'uri'           => 'admin_users',
                 'created_at'    => date('Y-m-d H:i:s'),
@@ -56,7 +56,7 @@ class AdminSeeder extends Seeder
             [
                 'parent_id'     => 2,
                 'order'         => 4,
-                'title'         => trans('admin.admin_menus'),
+                'title'         => trans('admin.menus'),
                 'icon'          => 'fas fa-list',
                 'uri'           => 'admin_menus',
                 'created_at'    => date('Y-m-d H:i:s'),

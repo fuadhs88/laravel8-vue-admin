@@ -76,10 +76,27 @@ class BatchActions extends AbstractTool
     }
 
     /**
+     * @return array
+     */
+    protected function getActions()
+    {
+        $actions = [];
+
+        foreach ($this->actions as $action) {
+
+            array_push($actions, [
+                'isBatchAction' => true,
+                'render' => $action->render(),
+            ]);
+        }
+
+        return $actions;
+    }
+
+    /**
      * Render BatchActions button groups.
      *
-     * @return string
-     * @throws \Throwable
+     * @return array|string
      */
     public function render()
     {
@@ -92,8 +109,13 @@ class BatchActions extends AbstractTool
         });
 
         return [
-            'actions' => $this->actions,
+            'actions' => $this->getActions(),
             'holdAll' => $this->holdAll,
         ];
+//
+//        return Admin::view('admin::table.batch-actions', [
+//            'actions' => $this->actions,
+//            'holdAll' => $this->holdAll,
+//        ]);
     }
 }

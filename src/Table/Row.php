@@ -8,7 +8,7 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Arr;
 
-class Row
+class Row implements Renderable
 {
     /**
      * Row number.
@@ -22,19 +22,24 @@ class Row
      *
      * @var
      */
-    public $data;
+    protected $data;
 
     /**
      * Attributes of row.
      *
      * @var array
      */
-    public $attributes = [];
+    protected $attributes = [];
 
     /**
      * @var mixed
      */
-    public $key;
+    protected $key;
+
+    /**
+     * @var array
+     */
+    protected $columnNames = [];
 
     /**
      * Row constructor.
@@ -42,11 +47,12 @@ class Row
      * @param array $data
      * @param mixed $key
      */
-    public function __construct($number, $data, $key)
+    public function __construct($number, $data, $key, $columnNames)
     {
         $this->data = $data;
         $this->number = $number;
         $this->key = $key;
+        $this->columnNames = $columnNames;
 
         $this->attributes = [
             'data-key' => $key,
@@ -76,17 +82,24 @@ class Row
     /**
      * Get column attributes.
      *
-     * @param string $column
-     *
-     * @return string
+     * @return array
      */
-    public function getColumnAttributes($column)
+    public function getColumnAttributes()
     {
-        if ($attributes = Column::getAttributes($column, $this->getKey())) {
-            return admin_attrs($attributes);
+        $columnAttributes = [];
+
+        foreach ($this->columnNames as $column) {
+            if ($attributes = Column::getAttributes($column, $this->getKey())) {
+                $columnAttributes[$column] = admin_attrs($attributes);
+            }
         }
 
-        return '';
+        return $columnAttributes;
+//        if ($attributes = Column::getAttributes($column, $this->getKey())) {
+//            return admin_attrs($attributes);
+//        }
+//
+//        return '';
     }
 
     /**
@@ -165,6 +178,22 @@ class Row
     }
 
     /**
+     * Get column attributes.
+     *
+     * @return array|string
+     */
+    public function getColumn()
+    {
+        $columns = [];
+
+        foreach ($this->columnNames as $column) {
+            $columns[$column] = $this->output(Arr::get($this->data, $column));
+        }
+
+        return $columns;
+    }
+
+    /**
      * Output column value.
      *
      * @param mixed $value
@@ -185,10 +214,22 @@ class Row
             $value = $value->toJson();
         }
 
-        if (!is_null($value) && !is_scalar($value)) {
-            return sprintf('<pre><code>%s</code></pre>', var_export($value, true));
-        }
+//        if (!is_null($value) && !is_scalar($value)) {
+//            return sprintf('<pre><code>%s</code></pre>', var_export($value, true));
+//        }
 
         return $value;
+    }
+
+    /**
+     * @return array|string
+     */
+    public function render()
+    {
+        return [
+            'rowAttributes' => $this->getRowAttributes(),
+            'columnAttributes' => $this->getColumnAttributes(),
+            'column' => $this->getColumn(),
+        ];
     }
 }

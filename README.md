@@ -52,6 +52,15 @@ Installation
 
 First, install laravel 5.5, and make sure that the database connection settings are correct.
 
+```json
+"repositories": [
+  {
+    "type": "path",
+    "url": "app/Vendor/PuCoder/LaravelVueAdmin"
+  }
+]
+```
+
 ```
 composer require explore/laravel-admin
 ```
@@ -59,7 +68,7 @@ composer require explore/laravel-admin
 Then run these commands to publish assets and config：
 
 ```
-php artisan vendor:publish --provider="Encore\Admin\AdminServiceProvider"
+php artisan vendor:publish --provider="Explore\Admin\AdminServiceProvider"
 ```
 After run command you can find config file in `config/admin.php`, in this file you can change the install directory,db connection or table names.
 

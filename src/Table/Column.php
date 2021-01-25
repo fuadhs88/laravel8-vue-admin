@@ -7,12 +7,13 @@ use Encore\Admin\Actions\RowAction;
 use Encore\Admin\Table;
 use Encore\Admin\Table\Displayers\AbstractDisplayer;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class Column
+class Column implements Renderable
 {
     use Column\HasHeader;
     use Column\InlineEditing;
@@ -55,21 +56,21 @@ class Column
      *
      * @var array
      */
-    public $attributes = [];
+    protected $attributes = [];
 
     /**
      * Relation name.
      *
      * @var bool
      */
-    public $relation = false;
+    protected $relation = false;
 
     /**
      * Relation column.
      *
      * @var string
      */
-    public $relationColumn;
+    protected $relationColumn;
 
     /**
      * Original table data.
@@ -553,7 +554,6 @@ class Column
      * @param array $data
      *
      * @return mixed
-     * @throws \Exception
      */
     public function fill(array $data)
     {
@@ -733,5 +733,16 @@ class Column
         }
 
         return $this->resolveDisplayer($method, $arguments);
+    }
+
+    /**
+     * @return array|string
+     */
+    public function render()
+    {
+        return [
+            'name' => $this->name,
+            'label' => $this->label
+        ];
     }
 }

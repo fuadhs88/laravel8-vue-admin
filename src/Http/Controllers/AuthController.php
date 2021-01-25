@@ -79,7 +79,6 @@ class AuthController extends Controller
     /**
      * User logout.
      *
-     * @param Request $request
      * @return Redirect
      */
     public function logout(Request $request)
@@ -88,8 +87,7 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
 
-        return admin_redirect('login');
-//        return redirect(config('admin.route.prefix'));
+        return redirect(config('admin.route.prefix'));
     }
 
     /**
@@ -166,7 +164,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @return string|\Symfony\Component\Translation\TranslatorInterface
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
     protected function getFailedLoginMessage()
     {
@@ -202,8 +200,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return admin_redirect('home');
-//        return redirect()->intended($this->redirectPath());
+        return redirect()->intended($this->redirectPath());
     }
 
     /**

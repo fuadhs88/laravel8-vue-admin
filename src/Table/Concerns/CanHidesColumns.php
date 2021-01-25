@@ -93,7 +93,7 @@ trait CanHidesColumns
 
         return $this->columns->filter(function (Table\Column $column) use ($visible) {
             return in_array($column->getName(), $visible);
-        });
+        })->toArray();
     }
 
     /**

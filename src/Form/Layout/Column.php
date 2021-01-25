@@ -57,18 +57,11 @@ class Column
     /**
      * Get all filters in this column.
      *
-     * @return array
+     * @return Collection
      */
     public function getFields()
     {
-        $fields = [];
-
-        foreach ($this->fields as $field) {
-            array_push($fields, $field->render());
-        }
-
-        return $fields;
-//        return $this->fields;
+        return $this->fields;
     }
 
     /**

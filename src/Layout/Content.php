@@ -14,31 +14,31 @@ class Content implements Renderable
      *
      * @var string
      */
-    public $title = ' ';
+    protected $title = ' ';
 
     /**
      * Content description.
      *
      * @var string
      */
-    public $description = ' ';
+    protected $description = ' ';
 
     /**
      * Page breadcrumb.
      *
      * @var array
      */
-    public $breadcrumb = [];
+    protected $breadcrumb = [];
 
     /**
      * @var Row[]
      */
-    public $rows = [];
+    protected $rows = [];
 
     /**
      * @var array
      */
-    public $view;
+    protected $view;
 
     /**
      * Content constructor.
@@ -105,29 +105,6 @@ class Content implements Renderable
         $this->breadcrumb = (array) $breadcrumb;
 
         return $this;
-    }
-
-
-    public function getBreadcrumb()
-    {
-        if (!$this->breadcrumb && config('admin.enable_default_breadcrumb')) {
-            $path = explode('/', admin_restore_path(request()->path()));
-
-            $breadcrumb = [];
-            foreach ($path as $value) {
-                if ($value) {
-                    if (is_numeric($value)) {
-                        $breadcrumb['text'] = $value;
-                    } else {
-                        $breadcrumb['text'] = trans('admin.' . $value);
-                    }
-
-                    array_push($this->breadcrumb, $breadcrumb);
-                }
-            }
-        }
-
-        return $this->breadcrumb;
     }
 
     /**
@@ -212,7 +189,7 @@ class Content implements Renderable
      */
     protected function addRow(Row $row)
     {
-        $this->rows[] = $row;
+        $this->rows[] = $row->render();
     }
 
     /**
@@ -276,13 +253,56 @@ class Content implements Renderable
     }
 
     /**
+     * @return array
+     */
+    public function buildBreadcrumb()
+    {
+        if (!$this->breadcrumb && config('admin.enable_default_breadcrumb')) {
+            $path = explode('/', admin_restore_path(request()->path()));
+
+            $breadcrumb = [];
+            foreach ($path as $value) {
+                if ($value) {
+                    if (is_numeric($value)) {
+                        $breadcrumb['text'] = $value;
+                    } else {
+                        $breadcrumb['text'] = trans('admin.' . $value);
+                    }
+
+                    array_push($this->breadcrumb, $breadcrumb);
+                }
+            }
+        }
+
+        return $this->breadcrumb;
+    }
+
+    /**
+     * Render this content.
+     *
      * @return string
      * @throws \Throwable
      */
     public function render()
     {
-        $this->getBreadcrumb();
-//        dd($this);
-        return admin_view('Layouts/Content', ['contents' => $this]);
+//        $contents = [
+//            'header'      => $this->title,
+//            'description' => $this->description,
+//            'breadcrumb'  => $this->breadcrumb,
+//            '__content'   => $this->build(),
+//            '__view'      => $this->view,
+//        ];
+//        return view('admin::content', $contents)->render();
+
+        $this->buildBreadcrumb();
+
+        $contents = [
+            'title' => $this->title,
+            'description' => $this->description,
+            'breadcrumb' => $this->breadcrumb,
+            'rows' => $this->rows,
+        ];
+//        dd($contents);
+        return admin_view('Layouts/AppLayout', ['contents' => $contents]);
     }
 }

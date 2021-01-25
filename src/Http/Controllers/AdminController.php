@@ -63,34 +63,33 @@ class AdminController extends Controller
         return $content
             ->title($this->title())
             ->description($this->description['index'] ?? trans('admin.list'))
-            ->body($this->table())
+            ->body($this->table()->render())
             ->render();
     }
 
     /**
      * Show interface.
      *
-     * @param $id
+     * @param mixed   $id
      * @param Content $content
-     * @return string
-     * @throws \Throwable
+     *
+     * @return Content
      */
     public function show($id, Content $content)
     {
         return $content
             ->title($this->title())
             ->description($this->description['show'] ?? trans('admin.show'))
-            ->body($this->detail($id))
-            ->render();
+            ->body($this->detail($id));
     }
 
     /**
      * Edit interface.
      *
-     * @param $id
+     * @param mixed   $id
      * @param Content $content
-     * @return mixed
-     * @throws \Throwable
+     *
+     * @return Content
      */
     public function edit($id, Content $content)
     {
@@ -107,7 +106,6 @@ class AdminController extends Controller
      * @param Content $content
      *
      * @return Content
-     * @throws \Throwable
      */
     public function create(Content $content)
     {
@@ -119,16 +117,15 @@ class AdminController extends Controller
     }
 
     /**
-     * @param Form $form
+     * @param Form    $form
      * @param Content $content
      *
      * @return mixed
-     * @throws \Throwable
      */
     public function renderModalForm($form, $content)
     {
         if (!request()->has('_modal')) {
-            return $content->body($form)->render();
+            return $content->body($form);
         }
 
         $crawler = new Crawler(

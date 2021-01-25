@@ -279,8 +279,8 @@ abstract class Action implements Renderable
             return $this->interactor->addScript($data);
         }
 
-        return $data;
-//        return Admin::view('admin::actions.action', $data);
+        dd($data);
+        return Admin::view('admin::actions.action', $data);
     }
 
     /**

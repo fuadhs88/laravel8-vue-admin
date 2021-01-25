@@ -84,6 +84,23 @@ class Layout
     }
 
     /**
+     * @return array
+     */
+    public function getColumns()
+    {
+        $columns = [];
+
+        foreach ($this->columns() as $column) {
+            array_push($columns, [
+                'width' => $column->width(),
+                'filters' => $column->getFilters(),
+            ]);
+        }
+
+        return $columns;
+    }
+
+    /**
      * Remove the default ID filter of the default(first) column.
      */
     public function removeDefaultIDFilter()

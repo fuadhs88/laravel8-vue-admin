@@ -158,6 +158,7 @@ class Filter implements Renderable
         $this->initLayout();
 
         $this->equal($this->primaryKey, strtoupper($this->primaryKey));
+
         $this->scopes = new Collection();
     }
 
@@ -435,11 +436,17 @@ class Filter implements Renderable
     /**
      * Get all filter scopes.
      *
-     * @return Collection
+     * @return array
      */
     public function getScopes()
     {
-        return $this->scopes;
+        $scopes = [];
+
+        foreach ($this->scopes as $scope) {
+            array_push($scopes, $scope->render());
+        }
+
+        return $scopes;
     }
 
     /**
@@ -540,7 +547,7 @@ class Filter implements Renderable
     /**
      * Get the string contents of the filter view.
      *
-     * @return \Illuminate\View\View|string
+     * @return array|string
      */
     public function render()
     {
@@ -550,12 +557,20 @@ class Filter implements Renderable
             return '';
         }
 
-        return view($this->view)->with([
+        return [
             'action'   => $this->action ?: $this->urlWithoutFilters(),
-            'layout'   => $this->layout,
-            'filterID' => $this->filterID,
+            'columns'   => $this->layout->getColumns(),
+            'first_width'   => $this->layout->getColumns()[0]['width'],
+//            'layout'   => $this->layout,
+            'filter_id' => $this->filterID,
             'expand'   => $this->expand,
-        ])->render();
+        ];
+//        return view($this->view)->with([
+//            'action'   => $this->action ?: $this->urlWithoutFilters(),
+//            'layout'   => $this->layout,
+//            'filterID' => $this->filterID,
+//            'expand'   => $this->expand,
+//        ])->render();
     }
 
     /**

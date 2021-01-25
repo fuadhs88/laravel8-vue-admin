@@ -21,7 +21,7 @@ return [
     */
     'logo' => [
 
-        'image' => '/vendor/laravel-admin/admin-lte/dist/img/AdminLTELogo.png',
+        'image' => '/vendor/laravel-vue-admin/admin-lte/dist/img/AdminLTELogo.png',
 
         'text' => '<span class="font-weight-bolder">Laravel-admin</span>',
     ],
@@ -200,7 +200,7 @@ return [
     | Set a default avatar for newly created users.
     |
     */
-    'default_avatar' => '/vendor/laravel-admin/admin-lte/dist/img/user2-160x160.jpg',
+    'default_avatar' => '/vendor/laravel-vue-admin/admin-lte/dist/img/user2-160x160.jpg',
 
     /*
     |--------------------------------------------------------------------------

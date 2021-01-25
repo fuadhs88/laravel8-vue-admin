@@ -70,6 +70,7 @@ class Paginator extends AbstractTool
             'nextPageUrl' => $this->paginator->nextPageUrl(),
             'elements' => $elements,
         ];
+//        return $this->paginator->render('admin::table.pagination');
     }
 
     /**
@@ -87,23 +88,24 @@ class Paginator extends AbstractTool
     }
 
     /**
-     * Get range infomation of paginator.
+     *  Get range infomation of paginator.
      *
-     * @return string|\Symfony\Component\Translation\TranslatorInterface
+     * @return array
      */
     protected function paginationRanger()
     {
         $parameters = [
             'first' => $this->paginator->firstItem(),
-            'last' => $this->paginator->lastItem(),
+            'last'  => $this->paginator->lastItem(),
             'total' => $this->paginator->total(),
         ];
 
-        $parameters = collect($parameters)->flatMap(function ($parameter, $key) {
-            return [$key => "<b>$parameter</b>"];
-        });
-
-        return trans('admin.pagination.range', $parameters->all());
+        return $parameters;
+//        $parameters = collect($parameters)->flatMap(function ($parameter, $key) {
+//            return [$key => "<b>$parameter</b>"];
+//        });
+//
+//        return trans('admin.pagination.range', $parameters->all());
     }
 
     /**

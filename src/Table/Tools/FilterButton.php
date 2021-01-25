@@ -26,5 +26,14 @@ class FilterButton extends AbstractTool
             'expand'    => $filter->expand,
             'filter_id' => $filter->getFilterID(),
         ];
+
+//        return Admin::view('admin::table.filter.button', [
+//            'scopes'    => $filter->getScopes(),
+//            'label'     => $label,
+//            'cancel'    => $filter->urlWithoutScopes(),
+//            'btn_class' => uniqid('filter-btn-'),
+//            'expand'    => $filter->expand,
+//            'filter_id' => $filter->getFilterID(),
+//        ]);
     }
 }

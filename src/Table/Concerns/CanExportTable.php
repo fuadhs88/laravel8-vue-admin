@@ -113,7 +113,6 @@ trait CanExportTable
 
     /**
      * @param \Closure $callback
-     * @return CanExportTable|void
      */
     public function export(\Closure $callback)
     {

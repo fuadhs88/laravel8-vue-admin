@@ -61,12 +61,12 @@ SCRIPT;
     }
 
     /**
-     * @return array|mixed
+     * @return string
      * @throws \Throwable
      */
     public function render()
     {
-        $script = $this->addScript();
+        $this->addScript();
 
         $modalId = '';
 
@@ -74,15 +74,10 @@ SCRIPT;
             $modalId = $this->interactor->getModalId();
 
             if ($content = $this->html()) {
-                return [
-                    'script' => $script,
-                    'render' => $this->interactor->addElementAttr($content, $this->selector)];
+                return $this->interactor->addElementAttr($content, $this->selector);
             }
         }
 
-        return [
-            'script' => $script,
-            'render' => sprintf("<a href='javascript:void(0);' class='%s' %s>%s</a>", $this->getElementClass(), $modalId ? "modal='{$modalId}'" : '', $this->name())
-        ];
+        return sprintf("<a href='javascript:void(0);' class='%s' %s>%s</a>", $this->getElementClass(), $modalId ? "modal='{$modalId}'" : '', $this->name());
     }
 }

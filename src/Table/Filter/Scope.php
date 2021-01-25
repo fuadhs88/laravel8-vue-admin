@@ -63,17 +63,25 @@ class Scope implements Renderable
     }
 
     /**
-     * @return string
+     * @return array|string
      */
     public function render()
     {
         if ($this->key == static::SEPARATOR) {
-            return '<div class="dropdown-divider"></div>';
+            return [
+                'divider' => true
+            ];
+//            return '<div class="dropdown-divider"></div>';
         }
 
         $url = request()->fullUrlWithQuery([static::QUERY_NAME => $this->key]);
 
-        return "<a href=\"{$url}\" class='dropdown-item'>{$this->label}</a>";
+        return [
+            'divider' => false,
+            'url' => $url,
+            'label' => $this->label
+        ];
+//        return "<a href=\"{$url}\" class='dropdown-item'>{$this->label}</a>";
     }
 
     /**

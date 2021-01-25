@@ -3,7 +3,6 @@
 namespace Encore\Admin\Console;
 
 use Illuminate\Console\Command;
-use Database\Seeders\AdminSeeder;
 
 class InstallCommand extends Command
 {
@@ -52,7 +51,7 @@ class InstallCommand extends Command
         $userModel = config('admin.database.users_model');
 
         if ($userModel::count() == 0) {
-            $this->call('db:seed', ['--class' => AdminSeeder::class]);
+            $this->call('db:seed', ['--class' => \Encore\Admin\Models\AdminTablesSeeder::class]);
         }
     }
 

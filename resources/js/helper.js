@@ -9,9 +9,9 @@ exports.install = function (Vue, options) {
     Vue.prototype.config = function (_key = null, _default = null) {
         if (_key) {
             let keys = _key.split('.');
-            let return_val = this.GLOBAL.configs;
-            $.each(keys, function (k, v) {
-                return_val = return_val[v];
+            let return_val = this.configs;
+            $.each(keys, function (key, val) {
+                return_val = return_val[val];
             });
 
             return return_val;
@@ -45,22 +45,35 @@ exports.install = function (Vue, options) {
      * 继承路由
      *
      * @param name
+     * @param parameter
      * @returns {*}
      */
-    Vue.prototype.admin_base_route = function (name = '') {
+    Vue.prototype.admin_base_route = function (name, parameter = {}) {
         let route_name = this.config('admin.route.as') + '.' + name;
-
-        return this.route(route_name);
+        let uri = null;
+        $.each(this.routes, function (key, route) {
+            if (route.name === route_name) {
+                if (!$.isEmptyObject(parameter)) {
+                    // console.dir(parameter);
+                    $.each(parameter, function (k, v) {
+                        uri = (route.uri).replace('{' + k + '}', v);
+                    });
+                } else {
+                    uri = route.uri;
+                }
+            }
+        });
+        // console.dir(this.routes);
+        return uri;
     };
 
     /**
      * 判断当前菜单路径是否在当前地址中
      *
      * @param uri
-     * @param el
      * @returns {string}
      */
-    Vue.prototype.has_menu_active = function (uri, el) {
+    Vue.prototype.has_menu_active = function (uri) {
         let href = window.location.pathname;
 
         if (href === this.admin_base_url('/')) {
@@ -75,40 +88,129 @@ exports.install = function (Vue, options) {
     /**
      * 向某个注释元素插入新元素
      *
-     * @param search_el string
-     * @param head_label bool=true
-     * @param parent_el string
-     * @param is_after bool=true
+     * @param search_el
+     * @param insert_el string
+     * @param is_after
      * @returns {*}
      */
-    Vue.prototype.require = function (search_el, head_label = true, parent_el = 'AdminLte', is_after = false) {
-        let parent = null;
-        let insert = true;
-        let childNodes = head_label ? document.head.childNodes : document.body.childNodes ;
-        $.each(childNodes, function (childNodesKey, childNodesVal) {
-            if (childNodesVal.nodeName === '#comment') {
-                if (childNodesVal.nodeValue === parent_el) {
-                    parent = childNodesVal;
-                }
+    Vue.prototype.require = function (search_el, insert_el = 'AdminLte', is_after = false) {
+        let assets = this.assets[search_el];
+        // console.dir(assets);
+        if ("css" in assets) {
+            let headParent = null;
+            let headInsert = true;
+            $.each(document.head.childNodes, function (childNodesKey, childNodesVal) {
+                if (childNodesVal.nodeName === '#comment') {
+                    if (childNodesVal.nodeValue === insert_el) {
+                        headParent = childNodesVal;
+                    }
 
-                if (childNodesVal.nodeValue === search_el) {
-                    insert = false;
+                    if (childNodesVal.nodeValue === search_el) {
+                        headInsert = false;
+                    }
                 }
+            });
+            if (headInsert) {
+                let css = '<!--' + search_el + '-->';
+
+                $.each(assets.css, function (cssKey, cssVal) {
+                    css += cssVal;
+                });
+
+                is_after ? $(headParent).after(css) : $(headParent).before(css);
             }
-        });
+        }
 
-        if (insert) {
-            let assets = this.GLOBAL.assets[search_el];
-            is_after ? $(parent).after(assets) : $(parent).before(assets);
+        if ("js" in assets) {
+            let bodyParent = null;
+            let bodyInsert = true;
+            $.each(document.body.childNodes, function (childNodesKey, childNodesVal) {
+                if (childNodesVal.nodeName === '#comment') {
+                    if (childNodesVal.nodeValue === insert_el) {
+                        bodyParent = childNodesVal;
+                    }
+
+                    if (childNodesVal.nodeValue === search_el) {
+                        bodyInsert = false;
+                    }
+                }
+            });
+            if (bodyInsert) {
+                let js = '<!--' + search_el + '-->';
+
+                $.each(assets.js, function (jsKey, jsVal) {
+                    js += jsVal;
+                });
+                is_after ? $(bodyParent).after(js) : $(bodyParent).before(js);
+            }
         }
     };
 
-    //为url字符串添加、修改参数
+    /**
+     * 为url字符串添加、修改参数
+     *
+     * @param paramName
+     * @param replaceWith
+     * @returns {string}
+     */
     Vue.prototype.url_with_param = function (paramName, replaceWith) {
         let url = new URL(location);
 
         url.searchParams.set(paramName, replaceWith);
 
         return url.toString();
+    };
+
+    /**
+     * 表格全选
+     *
+     * @param checked
+     */
+    Vue.prototype.tableToggleAll = function (checked) {
+        $('input.table-row-checkbox').iCheck(checked ? 'check' : 'uncheck');
+
+        this.tableToggleCheckbox();
+    };
+
+    /**
+     * 表格单选
+     */
+    Vue.prototype.tableToggleCheckbox = function () {
+        // 批量操作
+        let table_select_all_btn = $('.table-select-all-btn');
+        let checkbox = $('input.table-row-checkbox');
+        let checkbox_checked = $('input.table-row-checkbox:checked');
+        // 导出
+        let export_selected = $('.export-selected.selected_rows');
+
+        if (checkbox_checked.length > 0) {
+            // 批量操作
+            table_select_all_btn.removeClass('d-none');
+            let selectd = table_select_all_btn.find('.selected');
+            selectd.html(selectd.data('tpl').replace('{n}', checkbox_checked.length));
+            // 导出
+            let rows = [];
+
+            $.each(checkbox_checked, function (key, val) {
+                rows.push($(val).data('id'));
+            });
+
+            let href = export_selected.attr('data-href').replace('__rows__', rows.join(","));
+
+            export_selected.removeClass('d-none').attr('href', href);
+        } else {
+            // 批量操作
+            table_select_all_btn.addClass('d-none');
+            // 导出
+            export_selected.addClass('d-none').attr('href', 'javascript:void(0);');
+        }
+
+        if (checkbox.length > checkbox_checked.length) {
+            $('.table-select-all').iCheck('uncheck');
+        }
+
+        if (checkbox.length === checkbox_checked.length) {
+            $('.table-select-all').iCheck('check');
+        }
     };
 };

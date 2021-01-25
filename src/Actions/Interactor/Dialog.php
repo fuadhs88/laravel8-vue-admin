@@ -111,6 +111,7 @@ class Dialog extends Interactor
 
         $data['options'] = $this->options;
 
-        return Admin::view('admin::actions.dialog', $data);
+        return $data;
+//        return Admin::view('admin::actions.dialog', $data);
     }
 }
