@@ -95,7 +95,8 @@ exports.install = function (Vue, options) {
      */
     Vue.prototype.require = function (search_el, insert_el = 'AdminLte', is_after = false) {
         let assets = this.assets[search_el];
-        // console.dir(assets);
+        let asset_path = this.assets.asset_path;
+        // console.dir(this.assets);
         if ("css" in assets) {
             let headParent = null;
             let headInsert = true;
@@ -114,7 +115,7 @@ exports.install = function (Vue, options) {
                 let css = '<!--' + search_el + '-->';
 
                 $.each(assets.css, function (cssKey, cssVal) {
-                    css += cssVal;
+                    css += '<link rel="stylesheet" href="' + asset_path + cssVal + '">';
                 });
 
                 is_after ? $(headParent).after(css) : $(headParent).before(css);
@@ -139,7 +140,7 @@ exports.install = function (Vue, options) {
                 let js = '<!--' + search_el + '-->';
 
                 $.each(assets.js, function (jsKey, jsVal) {
-                    js += jsVal;
+                    js += '<script src="' + asset_path + jsVal + '"></script>';
                 });
                 is_after ? $(bodyParent).after(js) : $(bodyParent).before(js);
             }
@@ -159,6 +160,15 @@ exports.install = function (Vue, options) {
         url.searchParams.set(paramName, replaceWith);
 
         return url.toString();
+    };
+
+    /**
+     * 组件导入
+     *
+     * @param view
+     */
+    Vue.prototype.importComponent = function (view) {
+        return view.replace(/\//g, '');
     };
 
     /**

@@ -82,10 +82,6 @@
         },
 
         methods: {
-            importComponent(view) {
-                return view.replace('/', '');
-            },
-
             columnClasses(cols) {
                 var col = '';
                 $.each(cols, function (key, val) {

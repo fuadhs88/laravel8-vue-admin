@@ -554,10 +554,13 @@ class Filter implements Renderable
         $this->removeIDFilterIfNeeded();
 
         if (empty($this->filters)) {
-            return '';
+            return [
+                'empty' => true
+            ];
         }
 
         return [
+            'empty' => false,
             'action'   => $this->action ?: $this->urlWithoutFilters(),
             'columns'   => $this->layout->getColumns(),
             'first_width'   => $this->layout->getColumns()[0]['width'],

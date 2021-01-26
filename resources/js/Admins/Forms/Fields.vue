@@ -13,12 +13,6 @@
         props: {
             rows: Object,
         },
-
-        methods: {
-            importComponent(view) {
-                return view.replace(/\//g, '');
-            },
-        }
     }
 </script>
 

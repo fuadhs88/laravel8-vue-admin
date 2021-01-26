@@ -71,6 +71,23 @@ class Row
     }
 
     /**
+     * @return array
+     */
+    public function columns(): array
+    {
+        $columns = [];
+
+        foreach ($this->columns as $column) {
+            array_push($columns, [
+                'width' => $column->width(),
+                'fields' => $column->getFields(),
+            ]);
+        }
+
+        return $columns;
+    }
+
+    /**
      * @param string $method
      * @param array $arguments
      *

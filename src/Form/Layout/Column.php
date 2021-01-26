@@ -66,10 +66,11 @@ class Column
 
     /**
      * @param Field $field
+     * @throws \ReflectionException
      */
     public function addField(Field $field)
     {
-        $this->fields[] = $field;
+        $this->fields[] = $field->render();
     }
 
     /**

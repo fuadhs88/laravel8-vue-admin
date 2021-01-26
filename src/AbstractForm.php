@@ -59,9 +59,10 @@ abstract class AbstractForm
      * Generate a Field object and add to form builder if Field exists.
      *
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return Field
+     * @throws \ReflectionException
      */
     public function __call($method, $arguments)
     {

@@ -22,7 +22,7 @@
                     </div>
                 </div>
 
-                <tables-filters-container :data="data.filters"></tables-filters-container>
+                <tables-filters-container :data="data.filters" v-if="data.options.show_filter"></tables-filters-container>
 
 
                 <!-- /.card-header -->
@@ -51,7 +51,7 @@
                                 <tables-row-selector :data="row.column['id']" :assets="assets"></tables-row-selector>
                             </td>
                             <td v-else-if="columnName === '__actions__'">
-                                <component :is="importComponent(row.column[columnName].view)" :data="row.column[columnName].data"></component>
+                                <component :is="importComponent(row.column[columnName].view)" :data="row.column[columnName].data" :assets="assets"></component>
                             </td>
                             <td v-else>{{ row.column[columnName] }}</td>
                         </tr>
@@ -105,12 +105,6 @@
         created() {
             // console.dir(this.data);
         },
-
-        methods: {
-            importComponent(view) {
-                return view.replace(/\//g, '');
-            },
-        }
     }
 </script>
 

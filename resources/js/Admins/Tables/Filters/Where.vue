@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import TablesFiltersText from "./Text"
+    import TablesFiltersText from "./InputText"
 
     export default {
         name: "Where",
@@ -23,14 +23,8 @@
         },
 
         created() {
-            console.dir(this.data);
+            // console.dir(this.data);
         },
-
-        methods: {
-            importComponent(view) {
-                return view.replace(/\//g, '');
-            },
-        }
     }
 </script>
 

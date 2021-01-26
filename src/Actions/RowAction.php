@@ -182,16 +182,17 @@ abstract class RowAction extends TableAction
 //            return "<a href='{$href}' class='{$this->getElementClass()}'>{$this->name()}</a>";
         }
 
-        $this->addScript();
+        $script = $this->addScript();
 
         $attributes = $this->formatAttributes();
+
         return [
             'key' => $this->getKey(),
             'class' => $this->getElementClass(),
             'attributes' => $attributes,
             'name' => $this->asColumn ? $this->display($this->row($this->column->getName())) : $this->name(),
             'dblclick' => $this->dblclick,
-//            'script' => $this->addScript(),
+            'script' => $script,
         ];
 //        return sprintf(
 //            "<a data-_key='%s' href='javascript:void(0);' class='%s' {$attributes}>%s</a>",

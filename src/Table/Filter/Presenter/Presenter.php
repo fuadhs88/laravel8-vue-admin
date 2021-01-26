@@ -25,6 +25,7 @@ abstract class Presenter
      * @see https://stackoverflow.com/questions/19901850/how-do-i-get-an-objects-unqualified-short-class-name
      *
      * @return string
+     * @throws \ReflectionException
      */
     public function view(): string
     {

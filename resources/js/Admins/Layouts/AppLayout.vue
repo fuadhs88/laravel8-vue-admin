@@ -170,11 +170,14 @@
             <!-- Default to the left -->
             <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
         </footer>
+
+<!--        <modals-modal-lg :data="this.$root.modalData"></modals-modal-lg>-->
     </div>
     <!-- ./wrapper -->
 </template>
 
 <script>
+    import ModalsModalLg from './../Modals/ModalLg'
     import MenuChildren from './MenuChildren'
     import DashboardTitle from './../Dashboard/Title'
     import DashboardEnvironment from './../Dashboard/Environment'
@@ -195,6 +198,7 @@
         },
 
         components: {
+            ModalsModalLg,
             MenuChildren,
             DashboardTitle,
             DashboardEnvironment,
@@ -225,10 +229,6 @@
         },
 
         methods: {
-            importComponent(view) {
-                return view.replace('/', '');
-            },
-
             columnClasses(cols) {
                 var col = '';
                 $.each(cols, function (key, val) {

@@ -74,12 +74,12 @@ trait HasFilter
     /**
      * Render the table filter.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     * @return array|string
      */
     public function renderFilter()
     {
         if (!$this->option('show_filter')) {
-            return '';
+            return [];
         }
 
         return $this->filter->render();

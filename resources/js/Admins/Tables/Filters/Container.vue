@@ -1,5 +1,5 @@
 <template>
-    <div :class="'card-header ' + (data.expand ? '' : 'd-none' + ' filter-box')" :id="data.filter_id">
+    <div :class="'card-header ' + (data.expand ? '' : 'd-none' + ' filter-box')" :id="data.filter_id" v-if="!data.empty">
         <form :action="data.action" class="form-horizontal" method="get">
 
             <div class="row">
@@ -22,7 +22,7 @@
                                 <button :class="'btn btn-' + $page.props.color + ' submit btn-sm'"><i class="fa fa-search"></i>搜索</button>
                             </div>
                             <div class="btn-group float-left " style="margin-left: 10px;">
-                                <a :href="data.action" class="btn btn-default btn-sm"><i class="fa fa-undo"></i>重置</a>
+                                <inertia-link :href="data.action" class="btn btn-default btn-sm"><i class="fa fa-undo"></i>重置</inertia-link>
                             </div>
                         </div>
                     </div>
@@ -48,14 +48,8 @@
         },
 
         created() {
-            console.dir(this.data);
+            // console.dir(this.data);
         },
-
-        methods: {
-            importComponent(view) {
-                return view.replace(/\//g, '');
-            },
-        }
     }
 </script>
 

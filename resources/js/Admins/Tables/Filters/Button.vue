@@ -31,7 +31,7 @@
         },
 
         created() {
-            console.dir(this.data);
+            // console.dir(this.data);
         },
 
         methods: {
@@ -42,7 +42,6 @@
                 } else {
                     filter.removeClass('d-none');
                 }
-                console.dir(filter);
             }
         }
     }

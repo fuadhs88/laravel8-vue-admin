@@ -43,7 +43,7 @@ class DropdownActions extends Actions
     {
         $this->prepareAction($action);
 
-        array_push($this->custom, $action);
+        array_push($this->custom, $action->render());
 
         return $this;
     }
@@ -176,10 +176,8 @@ class DropdownActions extends Actions
     }
 
     /**
-     * @param []\Closure $callback
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
-     * @throws \Throwable
+     * @param array $callback
+     * @return array|mixed|string|void
      */
     public function display($callback = [])
     {

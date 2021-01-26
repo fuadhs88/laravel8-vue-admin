@@ -10,6 +10,7 @@ use Encore\Admin\Table\Column\InsertPosition;
 use Encore\Admin\Widgets\Form as WidgetForm;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
@@ -1140,7 +1141,8 @@ class Field implements Renderable
     /**
      * Render this filed.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     * @return array|string
+     * @throws \ReflectionException
      */
     public function render()
     {
@@ -1158,11 +1160,18 @@ class Field implements Renderable
             Admin::script($this->script);
         }
 
-        return Admin::view($this->getView(), $this->variables());
+        return [
+            'view' => $this->getView(),
+            'data' => $this->variables()
+        ];
+//        return Admin::view($this->getView(), $this->variables());
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     * @param array $variables
+     * @return Factory|\Illuminate\View\View|string
+     * @throws \ReflectionException
+     * @throws \Throwable
      */
     protected function fieldRender(array $variables = [])
     {
@@ -1175,6 +1184,8 @@ class Field implements Renderable
 
     /**
      * @return string
+     * @throws \ReflectionException
+     * @throws \Throwable
      */
     public function __toString()
     {

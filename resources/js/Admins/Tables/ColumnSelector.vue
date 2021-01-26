@@ -7,7 +7,7 @@
             <form class="p-2">
                 <div class="form-group mb-0">
                     <div :class="'form-check pl-0 icheck-' + $page.props.color" v-for="(column, key) in data.columns" :key="key">
-                        <input type="checkbox" class="form-check-input column-select-item" :id="'column-select-item-' + key" :value="key" :checked="(!data.visible || inArray(key)) ? 'checked' : ''" @click="columnSelect">
+                        <input type="checkbox" class="form-check-input column-select-item" :id="'column-select-item-' + key" :value="key" :checked="(!data.visible || inArray(key)) ? 'checked' : ''" @click="this.columnSelect()">
                         <label class="form-check-label" :for="'column-select-item-' + key">{{ column }}</label>
                     </div>
                 </div>
@@ -16,7 +16,7 @@
             <div class="dropdown-divider"></div>
 
             <form class="p-2">
-                <a class="btn btn-sm btn-default float-left" @click="columnSelectAll">所有</a>&nbsp;&nbsp;
+                <a class="btn btn-sm btn-default float-left" @click="this.columnSelectAll()">所有</a>&nbsp;&nbsp;
                 <inertia-link :href="url" :class="'btn btn-sm btn-' + $page.props.color + ' column-select-submit float-right'">提交</inertia-link>
             </form>
         </div>

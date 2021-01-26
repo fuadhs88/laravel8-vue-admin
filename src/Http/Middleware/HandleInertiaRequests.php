@@ -82,23 +82,30 @@ class HandleInertiaRequests extends Middleware
      */
     protected function getAssets()
     {
-        $asset_path = 'vendor/laravel-vue-admin/';
-
         return [
-            'asset_path' => asset($asset_path),
+            'asset_path' => asset('vendor/laravel-vue-admin'),
             'icheck-bootstrap' => [
                 'css' => [
-                    '<link rel="stylesheet" href="'. asset($asset_path . 'admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') .'">'
+                    '/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css'
                 ]
             ],
             'jquery-icheck' => [
                 'js' => [
-                    '<script src="'. asset($asset_path . 'jquery-icheck/icheck.min.js') .'"></script>'
+                    '/jquery-icheck/icheck.min.js'
+                ]
+            ],
+            'sweetalert2' => [
+                'css' => [
+                    '/admin-lte/plugins/sweetalert2/sweetalert2.min.css'
+//                    '/admin-lte/plugins/sweetalert2/bootstrap-4.min.css'
+                ],
+                'js' => [
+                    '/admin-lte/plugins/sweetalert2/sweetalert2.min.js'
                 ]
             ],
             'jquery-ui' => [
                 'js' => [
-                    'jquery-ui/jquery-ui.min.js'
+                    '/admin-lte/plugins/jquery-ui/jquery-ui.min.js'
                 ]
             ],
         ];

@@ -22,7 +22,7 @@
 
 <script>
     export default {
-        name: "Text",
+        name: "InputText",
 
         props: {
             data: Object,

@@ -160,6 +160,7 @@ trait CanCascadeFields
      * Add cascade scripts to contents.
      *
      * @return void
+     * @throws \Throwable
      */
     protected function addCascadeScript()
     {

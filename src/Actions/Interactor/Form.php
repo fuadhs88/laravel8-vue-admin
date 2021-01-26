@@ -431,6 +431,25 @@ class Form extends Interactor
     }
 
     /**
+     * Get a row in form.
+     *
+     * @return array
+     */
+    protected function getRows()
+    {
+        $rows = [];
+
+        foreach ($this->rows as $row) {
+            array_push($rows, [
+                'html' => $row->html,
+                'columns' => $row->columns(),
+            ]);
+        }
+
+        return $rows;
+    }
+
+    /**
      * @param Request $request
      *
      * @throws ValidationException
@@ -495,7 +514,7 @@ class Form extends Interactor
 
         $name = strtolower(array_pop($path));
 
-        return "admin::actions.form.{$name}";
+        return "Actions/Forms/" . ucwords($name);
     }
 
     /**
@@ -525,18 +544,17 @@ class Form extends Interactor
     {
         $this->action->attribute('modal', $this->getModalId());
 
-        call_user_func(
-            [$this->action, 'form'],
-            ($this->action instanceof RowAction) ? $this->action->getRow() : null
-        );
+        call_user_func([$this->action, 'form'], ($this->action instanceof RowAction) ? $this->action->getRow() : null);
 
         $data = array_merge($data, [
-            'rows'          => $this->rows,
+            'rows'          => $this->getRows(),
             'modal_id'      => $this->getModalId(),
             'modal_size'    => $this->modalSize,
             'confirm'       => $this->confirm,
         ]);
 
-        return Admin::view('admin::actions.form', $data);
+        return $data;
+
+//        return Admin::view('admin::actions.form', $data);
     }
 }
