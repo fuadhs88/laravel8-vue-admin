@@ -213,6 +213,7 @@ exports.install = function (Vue, options) {
         // 导出
         let export_selected = $('.export-selected.selected_rows');
 
+        checkbox.parents('tr').removeAttr('style');
         if (checkbox_checked.length > 0) {
             // 批量操作
             table_select_all_btn.removeClass('d-none');
@@ -222,6 +223,7 @@ exports.install = function (Vue, options) {
             let rows = [];
 
             $.each(checkbox_checked, function (key, val) {
+                $(val).parents('tr').css({'background-color': 'rgb(255, 193, 7, 0.2)'});
                 rows.push($(val).data('id'));
             });
 
