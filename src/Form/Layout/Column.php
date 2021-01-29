@@ -64,13 +64,29 @@ class Column
         return $this->fields;
     }
 
+
+
+    /**
+     * @return array
+     */
+    public function fields()
+    {
+        $fields = [];
+
+        foreach ($this->fields as $field) {
+            array_push($fields, $field->render());
+        }
+
+        return $fields;
+    }
+
     /**
      * @param Field $field
      * @throws \ReflectionException
      */
     public function addField(Field $field)
     {
-        $this->fields[] = $field->render();
+        $this->fields[] = $field;
     }
 
     /**

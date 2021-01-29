@@ -1,6 +1,6 @@
 <template>
     <a :href="url" :class="'btn btn-sm btn-' + $page.props.color + ' table-create-btn mr-2'" data-toggle="modal" data-target="#table-create-modal">
-        <i class="fas fa-plus"></i><span class="pl-2">新增</span>
+        <i class="fas fa-plus"></i><span class="pl-2">{{ this.trans('new') }}</span>
     </a>
 </template>
 
@@ -9,7 +9,8 @@
         name: "CreateBtnModal",
 
         props: {
-            url: String
+            url: String,
+            locale: Object,
         }
     }
 </script>

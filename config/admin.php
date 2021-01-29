@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Laravel-admin',
+    'name' => 'LaravelVueAdmin',
 
     /*
     |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ return [
 
         'image' => '/vendor/laravel-vue-admin/admin-lte/dist/img/AdminLTELogo.png',
 
-        'text' => '<span class="font-weight-bolder">Laravel-admin</span>',
+        'text' => '<span class="font-weight-bolder">LaravelVueAdmin</span>',
     ],
 
     /*

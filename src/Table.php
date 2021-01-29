@@ -501,16 +501,16 @@ class Table
 
 //        admin_assets_require('icheck');
 
-        $check = <<<'HTML'
-<div class='icheck-%s d-inline'>
-    <input type="checkbox" class="table-select-all" id='select-all'/>
-    <label for='select-all'></label>
-</div>
-HTML;
+//        $checkAll = <<<'HTML'
+//<div class='icheck-%s d-inline'>
+//    <input type="checkbox" class="table-select-all" id='select-all'/>
+//    <label for='select-all'></label>
+//</div>
+//HTML;
 
-        $this->prependColumn(Column::SELECT_COLUMN_NAME, admin_color($check))
-            ->displayUsing(Displayers\RowSelector::class)
-            ->addHeader(admin_color($check));
+        $this->prependColumn(Column::SELECT_COLUMN_NAME, '');
+//            ->displayUsing(Displayers\RowSelector::class);
+//            ->addHeader(admin_color($checkAll));
     }
 
     /**

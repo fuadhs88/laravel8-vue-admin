@@ -269,7 +269,7 @@ abstract class Action implements Renderable
             'title'         => $this->name(),
             'event'         => $this->event,
             'selector'      => $this->selector($this->selectorPrefix),
-            'parameters'    => array_merge($this->parameters(), ['_token' => csrf_token(),'_action' => $this->getCalledClass()]),
+            'parameters'    => array_merge($this->parameters(), ['_token' => csrf_token(), '_action' => $this->getCalledClass()]),
             'action_script' => $this->actionScript(),
             'method'        => $this->getMethod(),
             'url'           => $this->getHandleUrl(),

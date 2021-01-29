@@ -3,6 +3,22 @@ exports.install = function (Vue, options) {
      * 获取配置信息
      *
      * @param _key
+     * @returns {*}
+     */
+    Vue.prototype.trans = function (_key) {
+        let keys = _key.split('.');
+        let return_val = this.locale;
+        $.each(keys, function (key, val) {
+            return_val = return_val[val];
+        });
+
+        return (typeof(return_val) !== 'undefined') ? return_val : _key;
+    };
+
+    /**
+     * 获取配置信息
+     *
+     * @param _key
      * @param _default
      * @returns {*}
      */
@@ -97,6 +113,10 @@ exports.install = function (Vue, options) {
         let assets = this.assets[search_el];
         let asset_path = this.assets.asset_path;
         // console.dir(this.assets);
+        if ("depend" in assets) {
+            this.require(assets['depend']);
+        }
+
         if ("css" in assets) {
             let headParent = null;
             let headInsert = true;
@@ -115,7 +135,7 @@ exports.install = function (Vue, options) {
                 let css = '<!--' + search_el + '-->';
 
                 $.each(assets.css, function (cssKey, cssVal) {
-                    css += '<link rel="stylesheet" href="' + asset_path + cssVal + '">';
+                    css += '<link rel="stylesheet" href="' + asset_path + cssVal + '.css">';
                 });
 
                 is_after ? $(headParent).after(css) : $(headParent).before(css);
@@ -140,7 +160,7 @@ exports.install = function (Vue, options) {
                 let js = '<!--' + search_el + '-->';
 
                 $.each(assets.js, function (jsKey, jsVal) {
-                    js += '<script src="' + asset_path + jsVal + '"></script>';
+                    js += '<script src="' + asset_path + jsVal + '.js"></script>';
                 });
                 is_after ? $(bodyParent).after(js) : $(bodyParent).before(js);
             }
@@ -222,5 +242,126 @@ exports.install = function (Vue, options) {
         if (checkbox.length === checkbox_checked.length) {
             $('.table-select-all').iCheck('check');
         }
+    };
+
+    /**
+     * 按钮操作
+     *
+     * @param e
+     * @param script
+     */
+    Vue.prototype.buttonAction = function (e, script) {
+        let $target = $(e.currentTarget);
+        let data = $target.data();
+        let url = $target.attr('url') || script.url;
+        Object.assign(data, script.parameters);// 合并数据
+
+        eval(script.action_script);// 自定义脚本
+
+        $.admin.confirm({
+            title: script.options.title,
+            text: script.options.text,
+            icon: script.options.icon,
+            preConfirm: function() {
+                return new Promise(function (resolve,reject) {
+                    $.ajax({
+                        method: script.method,
+                        url: url,
+                        data: data
+                    }).done(function (data) {
+                        resolve([data, $target]);
+                    }).fail(function(request){
+                        reject(request);
+                    });
+                }).then($.admin.action.then).catch($.admin.action.catch);
+            }
+        });
+    };
+
+    /**
+     * 按钮表单操作
+     *
+     * @param e
+     * @param script
+     */
+    Vue.prototype.buttonFormAction = function (e, script) {
+        let _this = this;
+        _this.$root.modalFormActionData = script;
+
+        let $target = $(e.currentTarget);
+        let data = $target.data();
+        let url = $target.attr('url') || script.url;
+        Object.assign(data, script.parameters);// 合并数据
+
+        eval(script.action_script);// 自定义脚本
+
+        let $modal = $('#modal-form-action');
+
+        $modal.modal('show').on('hidden.bs.modal', function (event) {
+            _this.$root.modalFormActionData = {};
+        });
+
+        $modal.find('form').off('submit').on('submit', function (e) {
+            e.preventDefault();
+            let form = this;
+
+            if (script.confirm.length > 0) {
+                $.admin.confirm({
+                    title: script.confirm,
+                    preConfirm: function() {
+                        return new Promise(function (resolve,reject) {
+                            let formData = new FormData(form);
+                            for (let key in data) {
+                                formData.append(key, data[key]);
+                            }
+
+                            $.ajax({
+                                method: script.method,
+                                url: url,
+                                data: formData,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                            }).done(function (data) {
+                                resolve([data, $target]);
+                                if (data.status === true) {
+                                    $modal.modal('hide');
+                                }
+                            }).fail(function(request){
+                                reject(request);
+                            });
+                        }).then($.admin.action.then).catch($.admin.action.catch);
+                    }
+                }).then(function(result) {
+                    if (typeof result.dismiss !== 'undefined') {
+                        return Promise.reject();
+                    }
+                    return [result.value, $target];
+                });
+            } else {
+                new Promise(function (resolve,reject) {
+                    let formData = new FormData(form);
+                    for (let key in data) {
+                        formData.append(key, data[key]);
+                    }
+
+                    $.ajax({
+                        method: script.method,
+                        url: url,
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                    }).done(function (data) {
+                        resolve([data, $target]);
+                        if (data.status === true) {
+                            $modal.modal('hide');
+                        }
+                    }).fail(function(request){
+                        reject(request);
+                    });
+                }).then($.admin.action.then).catch($.admin.action.catch);
+            }
+        });
     };
 };

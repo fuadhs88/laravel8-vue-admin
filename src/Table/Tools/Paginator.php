@@ -100,12 +100,11 @@ class Paginator extends AbstractTool
             'total' => $this->paginator->total(),
         ];
 
-        return $parameters;
-//        $parameters = collect($parameters)->flatMap(function ($parameter, $key) {
-//            return [$key => "<b>$parameter</b>"];
-//        });
-//
-//        return trans('admin.pagination.range', $parameters->all());
+        $parameters = collect($parameters)->flatMap(function ($parameter, $key) {
+            return [$key => "<b>$parameter</b>"];
+        });
+
+        return trans('admin.pagination.range', $parameters->all());
     }
 
     /**

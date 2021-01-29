@@ -1,8 +1,6 @@
 <template>
     <div class="card-footer">
-        <p class="d-inline-block mb-0 py-1">
-            从 <b>{{ data.paginationRanger.first }}</b> 到 <b>{{ data.paginationRanger.last }}</b> ，总共 <b>{{ data.paginationRanger.total }}</b> 条
-        </p>
+        <p class="d-inline-block mb-0 py-1" v-html="data.paginationRanger"></p>
         <div class="d-inline-block float-right">
             <ul class="pagination pagination-sm m-0 float-right">
                 <!-- Previous Page Link -->
@@ -30,7 +28,7 @@
             </ul>
         </div>
         <label class="float-right perpage-selector d-inline-block">
-            显示
+            {{ this.trans('show') }}
             <span class="dropup border px-2 py-1">
                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{ data.perPageSelector.perpage }}</a>
                 <div class="dropdown-menu">
@@ -47,6 +45,7 @@
 
         props: {
             data: Object,
+            locale: Object,
         },
     }
 </script>

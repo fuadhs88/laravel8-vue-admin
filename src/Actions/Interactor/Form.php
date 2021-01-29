@@ -86,7 +86,7 @@ class Form extends Interactor
     {
         $field = new Field\Email($column, $this->formatLabel($label));
 
-        return $this->addField($field)->setView('admin::actions.form.text');
+        return $this->addField($field)->setView('Actions/Forms/Text');
     }
 
     /**
@@ -262,7 +262,7 @@ class Form extends Interactor
     {
         $field = new Field\Image($column, $this->formatLabel($label));
 
-        return $this->addField($field)->setView('admin::actions.form.file');
+        return $this->addField($field)->setView('Actions/Forms/File');
     }
 
     /**
@@ -275,7 +275,7 @@ class Form extends Interactor
     {
         $field = new Field\MultipleImage($column, $this->formatLabel($label));
 
-        return $this->addField($field)->setView('admin::actions.form.multiplefile');
+        return $this->addField($field)->setView('Actions/Forms/Multiplefile');
     }
 
     /**

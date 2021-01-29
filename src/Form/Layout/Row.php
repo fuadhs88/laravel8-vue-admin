@@ -80,7 +80,7 @@ class Row
         foreach ($this->columns as $column) {
             array_push($columns, [
                 'width' => $column->width(),
-                'fields' => $column->getFields(),
+                'fields' => $column->fields(),
             ]);
         }
 

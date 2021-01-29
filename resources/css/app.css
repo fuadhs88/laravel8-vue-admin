@@ -17,3 +17,8 @@ button:active.focus,button.active.focus,
 .table-dropdown-actions.dropleft .dropdown-menu {
     min-width: auto;
 }
+
+.form-group > label.asterisk:before {
+    content: "* ";
+    color: red;
+}

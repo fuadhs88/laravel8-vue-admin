@@ -19,10 +19,10 @@
                         <div class="col-md-2"></div>
                         <div class="col-md-8">
                             <div class="btn-group float-left">
-                                <button :class="'btn btn-' + $page.props.color + ' submit btn-sm'"><i class="fa fa-search"></i>搜索</button>
+                                <button :class="'btn btn-' + $page.props.color + ' submit btn-sm'"><i class="fa fa-search"></i><span class="pl-2">{{ this.trans('search') }}</span></button>
                             </div>
-                            <div class="btn-group float-left " style="margin-left: 10px;">
-                                <inertia-link :href="data.action" class="btn btn-default btn-sm"><i class="fa fa-undo"></i>重置</inertia-link>
+                            <div class="btn-group float-left ml-2">
+                                <inertia-link :href="data.action" class="btn btn-default btn-sm"><i class="fa fa-undo"></i><span class="pl-2">{{ this.trans('reset') }}</span></inertia-link>
                             </div>
                         </div>
                     </div>
@@ -45,6 +45,7 @@
 
         props: {
             data: Object,
+            locale: Object,
         },
 
         created() {

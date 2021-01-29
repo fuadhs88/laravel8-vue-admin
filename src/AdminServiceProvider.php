@@ -43,7 +43,7 @@ class AdminServiceProvider extends ServiceProvider
         'admin.auth'       => Middleware\Authenticate::class,
         'admin.inertia'    => Middleware\HandleInertiaRequests::class,
 //        'admin.pjax'       => Middleware\Pjax::class,
-//        'admin.bootstrap'  => Middleware\Bootstrap::class,
+        'admin.bootstrap'  => Middleware\Bootstrap::class,
 //        'admin.session'    => Middleware\Session::class,
 //        'admin.sul'        => Middleware\SingleUserLogin::class,
     ];
@@ -58,7 +58,7 @@ class AdminServiceProvider extends ServiceProvider
             'admin.auth',
             'admin.inertia',
 //            'admin.pjax',
-//            'admin.bootstrap',
+            'admin.bootstrap',
 //            'admin.session',
         ],
     ];
@@ -83,7 +83,7 @@ class AdminServiceProvider extends ServiceProvider
 
         $this->compatibleBlade();
 
-        $this->registerBladeDirective();
+//        $this->registerBladeDirective();
     }
 
     protected function registerBladeDirective()

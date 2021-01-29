@@ -72,7 +72,8 @@ class Navbar implements Renderable
                 return $element->render();
             }
 
-            return (string) $element;
-        })->implode('');
+            return $element;
+        })->toArray();
+//        })->implode('');
     }
 }

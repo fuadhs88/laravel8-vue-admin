@@ -38,6 +38,7 @@ class DropdownActions extends Actions
      * @param RowAction $action
      *
      * @return $this
+     * @throws \Throwable
      */
     public function add(RowAction $action)
     {
@@ -203,11 +204,8 @@ class DropdownActions extends Actions
         if (empty($variables['default']) && empty($variables['custom'])) {
             return;
         }
-
-        return [
-            'view' => $this->view,
-            'data' => $variables
-        ];
+//        dd($variables);
+        return $variables;
 //        return Admin::view($this->view, $variables);
     }
 }

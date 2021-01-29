@@ -1043,7 +1043,8 @@ class Field implements Renderable
             'column'      => $this->column,
             'selector'    => $this->getElementClassSelector(),
             'errorKey'    => $this->getErrorKey(),
-            'attributes'  => $this->formatAttributes(),
+//            'attributes'  => $this->formatAttributes(),
+            'attributes'  => $this->attributes,
             'placeholder' => $this->getPlaceholder(),
             'nested'      => (int) $this->nested,
             'group_attrs' => [

@@ -10,19 +10,27 @@
     <!--Styles-->
     <!--Fontawesome-->
     <link rel="stylesheet" href="{{ asset('vendor/laravel-vue-admin/admin-lte/plugins/fontawesome-free/css/all.min.css') }}">
+    <!--Bootstrap4-->
+    <!--toastr-->
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-vue-admin/admin-lte/plugins/toastr/toastr.min.css') }}">
+    <!--sweetalert2-->
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-vue-admin/admin-lte/plugins/sweetalert2/sweetalert2.min.css') }}">
     <!--AdminLte-->
     <link rel="stylesheet" href="{{ asset('vendor/laravel-vue-admin/admin-lte/dist/css/adminlte.min.css') }}">
     <!--LaravelVueAdmin-->
     <link rel="stylesheet" href="{{ asset('vendor/laravel-vue-admin/css/app.css') }}">
 </head>
-<body class="hold-transition">
-{{--<body class="hold-transition @if(request()->route()->action['as'] === 'admin.login') login-page @else {{ config('admin.theme.layout') }} {{ config('admin.theme.accent') }} @endif">--}}
+<body class="hold-transition @if(request()->route()->action['as'] === 'admin.login') login-page @else {{ config('admin.theme.layout') }} {{ config('admin.theme.accent') }} @endif">
 @inertia
 <!--Scripts-->
 <!--Jquery-->
 <script src="{{ asset('vendor/laravel-vue-admin/admin-lte/plugins/jquery/jquery.min.js') }}"></script>
 <!--Bootstrap4-->
 <script src="{{ asset('vendor/laravel-vue-admin/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!--toastr-->
+<script src="{{ asset('vendor/laravel-vue-admin/admin-lte/plugins/toastr/toastr.min.js') }}"></script>
+<!--sweetalert2-->
+<script src="{{ asset('vendor/laravel-vue-admin/admin-lte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <!--AdminLte-->
 <script src="{{ asset('vendor/laravel-vue-admin/admin-lte/dist/js/adminlte.min.js') }}"></script>
 <!--LaravelVueAdmin-->

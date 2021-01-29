@@ -1,7 +1,7 @@
 <template>
     <div class="btn-group mr-2">
         <button type="button" :class="'btn btn-sm btn-default ' + data.btn_class" @click="filter()">
-            <i class="fas fa-filter"></i><span class="pl-1">筛选</span>
+            <i class="fas fa-filter"></i><span class="pl-1">{{ this.trans('filter') }}</span>
         </button>
 
         <template v-if="data.scopes.length > 0">
@@ -16,7 +16,7 @@
                     <inertia-link :href="scope.url" class='dropdown-item' v-html="" v-else>{{ scope.label }}</inertia-link>
                 </template>
                 <div class="dropdown-divider"></div>
-                <inertia-link :href="data.cancel" class="dropdown-item">取消</inertia-link>
+                <inertia-link :href="data.cancel" class="dropdown-item">{{ this.trans('cancel') }}</inertia-link>
             </div>
         </template>
     </div>
@@ -27,7 +27,8 @@
         name: "Button",
 
         props: {
-            data: Object
+            data: Object,
+            locale: Object,
         },
 
         created() {

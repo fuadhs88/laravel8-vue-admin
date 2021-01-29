@@ -165,6 +165,14 @@ abstract class RowAction extends TableAction
     }
 
     /**
+     * @return array
+     */
+    public function parameters()
+    {
+        return array_merge(parent::parameters(), ['_key' => $this->getKey()]);
+    }
+
+    /**
      * Render row action.
      *
      * @return array|mixed

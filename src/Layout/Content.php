@@ -301,6 +301,8 @@ class Content implements Renderable
             'description' => $this->description,
             'breadcrumb' => $this->breadcrumb,
             'rows' => $this->rows,
+            'navbar_left' => Admin::getNavbar()->render('left'),
+            'navbar_right' => Admin::getNavbar()->render(),
         ];
 //        dd($contents);
         return admin_view('Layouts/AppLayout', ['contents' => $contents]);

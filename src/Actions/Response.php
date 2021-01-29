@@ -156,6 +156,7 @@ class Response
      * Send a open new window response.
      *
      * @param string $url
+     * @return Response
      */
     public function open(string $url)
     {

@@ -112,13 +112,14 @@ trait UploadField
     protected function setupDefaultOptions()
     {
         $defaults = [
+            'language'             => str_replace(['en','zh-CN'], ['LANG','zh'], config('app.locale')),
             'theme'                => 'fas',
             'overwriteInitial'     => false,
             'initialPreviewAsData' => true,
             'msgPlaceholder'       => trans('admin.choose_file'),
             'browseLabel'          => trans('admin.browse'),
             'cancelLabel'          => trans('admin.cancel'),
-            'showRemove'           => false,
+//            'showRemove'           => false,
             'showUpload'           => false,
             'showCancel'           => false,
             'dropZoneEnabled'      => false,

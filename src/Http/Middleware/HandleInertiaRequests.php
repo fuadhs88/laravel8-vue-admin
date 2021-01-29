@@ -41,12 +41,26 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'configs' => Config::all(),
+            'locale' => $this->getTrans(),
             'routes' => $this->getAdminRoutes(),
             'assets' => $this->getAssets(),
             'color' => config('admin.theme.color', 'info'),
             'menus' => Admin::menus(),
             'user' => Admin::check() ? Admin::user() : null,
         ]);
+    }
+
+    protected function getTrans()
+    {
+        $transPath = resource_path('lang/'.config('app.locale').'/admin.php');
+
+        $trans = [];
+
+        if (file_exists($transPath)) {
+            $trans = include($transPath);
+        }
+
+        return $trans;
     }
 
     /**
@@ -86,26 +100,60 @@ class HandleInertiaRequests extends Middleware
             'asset_path' => asset('vendor/laravel-vue-admin'),
             'icheck-bootstrap' => [
                 'css' => [
-                    '/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css'
+                    '/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min'
                 ]
             ],
             'jquery-icheck' => [
                 'js' => [
-                    '/jquery-icheck/icheck.min.js'
+                    '/jquery-icheck/icheck.min'
                 ]
             ],
-            'sweetalert2' => [
+            'moment' => [
+                'js' => [
+                    '/admin-lte/plugins/moment/moment-with-locales.min',
+                ]
+            ],
+            'inputmask' => [
+                'js' => [
+                    '/admin-lte/plugins/inputmask/min/jquery.inputmask.bundle.min',
+                ]
+            ],
+            'daterangepicker' => [
                 'css' => [
-                    '/admin-lte/plugins/sweetalert2/sweetalert2.min.css'
-//                    '/admin-lte/plugins/sweetalert2/bootstrap-4.min.css'
+                    '/admin-lte/plugins/bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.min',
                 ],
                 'js' => [
-                    '/admin-lte/plugins/sweetalert2/sweetalert2.min.js'
+                    '/admin-lte/plugins/bootstrap4-datetimepicker/build/js/bootstrap-datetimepicker.min',
+                ],
+                'depend' => 'moment',
+            ],
+            'bootstrap-fileinput' => [
+                'css' => [
+                    '/bootstrap-fileinput/css/fileinput.min'
+                ],
+                'js' => [
+                    '/bootstrap-fileinput/js/fileinput.min',
+                    '/bootstrap-fileinput/themes/fas/theme.min',
+                    '/bootstrap-fileinput/js/locales/'. str_replace(['en','zh-CN'], ['LANG','zh'], config('app.locale')),
                 ]
+            ],
+            'show-drag' => [
+                'js' => [
+                    '/bootstrap-fileinput/js/plugins/sortable.min',
+                ]
+            ],
+            'select2' => [
+                'css' => [
+                    '/admin-lte/plugins/select2/css/select2.min',
+                    '/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min',
+                ],
+                'js'  => [
+                    '/admin-lte/plugins/select2/js/select2.full.min',
+                ],
             ],
             'jquery-ui' => [
                 'js' => [
-                    '/admin-lte/plugins/jquery-ui/jquery-ui.min.js'
+                    '/admin-lte/plugins/jquery-ui/jquery-ui.min'
                 ]
             ],
         ];

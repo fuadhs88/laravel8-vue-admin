@@ -173,7 +173,8 @@ class File extends Field
     /**
      * Render file upload field.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array|string
+     * @throws \ReflectionException
      */
     public function render()
     {
