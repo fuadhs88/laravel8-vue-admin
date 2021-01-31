@@ -74,7 +74,9 @@ class Column
         $fields = [];
 
         foreach ($this->fields as $field) {
-            array_push($fields, $field->render());
+            if ($field->render()) {
+                array_push($fields, $field->render());
+            }
         }
 
         return $fields;

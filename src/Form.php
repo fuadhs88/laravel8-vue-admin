@@ -1034,20 +1034,6 @@ class Form extends AbstractForm implements Renderable
     }
 
     /**
-     * Render the form contents.
-     *
-     * @return string
-     */
-    public function render()
-    {
-        try {
-            return $this->builder->render();
-        } catch (\Exception $e) {
-            return Handler::renderException($e);
-        }
-    }
-
-    /**
      * Get or set input data.
      *
      * @param string $key
@@ -1110,5 +1096,21 @@ class Form extends AbstractForm implements Renderable
         admin_error('Error', "Field type [$method] does not exist.");
 
         return new Field\Nullable();
+    }
+
+    /**
+     * Render the form contents.
+     *
+     * @return array|string
+     * @throws \Throwable
+     */
+    public function render()
+    {
+//        dd($this->builder->render());
+        try {
+            return $this->builder->render();
+        } catch (\Exception $e) {
+            return Handler::renderException($e);
+        }
     }
 }

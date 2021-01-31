@@ -1,7 +1,7 @@
 <template>
-    <a :href="url" :class="'btn btn-sm btn-' + $page.props.color + ' table-create-btn mr-2'">
+    <inertia-link :href="url" :class="'btn btn-sm btn-' + $page.props.color + ' table-create-btn mr-2'">
         <i class="fa fa-plus"></i><span class="pl-2">{{ this.trans('new') }}</span>
-    </a>
+    </inertia-link>
 </template>
 
 <script>

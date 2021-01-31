@@ -15,14 +15,15 @@ class _List implements Renderable
 
     public function render()
     {
-        $text = trans('admin.list');
-
-        return <<<HTML
-<div class="btn-group float-right mr-2">
-    <a href="{$this->path}" class="btn btn-sm btn-default" title="$text">
-        <i class="fa fa-list"></i><span> {$text} </span>
-    </a>
-</div>
-HTML;
+        return $this->path;
+//        $text = trans('admin.list');
+//
+//        return <<<HTML
+//<div class="btn-group float-right mr-2">
+//    <a href="{$this->path}" class="btn btn-sm btn-default" title="$text">
+//        <i class="fas fa-list"></i><span> {$text} </span>
+//    </a>
+//</div>
+//HTML;
     }
 }

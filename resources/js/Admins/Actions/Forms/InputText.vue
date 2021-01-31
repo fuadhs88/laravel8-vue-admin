@@ -3,12 +3,7 @@
         <label :class="data.viewClass.label">{{ data.label }}</label>
         <div class="input-group">
             <div class="input-group-prepend" v-html="data.prepend" v-if="data.prepend"></div>
-            <input type="text"
-                   :name="data.name"
-                   :value="data.value"
-                   :class="'form-control ' + data.class"
-                   :placeholder="data.placeholder"
-                   v-bind="data.attributes">
+            <input v-bind="data.attributes">
         </div>
 
         <help-block :help="data.help" v-if="data.help.length > 0"></help-block>

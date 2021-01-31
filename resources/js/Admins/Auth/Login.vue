@@ -1,16 +1,16 @@
 <template>
     <div class="login-box">
         <div class="login-logo">
-            <a :href="this.admin_base_route('home')" v-html="this.config('admin.logo.text')"></a>
+            <a :href="admin_base_route('home')" v-html="config('admin.logo.text')"></a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">登录以开始您的会话</p>
+                <p class="login-box-msg">{{ trans('login') }}</p>
 
-                <form @submit.prevent="submit">
+                <form @submit.prevent="submit()">
                     <div class="input-group mb-3">
-                        <input type="text" :class="'form-control ' + (errors.username ? 'is-invalid' : '')" placeholder="用户名" v-model="form.username" required autofocus>
+                        <input type="text" :class="'form-control ' + (errors.username ? 'is-invalid' : '')" :placeholder="trans('username')" v-model="form.username" required autofocus>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -19,7 +19,7 @@
                         <span class="error invalid-feedback" v-if="errors.username">{{ errors.username }}</span>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" :class="'form-control ' + (errors.password ? 'is-invalid' : '')" placeholder="密码" v-model="form.password" required autocomplete="current-password">
+                        <input type="password" :class="'form-control ' + (errors.password ? 'is-invalid' : '')" :placeholder="trans('password')" v-model="form.password" required autocomplete="current-password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -31,12 +31,12 @@
                         <div class="col-8">
                             <div :class="'icheck-' + $page.props.color">
                                 <input type="checkbox" id="remember" name="remember" v-model="form.remember">
-                                <label for="remember">记住我</label>
+                                <label for="remember">{{ trans('remember_me') }}</label>
                             </div>
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" :class="'btn btn-' + $page.props.color + ' btn-block'">登录</button>
+                            <button type="submit" :class="'btn btn-' + $page.props.color + ' btn-block'">{{ trans('login') }}</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -52,17 +52,13 @@
     export default {
         props: {
             configs: Object,
+            locale: Object,
             routes: Array,
             assets: Object,
             errors: Object
         },
 
         created() {
-            if (document.location.pathname === this.admin_base_url('login')) {
-                let body_class = this.config('admin.theme.layout') + ' ' + this.config('admin.theme.accent');
-                $('body').removeClass(body_class).addClass('login-page');
-            }
-
             this.require('icheck-bootstrap');
         },
 

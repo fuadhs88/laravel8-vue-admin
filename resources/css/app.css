@@ -22,3 +22,14 @@ button:active.focus,button.active.focus,
     content: "* ";
     color: red;
 }
+
+i.fa, i.far, i.fas {
+    width: 17px;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .form-group > label.col-form-label {
+        text-align: right;
+    }
+}

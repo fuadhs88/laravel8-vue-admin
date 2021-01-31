@@ -7,7 +7,7 @@
                        :name="data.name"
                        :value="optionKey"
                        :class="'minimal ' + data.class"
-                       :checked="optionKey.toString() === (data.value).toString() || data.value === null && inArray(optionVal, data.checked)"
+                       :checked="(optionKey == data.value) || (data.value === null && in_array(optionKey, data.checked))"
                        v-bind="data.attributes"/>
                 <label :for="data.id + optionKey" class="radio-inline">&nbsp;{{ optionVal }}&nbsp;&nbsp;</label>
             </span>
@@ -31,12 +31,6 @@
             data: Object,
             assets: Object,
         },
-
-        methods: {
-            inArray(val, checked) {
-                return $.inArray(val, checked) !== -1;
-            },
-        }
     }
 </script>
 

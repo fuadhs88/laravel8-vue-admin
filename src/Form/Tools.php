@@ -100,6 +100,10 @@ class Tools implements Renderable
      */
     protected function addView()
     {
+        if ($this->form->isCreating()) {
+            $this->disableView();
+        }
+
         if (in_array('view', $this->defaultTools)) {
             $this->default->put('view', new View($this->getViewPath()));
         }
@@ -121,13 +125,20 @@ class Tools implements Renderable
 
     /**
      * @return $this
+     * @throws \Exception
+     * @throws \Throwable
      */
     protected function addDelete()
     {
+        if ($this->form->isCreating()) {
+            $this->disableDelete();
+        }
+
         if (in_array('delete', $this->defaultTools)) {
             $action = new Delete($this->getListPath());
+            $action->setModel($this->form->getModel());
 
-            $this->default->put('delete', $action->setModel($this->form->getModel()));
+            $this->default->put('delete', $action);
         }
 
         return $this;
@@ -148,6 +159,7 @@ class Tools implements Renderable
     /**
      * Disable `list` tool.
      *
+     * @param bool $disable
      * @return $this
      */
     public function disableList(bool $disable = true)
@@ -164,7 +176,9 @@ class Tools implements Renderable
     /**
      * Disable `delete` tool.
      *
+     * @param bool $disable
      * @return $this
+     * @throws \Exception
      */
     public function disableDelete(bool $disable = true)
     {
@@ -180,6 +194,7 @@ class Tools implements Renderable
     /**
      * Disable `edit` tool.
      *
+     * @param bool $disable
      * @return $this
      */
     public function disableView(bool $disable = true)
@@ -245,14 +260,10 @@ class Tools implements Renderable
      * @param Collection $tools
      *
      * @return mixed
+     * @throws \Exception
      */
     protected function renderCustomTools($tools)
     {
-        if ($this->form->isCreating()) {
-            $this->disableView();
-            $this->disableDelete();
-        }
-
         if (empty($tools)) {
             return '';
         }
@@ -266,14 +277,17 @@ class Tools implements Renderable
                 return $tool->toHtml();
             }
 
-            return (string) $tool;
-        })->implode(' ');
+            return $tool;
+        })->toArray();
+//        })->implode(' ');
     }
 
     /**
      * Render tools.
      *
-     * @return string
+     * @return array|string
+     * @throws \Exception
+     * @throws \Throwable
      */
     public function render()
     {
@@ -283,12 +297,16 @@ class Tools implements Renderable
 
         $this->addView()->addDelete()->addList();
 
-        $output = $this->renderCustomTools($this->prepends);
+        $default = [];
 
-        foreach ($this->default as $tool) {
-            $output .= $tool->render();
+        foreach ($this->default as $type => $tool) {
+            $default[$type] = $tool->render();
         }
 
-        return $output.$this->renderCustomTools($this->appends);
+        return [
+            'default' => $default,
+            'appends' => $this->renderCustomTools($this->appends),
+        ];
+//        return $output.$this->renderCustomTools($this->appends);
     }
 }

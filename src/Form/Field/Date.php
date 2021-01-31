@@ -7,7 +7,7 @@ class Date extends Text
     /**
      * @var string
      */
-    protected $view = 'admin::form.date';
+    protected $view = 'Forms/Date';
 
     /**
      * @var string

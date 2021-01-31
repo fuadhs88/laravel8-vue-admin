@@ -88,9 +88,10 @@ class Row implements Renderable
      * Add field.
      *
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return Field|void
+     * @throws \ReflectionException
      */
     public function __call($method, $arguments)
     {

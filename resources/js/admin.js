@@ -1,5 +1,201 @@
 ;(function($, window, Swal) {
 
+    function Form ($el) {
+        this.$el = $el;
+        this.fieldTypes = {};
+
+        this.init();
+    }
+
+    Form.prototype.init = function () {
+        this.$el.on('submit', function (e) {
+            e.preventDefault();
+
+            let $form = $(this);
+
+            $form.find('.cascade-group.d-none :input').attr('disabled', true);
+
+            let data = new FormData(this);
+
+            $.ajax({
+                url: $form.attr('action'),
+                type: $form.attr('method'),
+                data: data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                statusCode: {
+                    422: $.admin.form.validateError
+                },
+                success: $.admin.form.success
+            });
+
+            return false;
+        });
+
+        let form = this;
+        this.$el.find('.fields-group .form-group').each(function (index, field) {
+            if (!$(field).data('field')) {
+                return;
+            }
+            $(field).data('field').split(',').forEach(function (name) {
+                form.fieldTypes[name] = $(field).data('type');
+            });
+        });
+    };
+
+    Form.prototype.field = function (name, $group) {
+        let selector = '[data-field="'+name+'"],[data-field$=",'+name+'"],[data-field^="'+name+',"]';
+
+        if (typeof $group !== 'undefined') {
+            return $group.find(selector);
+        }
+
+        return this.fields().filter(selector);
+    };
+
+    Form.prototype.fields = function (name) {
+        return this.$el.find('.fields-group .form-group');
+    };
+
+    Form.prototype.submit = function (e) {
+        this.$el.submit();
+    };
+
+    Form.prototype.validateError = function (xhr) {
+        let response = xhr.responseJSON;
+        let $form = $.admin.form.$el;
+        $form.find('.validation-error').addClass('d-none');
+        $form.find('.form-control').removeClass('is-invalid');
+
+        let showError = function ($el, errors) {
+            errors.forEach(function (error) {
+                $el.find('.validation-error')
+                    .removeClass('d-none')
+                    .find('>label>i')
+                    .after(error);
+
+                $el.find('.validation-error')
+                    .parent()
+                    .find('.form-control')
+                    .addClass('is-invalid');
+            });
+        };
+
+        let showRangeError = function ($el, errors, field) {
+            errors.forEach(function (error) {
+                $el.find('.validation-error.'+field+'-error')
+                    .removeClass('d-none')
+                    .find('>label>i')
+                    .html(error);
+
+                $el.find('.validation-error.'+field+'-error')
+                    .closest('.field-control')
+                    .find('.form-control')
+                    .addClass('is-invalid');
+            });
+        };
+
+        let error = function (field, errors) {
+            let $el;
+            if (field.indexOf('.') !== -1) {
+                let segment = field.split('.');
+                $el = $.admin.form.field(segment[0]);
+                if ($el.length === 0) {
+                    return;
+                }
+
+                let type = $.admin.form.fieldTypes[segment[0]];
+
+                if (type === 'keyvalue') {  // kv.values.1
+                    showError($el.find('tbody>tr').eq(segment[2]), errors);
+                } else if (type === 'listfield') {  // list.1
+                    showError($el.find('tbody>tr').eq(segment[1]), errors)
+                } else if (type === 'table') {    // table.1.field
+                    let row = $.admin.form.field(segment[2], $el.find('tbody>tr').eq(segment[1]));
+                    showError(row, errors)
+                } else if (type ===  'hasmany') {    // table.1.field
+                    let form = $('.has-many-'+segment[0]+'-form').filter('[data-key='+segment[1]+']');
+                    let subField = $.admin.form.field(segment[2], form);
+                    let subType = $.admin.form.fieldTypes[segment[2]];
+
+                    if (['daterange', 'timerange', 'datetimerange'].includes(subType)) {
+                        showRangeError(subField, errors, segment[2]);
+                        return;
+                    }
+
+                    showError(subField, errors);
+                } else if (type === 'embeds') {  // embeds.field
+                    error(segment[1], errors);
+                }
+
+                return;
+            }
+
+            $el = $.admin.form.field(field);
+
+            if ($el.length === 0) {
+                return;
+            }
+
+            if (['daterange', 'timerange', 'datetimerange'].includes(type)) {
+                showRangeError($el, errors, field);
+                return;
+            }
+
+            showError($el, errors);
+        };
+
+        for (let key in response.validation) {
+            error(key, response.validation[key]);
+        }
+
+        $.admin.toastr.error(response.message);
+    };
+
+    Form.prototype.success = function (data) {
+
+        $('.modal').modal('hide');
+        $('.modal-backdrop').remove();
+
+        if (typeof data != 'object') {
+            $.admin.toastr.error('Oops something went wrong!');
+            return;
+        }
+
+        if (!data.status) {
+            $.admin.toastr.error(data.message);
+            return;
+        }
+
+        if (data.message) {
+            $.admin.toastr.success(data.message);
+        }
+
+        if (data.refresh === true) {
+            $.admin.reload();
+        }
+
+        if (data.result) {
+            $('.card.form-result').removeClass('d-none').find('.card-body').html(data.result);
+        }
+
+        if (data.redirect) {
+            $.admin.redirect(data.redirect);
+        }
+
+        if (data.download) {
+            let $download = $('<a>', {
+                href: data.download,
+                target:'_blank',
+                download: '',
+            });
+            $download.hide().appendTo('body');
+            $download[0].click();
+            $download.remove();
+        }
+    };
+
     function Toast() {
         this.toast = Swal.mixin({
             toast: true,
@@ -46,6 +242,7 @@
     };
 
     function Admin () {
+        this.color = '';
         this.inertia = null;
         this.token = $('meta[name=csrf-token]').attr('content');
         this.user = null;
@@ -99,7 +296,8 @@
     };
 
     Admin.prototype.redirect = function (url) {
-        $.pjax({container:'#pjax-container', url: url });
+        this.inertia.get(url);
+        // $.pjax({container:'#pjax-container', url: url });
     };
 
     Admin.prototype.getToken = function () {
@@ -161,6 +359,10 @@
         } else {
             callback.call($(selector).get(0));
         }
+    };
+
+    Admin.prototype.initForm = function ($form) {
+        this.form = new Form($form);
     };
 
     Admin.prototype.trans = function (desc) {

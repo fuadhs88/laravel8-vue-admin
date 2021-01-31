@@ -1068,7 +1068,7 @@ class Field implements Renderable
 
         $class = explode('\\', static::class);
 
-        return 'admin::form.'.strtolower(end($class));
+        return 'Forms/'. ucwords(strtolower(end($class)));
     }
 
     /**
@@ -1148,7 +1148,7 @@ class Field implements Renderable
     public function render()
     {
         if (!$this->shouldRender()) {
-            return '';
+            return [];
         }
 
         $this->addRequiredAttributeFromRules();

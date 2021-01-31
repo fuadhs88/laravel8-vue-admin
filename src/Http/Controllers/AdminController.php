@@ -86,10 +86,11 @@ class AdminController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      *
      * @return Content
+     * @throws \Throwable
      */
     public function edit($id, Content $content)
     {
@@ -106,6 +107,7 @@ class AdminController extends Controller
      * @param Content $content
      *
      * @return Content
+     * @throws \Throwable
      */
     public function create(Content $content)
     {
@@ -117,15 +119,16 @@ class AdminController extends Controller
     }
 
     /**
-     * @param Form    $form
+     * @param Form $form
      * @param Content $content
      *
      * @return mixed
+     * @throws \Throwable
      */
     public function renderModalForm($form, $content)
     {
         if (!request()->has('_modal')) {
-            return $content->body($form);
+            return $content->body($form->render())->render();
         }
 
         $crawler = new Crawler(

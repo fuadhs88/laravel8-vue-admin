@@ -169,22 +169,31 @@ class Footer implements Renderable
     /**
      * Render footer.
      *
-     * @return string
+     * @return array|string
      */
     public function render()
     {
-        admin_assets_require('icheck');
-
-        return Admin::view($this->view, [
-            'width'            => $this->builder->getWidth(),
-            'buttons'          => $this->buttons,
-            'checkboxes'       => $this->checkboxes,
-            'default_check'    => $this->defaultCheck,
+        return [
+            'width' => $this->builder->getWidth(),
+            'buttons' => $this->buttons,
+            'checkboxes' => $this->checkboxes,
+            'default_check' => $this->defaultCheck,
             'submit_redirects' => [
                 1 => 'continue_editing',
                 2 => 'continue_creating',
                 3 => 'view',
             ],
-        ]);
+        ];
+//        return Admin::view($this->view, [
+//            'width'            => $this->builder->getWidth(),
+//            'buttons'          => $this->buttons,
+//            'checkboxes'       => $this->checkboxes,
+//            'default_check'    => $this->defaultCheck,
+//            'submit_redirects' => [
+//                1 => 'continue_editing',
+//                2 => 'continue_creating',
+//                3 => 'view',
+//            ],
+//        ]);
     }
 }

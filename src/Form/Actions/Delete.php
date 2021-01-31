@@ -19,6 +19,11 @@ class Delete extends Action
         parent::__construct();
     }
 
+    public function name()
+    {
+        return trans('admin.delete');
+    }
+
     public function handle(Request $request)
     {
         $key = $request->get('key');
@@ -61,16 +66,16 @@ class Delete extends Action
         return $this->path.'/'.$this->model->getKey();
     }
 
-    public function html()
-    {
-        $text = trans('admin.delete');
-
-        return <<<HTML
-<div class="btn-group float-right mr-2">
-    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete-record" title="{$text}">
-        <i class="fa fa-trash"></i><span> {$text} </span>
-    </a>
-</div>
-HTML;
-    }
+//    public function html()
+//    {
+//        $text = trans('admin.delete');
+//
+//        return <<<HTML
+//<div class="btn-group float-right mr-2">
+//    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete-record" title="{$text}">
+//        <i class="fa fa-trash"></i><span> {$text} </span>
+//    </a>
+//</div>
+//HTML;
+//    }
 }

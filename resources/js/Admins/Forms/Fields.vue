@@ -10,6 +10,7 @@
 </template>
 
 <script>
+    // table action form
     import ActionsFormsCheckbox from './../Actions/Forms/Checkbox'
     import ActionsFormsDate from './../Actions/Forms/InputDate'
     import ActionsFormsFile from './../Actions/Forms/InputFile'
@@ -19,6 +20,19 @@
     import ActionsFormsRadio from './../Actions/Forms/Radio'
     import ActionsFormsSelect from './../Actions/Forms/Select'
     import ActionsFormsText from './../Actions/Forms/InputText'
+
+    // forms form
+    import FormsDate from './../Forms/Date'
+    import FormsDisplay from './../Forms/Display'
+    import FormsFile from './../Forms/File'
+    import FormsInput from './../Forms/Input'
+    import FormsTextarea from './../Forms/Textarea'
+    import FormsRadio from './../Forms/Radio'
+    import FormsRadiobutton from './../Forms/Radiobutton'
+    import FormsRadiocard from './../Forms/Radiocard'
+    import FormsCheckbox from './../Forms/Checkbox'
+    import FormsCheckboxbutton from './../Forms/Checkboxbutton'
+    import FormsCheckboxcard from './../Forms/Checkboxcard'
 
     export default {
         name: "Fields",
@@ -30,6 +44,7 @@
         },
 
         components: {
+            // table action form
             ActionsFormsCheckbox,
             ActionsFormsDate,
             ActionsFormsFile,
@@ -39,6 +54,18 @@
             ActionsFormsRadio,
             ActionsFormsSelect,
             ActionsFormsText,
+            // forms form
+            FormsDate,
+            FormsDisplay,
+            FormsFile,
+            FormsInput,
+            FormsTextarea,
+            FormsRadio,
+            FormsRadiobutton,
+            FormsRadiocard,
+            FormsCheckbox,
+            FormsCheckboxbutton,
+            FormsCheckboxcard,
         },
     }
 </script>

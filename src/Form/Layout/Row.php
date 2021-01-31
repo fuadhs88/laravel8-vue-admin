@@ -78,10 +78,12 @@ class Row
         $columns = [];
 
         foreach ($this->columns as $column) {
-            array_push($columns, [
-                'width' => $column->width(),
-                'fields' => $column->fields(),
-            ]);
+            if ($column->fields()) {
+                array_push($columns, [
+                    'width' => $column->width(),
+                    'fields' => $column->fields(),
+                ]);
+            }
         }
 
         return $columns;

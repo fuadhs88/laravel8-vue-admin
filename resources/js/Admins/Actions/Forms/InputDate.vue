@@ -3,14 +3,9 @@
         <label :class="data.viewClass.label">{{ data.label }}</label>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text"><i class="far fa-calendar"></i></span>
+                <span class="input-group-text"><i class="far fa-calendar fa-fw"></i></span>
             </div>
-            <input type="text"
-                   :name="data.name"
-                   :value="data.value"
-                   :class="'form-control ' + data.class"
-                   :placeholder="data.placeholder"
-                   v-bind="data.attributes"/>
+            <input v-bind="data.attributes"/>
         </div>
 
         <help-block :help="data.help" v-if="data.help.length > 0"></help-block>

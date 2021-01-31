@@ -231,6 +231,7 @@
             configs: Object,
             locale: Object,
             routes: Array,
+            color: String,
             assets: Object,
             errors: Object,
             contents: Object
@@ -258,9 +259,10 @@
 
         // 页面加载之前执行
         created() {
+            $.admin.color = this.color;
             $.admin.__trans = this.locale;
             $.admin.inertia = Inertia;
-            // console.dir(this.trans('admin'));
+            // console.dir(this);
         },
 
         // 页面加载完后执行

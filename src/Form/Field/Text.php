@@ -57,12 +57,12 @@ class Text extends Field
         }
 
         $this
-//            ->defaultAttribute('type', 'text')
-//            ->defaultAttribute('id', $this->id)
-//            ->defaultAttribute('name', $this->elementName ?: $this->formatName($this->column))
-//            ->defaultAttribute('value', $this->value())
-//            ->defaultAttribute('class', 'form-control '.$this->getElementClassString())
-//            ->defaultAttribute('placeholder', $this->getPlaceholder())
+            ->defaultAttribute('type', 'text')
+            ->defaultAttribute('id', $this->id)
+            ->defaultAttribute('name', $this->elementName ?: $this->formatName($this->column))
+            ->defaultAttribute('value', $this->value())
+            ->defaultAttribute('class', 'form-control '.$this->getElementClassString())
+            ->defaultAttribute('placeholder', $this->getPlaceholder())
             ->mountPicker()
             ->addVariables([
                 'prepend'   => $this->prepend,

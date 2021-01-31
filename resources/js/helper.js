@@ -101,6 +101,10 @@ exports.install = function (Vue, options) {
         }
     };
 
+    Vue.prototype.in_array = function (key, val) {
+        return $.inArray(key, val) !== -1;
+    };
+
     /**
      * 向某个注释元素插入新元素
      *

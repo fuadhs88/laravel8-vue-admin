@@ -52,7 +52,18 @@ abstract class AbstractForm
      */
     public function getRows(): array
     {
-        return $this->rows;
+        $rows = [];
+
+        foreach ($this->rows as $row) {
+            if ($row->columns()) {
+                array_push($rows, [
+                    'html' => $row->html,
+                    'columns' => $row->columns(),
+                ]);
+            }
+        }
+
+        return $rows;
     }
 
     /**

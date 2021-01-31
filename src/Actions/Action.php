@@ -325,7 +325,7 @@ abstract class Action implements Renderable
      */
     public function render()
     {
-        $this->addScript();
+        $script = $this->addScript();
 
         $content = $this->html();
 
@@ -333,6 +333,9 @@ abstract class Action implements Renderable
             return $this->interactor->addElementAttr($content, $this->selector);
         }
 
-        return $content;
+        return [
+            'script' => $script,
+            'html' => $content,
+        ];
     }
 }

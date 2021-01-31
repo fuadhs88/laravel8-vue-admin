@@ -93,7 +93,7 @@ class Builder
      *
      * @var string
      */
-    protected $view = 'admin::form';
+    protected $view = 'Forms/Form';
 
     /**
      * Form title.
@@ -373,10 +373,11 @@ class Builder
      * @param Field $field
      *
      * @return void
+     * @throws \ReflectionException
      */
     public function addHiddenField(Field $field)
     {
-        $this->hiddenFields[] = $field;
+        $this->hiddenFields[] = $field->render();
     }
 
     /**
@@ -450,6 +451,7 @@ class Builder
      * Add field for store redirect url after update or store.
      *
      * @return void
+     * @throws \ReflectionException
      */
     protected function addRedirectUrlField()
     {
@@ -471,11 +473,14 @@ class Builder
      *
      * @param array $options
      *
-     * @return string
+     * @return array
+     * @throws \ReflectionException
      */
-    public function open($options = []): string
+    public function open($options = []): array
     {
         $attributes = [];
+
+        $this->addHiddenField((new Hidden('_token'))->value(csrf_token()));
 
         if ($this->isMode(self::MODE_EDIT)) {
             $this->addHiddenField((new Hidden('_method'))->value('PUT'));
@@ -492,7 +497,7 @@ class Builder
             $attributes['enctype'] = 'multipart/form-data';
         }
 
-        return '<form '.admin_attrs($attributes).'>';
+        return $attributes;
     }
 
     /**
@@ -500,16 +505,15 @@ class Builder
      *
      * @return string
      */
-    public function close(): string
+    public function close()
     {
         $this->form = null;
         $this->fields = null;
-
-        return '</form>';
     }
 
     /**
      * @param string $message
+     * @return Builder
      */
     public function confirm(string $message)
     {
@@ -548,9 +552,11 @@ class Builder
     /**
      * Render form header tools.
      *
-     * @return string
+     * @return array
+     * @throws \Exception
+     * @throws \Throwable
      */
-    public function renderTools(): string
+    public function renderTools(): array
     {
         return $this->tools->render();
     }
@@ -558,9 +564,9 @@ class Builder
     /**
      * Render form footer.
      *
-     * @return string
+     * @return array|string
      */
-    public function renderFooter(): string
+    public function renderFooter()
     {
         return $this->footer->render();
     }
@@ -568,26 +574,45 @@ class Builder
     /**
      * Render form.
      *
-     * @return string
+     * @return array
+     * @throws \Exception
+     * @throws \Throwable
      */
-    public function render(): string
+    public function render(): array
     {
         if ($this->form->isHorizontal()) {
             $this->fields()->each(function (Field $field) {
-                $field->horizontal()
-                    ->setWidth($this->width['field'], $this->width['label']);
+                $field->horizontal()->setWidth($this->width['field'], $this->width['label']);
             });
         }
 
         $this->hideReservedFields();
 
-        return Admin::view($this->view, [
-            'form'   => $this,
-            'rows'   => $this->form->getRows(),
-            'confirm'=> $this->confirm,
-            'class'  => $this->formClass,
-            'tabObj' => $this->form->getTab(),
-            'width'  => $this->width,
-        ]);
+        return [
+            'view' => $this->view,
+            'data' => [
+//                'form'   => $this,
+                'title' => $this->title(),
+                'tools' => $this->renderTools(),
+                'open' => $this->open(),
+                'tabObj' => $this->form->getTab(),
+                'rows' => $this->form->getRows(),
+                'footer' => $this->renderFooter(),
+                'hiddenFields' => $this->getHiddenFields(),
+                'close' => $this->close(),
+                'confirm' => $this->confirm,
+                'class' => $this->formClass,
+                'width' => $this->width,
+            ],
+        ];
+
+//        return Admin::view($this->view, [
+//            'form'   => $this,
+//            'rows'   => $this->form->getRows(),
+//            'confirm'=> $this->confirm,
+//            'class'  => $this->formClass,
+//            'tabObj' => $this->form->getTab(),
+//            'width'  => $this->width,
+//        ]);
     }
 }
