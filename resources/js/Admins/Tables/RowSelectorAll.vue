@@ -9,10 +9,6 @@
     export default {
         name: "RowSelectorAll",
 
-        props: {
-            assets: Object,
-        },
-
         data() {
             return {
                 checked: false
@@ -20,8 +16,8 @@
         },
 
         created() {
-            this.require('icheck-bootstrap');
-            this.require('jquery-icheck');
+            $.admin.require('icheck-bootstrap');
+            $.admin.require('jquery-icheck');
         },
     }
 </script>

@@ -21,7 +21,6 @@
         name: "MenuChildren",
 
         props: {
-            configs: Object,
             menus: Array
         },
     }

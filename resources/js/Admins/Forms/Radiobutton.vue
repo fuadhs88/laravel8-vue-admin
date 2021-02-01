@@ -33,7 +33,6 @@
 
         props: {
             data: Object,
-            assets: Object,
         },
     }
 </script>

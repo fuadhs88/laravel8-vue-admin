@@ -8,10 +8,6 @@
     export default {
         name: "Refresh",
 
-        props: {
-            locale: Object,
-        },
-
         methods: {
             refresh() {
                 $.admin.reload(this.trans('refresh_succeeded'));

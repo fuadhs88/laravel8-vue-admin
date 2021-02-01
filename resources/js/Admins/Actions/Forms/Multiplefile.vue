@@ -19,12 +19,10 @@
 
         props: {
             data: Object,
-            assets: Object,
-            locale: Object,
         },
 
         created() {
-            this.require('bootstrap-fileinput');
+            $.admin.require('bootstrap-fileinput');
         },
 
         mounted() {
@@ -47,7 +45,7 @@
             }
 
             if (this.data.settings.showDrag) {
-                this.require('show-drag');
+                $.admin.require('show-drag');
                 $(this.data.selector).on('filesorted', function(event, params) {
                     let order = [];
                     params.stack.forEach(function (item) {

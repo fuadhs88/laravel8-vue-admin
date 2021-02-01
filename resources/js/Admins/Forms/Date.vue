@@ -30,11 +30,10 @@
         props: {
             data: Object,
             assets: Object,
-            locale: Object,
         },
 
         created() {
-            this.require('daterangepicker');
+            $.admin.require('daterangepicker');
         },
 
         mounted() {

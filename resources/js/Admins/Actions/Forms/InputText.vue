@@ -22,12 +22,11 @@
 
         props: {
             data: Object,
-            assets: Object,
         },
 
         mounted() {
             if (this.data.inputmask) {
-                this.require('inputmask');
+                $.admin.require('inputmask');
                 $(this.data.selector).inputmask(JSON.parse(this.data.inputMaskOptions));
             }
         },

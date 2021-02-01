@@ -3,6 +3,7 @@
 namespace Encore\Admin\Form\Field;
 
 use Encore\Admin\Form\Field;
+use Illuminate\Contracts\View\Factory;
 
 class Text extends Field
 {
@@ -42,7 +43,9 @@ class Text extends Field
     /**
      * Render this filed.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array|string
+     * @throws \ReflectionException
+     * @throws \Throwable
      */
     public function render()
     {
@@ -53,7 +56,7 @@ class Text extends Field
         }
 
         if (!$this->withoutIcon) {
-            $this->prependText('<i class="fa '.$this->icon.' fa-fw"></i>');
+            $this->prependText('<i class="fas '.$this->icon.' fa-fw"></i>');
         }
 
         $this

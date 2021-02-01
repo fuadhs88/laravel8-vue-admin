@@ -9,20 +9,20 @@
 
                     <div class="card-header p-0 border-bottom-0" v-if="data.showTools || data.showExportBtn || data.showCreateBtn">
                         <div class="card-tools">
-                            <tables-column-selector :data="data.columnSelector" :locale="locale"></tables-column-selector>
-                            <tables-export-button :data="data.exportButton" :locale="locale"></tables-export-button>
-                            <tables-create-button-modal :url="data.createButton.url" :locale="locale" v-if="data.createButton.modal"></tables-create-button-modal>
-                            <tables-create-button :url="data.createButton.url" :locale="locale" v-else></tables-create-button>
+                            <tables-column-selector :data="data.columnSelector"></tables-column-selector>
+                            <tables-export-button :data="data.exportButton"></tables-export-button>
+                            <tables-create-button-modal :url="data.createButton.url" v-if="data.createButton.modal"></tables-create-button-modal>
+                            <tables-create-button :url="data.createButton.url" v-else></tables-create-button>
                         </div>
 
                         <div class="float-left d-flex" v-if="data.showTools">
-                            <tables-batch-actions :data="data.headerTools[0]" :locale="locale"></tables-batch-actions>
-                            <tables-filters-button :data="data.headerTools[1]" :locale="locale"></tables-filters-button>
+                            <tables-batch-actions :data="data.headerTools[0]"></tables-batch-actions>
+                            <tables-filters-button :data="data.headerTools[1]"></tables-filters-button>
                         </div>
                     </div>
                 </div>
 
-                <tables-filters-container :data="data.filters" :locale="locale" v-if="data.options.show_filter"></tables-filters-container>
+                <tables-filters-container :data="data.filters" v-if="data.options.show_filter"></tables-filters-container>
 
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
@@ -31,7 +31,7 @@
                         <thead>
                         <tr>
                             <th v-for="(column, label) in data.columns" :key="label" v-if="column.name === '__row_selector__' && data.options.show_row_selector">
-                                <tables-row-selector-all :assets="assets"></tables-row-selector-all>
+                                <tables-row-selector-all></tables-row-selector-all>
                             </th>
                             <th v-else-if="column.name === '__actions__' && data.options.show_actions">
                                 {{ column.label }}
@@ -50,7 +50,7 @@
                         </tr>
                         <tr v-for="(row, i) in data.rows" :key="i" v-else>
                             <td v-for="(columnName, name) in data.columnNames" :key="name" v-if="columnName === '__row_selector__' && data.options.show_row_selector">
-                                <tables-row-selector :data="row.column['id']" :assets="assets"></tables-row-selector>
+                                <tables-row-selector :data="row.column['id']"></tables-row-selector>
                             </td>
                             <td v-else-if="columnName === '__actions__' && data.options.show_actions">
                                 <tables-actions-dropdown :data="row.column[columnName]"></tables-actions-dropdown>
@@ -62,7 +62,7 @@
                 </div>
                 <!-- /.card-body -->
 
-                <tables-paginator :data="data.paginator" :locale="locale"></tables-paginator>
+                <tables-paginator :data="data.paginator"></tables-paginator>
             </div>
             <!-- /.card -->
         </div>
@@ -102,7 +102,6 @@
         props: {
             data: Object,
             assets: Object,
-            locale: Object,
         },
 
         created() {

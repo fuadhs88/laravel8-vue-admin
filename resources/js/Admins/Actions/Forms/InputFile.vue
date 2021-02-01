@@ -19,11 +19,10 @@
 
         props: {
             data: Object,
-            assets: Object,
         },
 
         created() {
-            this.require('bootstrap-fileinput');
+            $.admin.require('bootstrap-fileinput');
         },
 
         mounted() {

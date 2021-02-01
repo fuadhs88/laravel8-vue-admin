@@ -20,11 +20,32 @@ abstract class AbstractForm
     protected $horizontal = false;
 
     /**
+     * @var string
+     */
+    protected $container = true;
+
+    /**
      * @return bool
      */
     public function horizontal()
     {
         $this->horizontal = true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function disableContainer()
+    {
+        $this->container = false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function container()
+    {
+        return $this->container ? 'container' : '';
     }
 
     /**
@@ -38,8 +59,7 @@ abstract class AbstractForm
     /**
      * Add a row in form.
      *
-     * @param Closure $callback
-     *
+     * @param \Closure|null $callback
      * @return Row
      */
     public function row(\Closure $callback = null)

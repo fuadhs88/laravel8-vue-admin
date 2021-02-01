@@ -10,11 +10,11 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <forms-fields :rows="data.rows" :assets="assets" :locale="locale" v-if="data.rows"></forms-fields>
+                        <forms-fields :rows="data.rows" v-if="data.rows"></forms-fields>
                     </div>
                     <div class="modal-footer justify-end">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ this.trans('close') }}</button>
-                        <button type="submit" :class="'btn btn-' + $page.props.color">{{ this.trans('submit') }}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('close') }}</button>
+                        <button type="submit" :class="'btn btn-' + $page.props.color">{{ trans('submit') }}</button>
                     </div>
                 </form>
             </div>
@@ -37,8 +37,6 @@
 
         props: {
             data: Object,
-            assets: Object,
-            locale: Object,
         },
 
         created() {

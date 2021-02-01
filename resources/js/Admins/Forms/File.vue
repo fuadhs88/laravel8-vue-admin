@@ -22,12 +22,10 @@
 
         props: {
             data: Object,
-            assets: Object,
-            locale: Object,
         },
 
         created() {
-            this.require('bootstrap-fileinput');
+            $.admin.require('bootstrap-fileinput');
         },
 
         mounted() {

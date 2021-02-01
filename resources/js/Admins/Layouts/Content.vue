@@ -1,5 +1,5 @@
 <template>
-    <app-layout :configs="this.configs" :routes="this.routes" :assets="this.assets">
+    <app-layout :configs="this.configs" :routes="this.routes">
         <template #header>
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -32,7 +32,7 @@
         <div class="container-fluid">
             <div class="row" v-for="(row, i) in content.rows" :key="i">
                 <div :class="columnClasses(column.width)" v-for="(column, j) in row.columns" :key="j">
-                    <component v-for="(value, k) in column.contents" :key="k" :is="importComponent(value.view)" :data="value.data" :assets="assets"></component>
+                    <component v-for="(value, k) in column.contents" :key="k" :is="importComponent(value.view)" :data="value.data"></component>
                 </div>
                 <!-- /.col -->
             </div>

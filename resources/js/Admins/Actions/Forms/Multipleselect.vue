@@ -30,11 +30,10 @@
 
         props: {
             data: Object,
-            assets: Object,
         },
 
         created() {
-            this.require('select2');
+            $.admin.require('select2');
         },
 
         mounted() {

@@ -28,8 +28,41 @@ i.fa, i.far, i.fas {
     text-align: center;
 }
 
-@media (min-width: 768px) {
-    .form-group > label.col-form-label {
-        text-align: right;
-    }
+/*card-group*/
+.radio-card-group .card-body,
+.checkbox-card-group .card-body {
+    padding: 8.5px 15px;
 }
+
+/*select2*/
+.select2-container--default .select2-selection--single {
+    height: calc(2.25rem + 2px) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    margin-top: -3px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 0.15rem !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+    min-height: calc(2.25rem + 2px) !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    padding: 0 .375rem .375rem !important;
+    margin-top: 0 !important;
+    margin-bottom: -.375rem !important;
+}
+
+.text-sm .select2-container--default .select2-selection--multiple .select2-search.select2-search--inline .select2-search__field {
+    margin-top: 8px !important;
+}
+
+/*@media (min-width: 768px) {*/
+/*    .form-group > label.col-form-label {*/
+/*        text-align: right;*/
+/*    }*/
+/*}*/

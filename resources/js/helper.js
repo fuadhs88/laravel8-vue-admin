@@ -6,13 +6,7 @@ exports.install = function (Vue, options) {
      * @returns {*}
      */
     Vue.prototype.trans = function (_key) {
-        let keys = _key.split('.');
-        let return_val = this.locale;
-        $.each(keys, function (key, val) {
-            return_val = return_val[val];
-        });
-
-        return (typeof(return_val) !== 'undefined') ? return_val : _key;
+        return $.admin.trans(_key);
     };
 
     /**
@@ -23,38 +17,17 @@ exports.install = function (Vue, options) {
      * @returns {*}
      */
     Vue.prototype.config = function (_key = null, _default = null) {
-        if (_key) {
-            let keys = _key.split('.');
-            let return_val = this.configs;
-            $.each(keys, function (key, val) {
-                return_val = return_val[val];
-            });
-
-            return return_val;
-        } else {
-            return _default;
-        }
+        return $.admin.config(_key, _default);
     };
 
     /**
      * 继承路径
      *
      * @param path
-     * @param prefix
      * @returns {string|string|string}
      */
-    Vue.prototype.admin_base_url = function (path = '', prefix = this.config('admin.route.prefix')) {
-        prefix = '/' + prefix.replace(/(^\/*)|(\/*$)/g, "");
-
-        prefix = (prefix === '/') ? '' : prefix;
-
-        path = path.replace(/(^\/*)|(\/*$)/g, "");
-
-        if (path === '' || path.length === 0) {
-            return prefix ?? '/';
-        }
-
-        return prefix + '/' + path;
+    Vue.prototype.admin_base_url = function (path = '') {
+        return $.admin.admin_base_url(path);
     };
 
     /**
@@ -65,22 +38,7 @@ exports.install = function (Vue, options) {
      * @returns {*}
      */
     Vue.prototype.admin_base_route = function (name, parameter = {}) {
-        let route_name = this.config('admin.route.as') + '.' + name;
-        let uri = null;
-        $.each(this.routes, function (key, route) {
-            if (route.name === route_name) {
-                if (!$.isEmptyObject(parameter)) {
-                    // console.dir(parameter);
-                    $.each(parameter, function (k, v) {
-                        uri = (route.uri).replace('{' + k + '}', v);
-                    });
-                } else {
-                    uri = route.uri;
-                }
-            }
-        });
-        // console.dir(this.routes);
-        return uri;
+        return $.admin.admin_base_route(name, parameter);
     };
 
     /**
@@ -102,73 +60,12 @@ exports.install = function (Vue, options) {
     };
 
     Vue.prototype.in_array = function (key, val) {
+        // 如果是对象
+        if (!Array.isArray(val)) {
+            val = Object.values(val);// 取对象值成新数组
+        }
+
         return $.inArray(key, val) !== -1;
-    };
-
-    /**
-     * 向某个注释元素插入新元素
-     *
-     * @param search_el
-     * @param insert_el string
-     * @param is_after
-     * @returns {*}
-     */
-    Vue.prototype.require = function (search_el, insert_el = 'AdminLte', is_after = false) {
-        let assets = this.assets[search_el];
-        let asset_path = this.assets.asset_path;
-        // console.dir(this.assets);
-        if ("depend" in assets) {
-            this.require(assets['depend']);
-        }
-
-        if ("css" in assets) {
-            let headParent = null;
-            let headInsert = true;
-            $.each(document.head.childNodes, function (childNodesKey, childNodesVal) {
-                if (childNodesVal.nodeName === '#comment') {
-                    if (childNodesVal.nodeValue === insert_el) {
-                        headParent = childNodesVal;
-                    }
-
-                    if (childNodesVal.nodeValue === search_el) {
-                        headInsert = false;
-                    }
-                }
-            });
-            if (headInsert) {
-                let css = '<!--' + search_el + '-->';
-
-                $.each(assets.css, function (cssKey, cssVal) {
-                    css += '<link rel="stylesheet" href="' + asset_path + cssVal + '.css">';
-                });
-
-                is_after ? $(headParent).after(css) : $(headParent).before(css);
-            }
-        }
-
-        if ("js" in assets) {
-            let bodyParent = null;
-            let bodyInsert = true;
-            $.each(document.body.childNodes, function (childNodesKey, childNodesVal) {
-                if (childNodesVal.nodeName === '#comment') {
-                    if (childNodesVal.nodeValue === insert_el) {
-                        bodyParent = childNodesVal;
-                    }
-
-                    if (childNodesVal.nodeValue === search_el) {
-                        bodyInsert = false;
-                    }
-                }
-            });
-            if (bodyInsert) {
-                let js = '<!--' + search_el + '-->';
-
-                $.each(assets.js, function (jsKey, jsVal) {
-                    js += '<script src="' + asset_path + jsVal + '.js"></script>';
-                });
-                is_after ? $(bodyParent).after(js) : $(bodyParent).before(js);
-            }
-        }
     };
 
     /**

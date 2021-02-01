@@ -28,7 +28,7 @@
             </ul>
         </div>
         <label class="float-right perpage-selector d-inline-block">
-            {{ this.trans('show') }}
+            {{ trans('show') }}
             <span class="dropup border px-2 py-1">
                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{ data.perPageSelector.perpage }}</a>
                 <div class="dropdown-menu">
@@ -45,7 +45,6 @@
 
         props: {
             data: Object,
-            locale: Object,
         },
     }
 </script>

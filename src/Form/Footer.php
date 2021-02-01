@@ -12,7 +12,7 @@ class Footer implements Renderable
      *
      * @var string
      */
-    protected $view = 'admin::form.footer';
+    protected $view = 'Forms/Footer';
 
     /**
      * Form builder instance.
@@ -179,9 +179,9 @@ class Footer implements Renderable
             'checkboxes' => $this->checkboxes,
             'default_check' => $this->defaultCheck,
             'submit_redirects' => [
-                1 => 'continue_editing',
+                1 => 'view',
                 2 => 'continue_creating',
-                3 => 'view',
+                3 => 'continue_editing',
             ],
         ];
 //        return Admin::view($this->view, [

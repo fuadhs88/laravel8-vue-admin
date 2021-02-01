@@ -78,7 +78,7 @@ trait HasResponse
     /**
      * Get RedirectResponse after store.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function redirectAfterStore()
     {
@@ -94,7 +94,7 @@ trait HasResponse
      *
      * @param mixed $key
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function redirectAfterUpdate($key)
     {
@@ -109,7 +109,7 @@ trait HasResponse
      * @param string $resourcesPath
      * @param string $key
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function redirectAfterSaving($resourcesPath, $key)
     {
@@ -118,13 +118,13 @@ trait HasResponse
             'message' => trans('admin.save_succeeded'),
         ];
 
-        if (request('_saved') == 1) {
+        if (request('_saved') == 3) {
             // continue editing
             $response['refresh'] = true;
         } elseif (request('_saved') == 2) {
             // continue creating
             $response['redirect'] = rtrim($resourcesPath, '/').'/create';
-        } elseif (request('_saved') == 3) {
+        } elseif (request('_saved') == 1) {
             // view resource
             $response['redirect'] = rtrim($resourcesPath, '/')."/{$key}";
         } else {

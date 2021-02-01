@@ -2,9 +2,17 @@
     <div>
         <p class="p-0 m-0" v-for="(row, i) in rows" :key="i" v-html="row.html" v-if="row.html"></p>
         <div class="row" v-else>
-            <div :class="column.width" v-for="(column, j) in row.columns" :key="j">
-                <component :is="importComponent(field.view)" :data="field.data" :assets="assets" :locale="locale" v-for="(field, k) in column.fields" :key="k"></component>
-            </div>
+            <template v-for="column in row.columns">
+                    <div :class="column.width">
+                        <div class="row">
+                            <template v-for="field in column.fields">
+                            <div class="col-md-12">
+                                <component :is="importComponent(field.view)" :data="field.data"></component>
+                            </div>
+                            </template>
+                        </div>
+                    </div>
+            </template>
         </div>
     </div>
 </template>
@@ -33,14 +41,14 @@
     import FormsCheckbox from './../Forms/Checkbox'
     import FormsCheckboxbutton from './../Forms/Checkboxbutton'
     import FormsCheckboxcard from './../Forms/Checkboxcard'
+    import FormsSelect from './../Forms/Select'
+    import FormsMultipleselect from './../Forms/Multipleselect'
 
     export default {
         name: "Fields",
 
         props: {
             rows: Array,
-            assets: Object,
-            locale: Object,
         },
 
         components: {
@@ -54,6 +62,7 @@
             ActionsFormsRadio,
             ActionsFormsSelect,
             ActionsFormsText,
+
             // forms form
             FormsDate,
             FormsDisplay,
@@ -66,6 +75,8 @@
             FormsCheckbox,
             FormsCheckboxbutton,
             FormsCheckboxcard,
+            FormsSelect,
+            FormsMultipleselect,
         },
     }
 </script>

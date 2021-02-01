@@ -16,8 +16,8 @@
             <div class="dropdown-divider"></div>
 
             <form class="p-2">
-                <a class="btn btn-sm btn-default float-left" @click="columnSelectAll()">{{ this.trans('all') }}</a>&nbsp;&nbsp;
-                <inertia-link :href="url" :class="'btn btn-sm btn-' + $page.props.color + ' column-select-submit float-right'">{{ this.trans('submit') }}</inertia-link>
+                <a class="btn btn-sm btn-default float-left" @click="columnSelectAll()">{{ trans('all') }}</a>&nbsp;&nbsp;
+                <inertia-link :href="url" :class="'btn btn-sm btn-' + $page.props.color + ' column-select-submit float-right'">{{ trans('submit') }}</inertia-link>
             </form>
         </div>
     </div>
@@ -29,7 +29,6 @@
 
         props: {
             data: Object,
-            locale: Object,
         },
 
         data() {

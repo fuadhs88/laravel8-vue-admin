@@ -11,12 +11,11 @@
 
         props: {
             data: String,
-            assets: Object,
         },
 
         created() {
-            this.require('icheck-bootstrap');
-            this.require('jquery-icheck');
+            $.admin.require('icheck-bootstrap');
+            $.admin.require('jquery-icheck');
         },
     }
 </script>

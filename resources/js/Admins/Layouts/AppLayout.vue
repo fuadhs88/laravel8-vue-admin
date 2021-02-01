@@ -47,7 +47,7 @@
             <ul class="navbar-nav ml-auto">
                 <template v-for="(navbarRight) in contents.navbar_right">
                     <li class="nav-item" v-html="navbarRight" v-if="typeof navbarRight === 'string'"></li>
-                    <component :is="importComponent(navbarRight.view)" :data="navbarRight.data" :assets="assets" :locale="locale" v-else-if="'view' in navbarRight"></component>
+                    <component :is="importComponent(navbarRight.view)" :data="navbarRight.data" v-else-if="'view' in navbarRight"></component>
                     <li class="nav-item" v-else-if="'href' in navbarRight">
                         <inertia-link class="nav-link" :href="navbarRight.href" :title="navbarRight.title">
                             <i :class="'fas ' + navbarRight.icon"></i>
@@ -122,7 +122,7 @@
                                 <i :class="'nav-icon ' + menu.icon" v-if="menu.icon"></i>
                                 <p>{{ menu.title }}<i class="right fas fa-angle-left"></i></p>
                             </a>
-                            <menu-children :menus="menu.children" :configs="configs"/>
+                            <menu-children :menus="menu.children"/>
                         </li>
                     </ul>
                 </nav>
@@ -170,7 +170,7 @@
                     <div class="row" v-for="(row, i) in contents.rows" :key="i">
                         <div :class="columnClasses(column.width)" v-for="(column, j) in row.columns" :key="j">
                             <template v-for="value in column.contents">
-                                <component :is="importComponent(value.view)" :data="value.data" :assets="assets" :locale="locale" v-if="typeof value === 'object'"></component>
+                                <component :is="importComponent(value.view)" :data="value.data" v-if="typeof value === 'object'"></component>
                                 <p class="m-0 p-0" v-html="value" v-else></p>
                             </template>
                         </div>
@@ -204,7 +204,7 @@
             <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
         </footer>
 
-        <modal-form-action :data="this.$root.modalFormActionData" :assets="assets" :locale="locale"></modal-form-action>
+        <modal-form-action :data="this.$root.modalFormActionData"></modal-form-action>
     </div>
     <!-- ./wrapper -->
 </template>
@@ -231,8 +231,8 @@
             configs: Object,
             locale: Object,
             routes: Array,
-            color: String,
             assets: Object,
+            color: String,
             errors: Object,
             contents: Object
         },
@@ -259,8 +259,11 @@
 
         // 页面加载之前执行
         created() {
+            $.admin.configs = this.configs;
+            $.admin.locale = this.locale;
+            $.admin.routes = this.routes;
+            $.admin.assets = this.assets;
             $.admin.color = this.color;
-            $.admin.__trans = this.locale;
             $.admin.inertia = Inertia;
             // console.dir(this);
         },

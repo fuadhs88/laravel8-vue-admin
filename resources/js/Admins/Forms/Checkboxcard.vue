@@ -4,13 +4,13 @@
         <div :class="data.viewClass.field" :id="data.id">
             <div class="card-group btn-group-toggle checkbox-card-group">
                 <template v-for="(optionVal, optionKey) in data.options">
-                    <label :class="'card ' + (in_array(optionKey, data.value) || (data.value === null && in_array(optionKey, data.checked)) ? 'bg-' + $page.props.color : '')" @click.prevent="checkboxCard($event)">
+                    <label :class="'card m-0 ' + ((data.value === null && in_array(optionKey, data.checked)) || (data.value && in_array(optionKey, data.value)) ? 'bg-' + $page.props.color : '')" @click.prevent="checkboxCard($event)">
                         <div class="card-body">
                             <input type="checkbox"
                                    :name="data.name + '[]'"
                                    :value="optionKey"
                                    :class="data.class + ' d-none'"
-                                   :checked="in_array(optionKey, data.value) || (data.value === null && in_array(optionKey, data.checked))"
+                                   :checked="(data.value === null && in_array(optionKey, data.checked)) || (data.value && in_array(optionKey, data.value))"
                                    v-bind="data.attributes" />&nbsp;{{ optionVal }}&nbsp;&nbsp;
                         </div>
                     </label>
@@ -37,7 +37,6 @@
 
         props: {
             data: Object,
-            assets: Object,
         },
 
         methods: {
@@ -49,17 +48,5 @@
 </script>
 
 <style scoped>
-    .card-group label {
-        cursor: pointer;
-        margin-right: 8px;
-        font-weight: 400;
-    }
 
-    .card-group .card {
-        margin-bottom: 0;
-    }
-
-    .card-group .card-body {
-        padding: 10px 15px;
-    }
 </style>

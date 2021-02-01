@@ -24,11 +24,10 @@
 
         props: {
             data: Object,
-            assets: Object,
         },
 
         created() {
-            this.require('daterangepicker');
+            $.admin.require('daterangepicker');
         },
 
         mounted() {

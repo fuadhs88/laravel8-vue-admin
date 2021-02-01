@@ -302,16 +302,17 @@ class Select extends Field
                 if (is_array($value)) {
                     $value = json_encode($value, true);
                 }
-                $arrayOptionAttributes[$key][] = "data-" . $dataKey . "='" . $value . "'";
+                $arrayOptionAttributes[$key]["data-" . $dataKey] = $value;
             }
         }
 
-        $stringOptionAttributes = [];
-        foreach ($arrayOptionAttributes as $attributeKey => $arrayOptionAttribute) {
-            $stringOptionAttributes[$attributeKey] = implode(' ', $arrayOptionAttribute);
-        }
-
-        return $stringOptionAttributes;
+        return $arrayOptionAttributes;
+//        $stringOptionAttributes = [];
+//        foreach ($arrayOptionAttributes as $attributeKey => $arrayOptionAttribute) {
+//            $stringOptionAttributes[$attributeKey] = implode(' ', $arrayOptionAttribute);
+//        }
+//
+//        return $stringOptionAttributes;
     }
 
     /**

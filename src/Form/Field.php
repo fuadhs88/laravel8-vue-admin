@@ -176,7 +176,7 @@ class Field implements Renderable
      */
     protected $width = [
         'label' => 2,
-        'field' => 8,
+        'field' => 10,
     ];
 
     /**
@@ -463,9 +463,12 @@ class Field implements Renderable
      *
      * @return $this
      */
-    public function setWidth($field = 8, $label = 2): self
+    public function setWidth($field = 10, $label = 2): self
     {
-        $this->width = compact('field', 'label');
+        $this->width = [
+            'label' => $label,
+            'field' => $field,
+        ];
 
         return $this;
     }
@@ -814,13 +817,17 @@ class Field implements Renderable
     {
         if ($this->horizontal) {
             return [
-                'label'      => "col-md-{$this->width['label']} {$this->getLabelClass()} pr-3 col-form-label",
+                'label'      => "col-md-{$this->width['label']} {$this->getLabelClass()} col-form-label",
                 'field'      => "col-md-{$this->width['field']} field-control",
                 'form-group' => $this->getGroupClass(true),
             ];
         }
 
-        return ['label' => $this->getLabelClass(), 'field' => 'field-control', 'form-group' => 'form-group'];
+        return [
+            'label' => $this->getLabelClass(),
+            'field' => 'field-control',
+            'form-group' => 'form-group'
+        ];
     }
 
     /**
@@ -1023,39 +1030,6 @@ class Field implements Renderable
     }
 
     /**
-     * Get the view variables of this field.
-     *
-     * @return array
-     * @throws \ReflectionException
-     */
-    public function variables(): array
-    {
-        $viewClass = $this->getViewElementClasses();
-
-        return array_merge($this->variables, [
-            'id'          => $this->id,
-            'name'        => $this->elementName ?: $this->formatName($this->column),
-            'help'        => $this->help,
-            'class'       => $this->getElementClassString(),
-            'value'       => $this->value(),
-            'label'       => $this->label,
-            'viewClass'   => $viewClass,
-            'column'      => $this->column,
-            'selector'    => $this->getElementClassSelector(),
-            'errorKey'    => $this->getErrorKey(),
-//            'attributes'  => $this->formatAttributes(),
-            'attributes'  => $this->attributes,
-            'placeholder' => $this->getPlaceholder(),
-            'nested'      => (int) $this->nested,
-            'group_attrs' => [
-                'class'      => $viewClass['form-group'],
-                'data-field' => is_array($this->column) ? join(',', $this->column) : $this->column,
-                'data-type'  => strtolower((new \ReflectionClass($this))->getShortName()),
-            ],
-        ]);
-    }
-
-    /**
      * Get view of this field.
      *
      * @return string
@@ -1140,35 +1114,6 @@ class Field implements Renderable
     }
 
     /**
-     * Render this filed.
-     *
-     * @return array|string
-     * @throws \ReflectionException
-     */
-    public function render()
-    {
-        if (!$this->shouldRender()) {
-            return [];
-        }
-
-        $this->addRequiredAttributeFromRules();
-
-        if ($this->callback instanceof Closure) {
-            $this->value = $this->callback->call($this->form->model(), $this->value, $this);
-        }
-
-        if ($this->script) {
-            Admin::script($this->script);
-        }
-
-        return [
-            'view' => $this->getView(),
-            'data' => $this->variables()
-        ];
-//        return Admin::view($this->getView(), $this->variables());
-    }
-
-    /**
      * @param array $variables
      * @return Factory|\Illuminate\View\View|string
      * @throws \ReflectionException
@@ -1197,5 +1142,67 @@ class Field implements Renderable
         }
 
         return $render;
+    }
+
+    /**
+     * Get the view variables of this field.
+     *
+     * @return array
+     * @throws \ReflectionException
+     */
+    public function variables(): array
+    {
+        $viewClass = $this->getViewElementClasses();
+
+        return array_merge($this->variables, [
+            'id'          => $this->id,
+            'name'        => $this->elementName ?: $this->formatName($this->column),
+            'help'        => $this->help,
+            'class'       => $this->getElementClassString(),
+            'value'       => $this->value(),
+            'label'       => $this->label,
+            'viewClass'   => $viewClass,
+            'column'      => $this->column,
+            'selector'    => $this->getElementClassSelector(),
+            'errorKey'    => $this->getErrorKey(),
+//            'attributes'  => $this->formatAttributes(),
+            'attributes'  => $this->attributes,
+            'placeholder' => $this->getPlaceholder(),
+            'nested'      => (int) $this->nested,
+            'group_attrs' => [
+                'class'      => $viewClass['form-group'],
+                'data-field' => is_array($this->column) ? join(',', $this->column) : $this->column,
+                'data-type'  => strtolower((new \ReflectionClass($this))->getShortName()),
+            ],
+        ]);
+    }
+
+    /**
+     * Render this filed.
+     *
+     * @return array|string
+     * @throws \ReflectionException
+     */
+    public function render()
+    {
+        if (!$this->shouldRender()) {
+            return [];
+        }
+
+        $this->addRequiredAttributeFromRules();
+
+        if ($this->callback instanceof Closure) {
+            $this->value = $this->callback->call($this->form->model(), $this->value, $this);
+        }
+
+        if ($this->script) {
+            Admin::script($this->script);
+        }
+
+        return [
+            'view' => $this->getView(),
+            'data' => $this->variables()
+        ];
+//        return Admin::view($this->getView(), $this->variables());
     }
 }

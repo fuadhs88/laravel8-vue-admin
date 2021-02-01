@@ -59,7 +59,13 @@
         },
 
         created() {
-            this.require('icheck-bootstrap');
+            $.admin.configs = this.configs;
+            $.admin.locale = this.locale;
+            $.admin.routes = this.routes;
+            $.admin.assets = this.assets;
+            $.admin.color = this.color;
+            $.admin.require('icheck-bootstrap');
+            this.form.remember = $.admin.config('admin.auth.remember');
         },
 
         data() {
@@ -67,7 +73,7 @@
                 form: this.$inertia.form({
                     username: '',
                     password: '',
-                    remember: this.config('admin.auth.remember'),
+                    remember: Boolean,
                 })
             }
         },
@@ -79,7 +85,7 @@
                         ... data,
                         remember: this.form.remember ? 'on' : ''
                     }))
-                    .post(this.admin_base_route('login'), {
+                    .post($.admin.admin_base_route('login'), {
                         onFinish: () => this.form.reset('password'),
                     });
             }

@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown dropleft table-dropdown-actions">
-        <a type="button" class="dropdown-toggle px-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <a type="button" class="dropdown-toggle px-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
         <div class="dropdown-menu text-center">
             <template v-for="defaultVal in data.default">
                 <inertia-link :href="defaultVal.href" :class="defaultVal.class" v-if="defaultVal.href">

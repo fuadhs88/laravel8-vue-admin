@@ -1,9 +1,32 @@
 ;(function($, window, Swal) {
+    $.ajaxSetup({
+        statusCode: {
+            500: function(xhr) {
+                $.admin.toastr.error(xhr.responseJSON.message, {position:"bottom"});
+            },
+            403: function (xhr) {
+                $.admin.toastr.error(xhr.responseJSON.message, {position:"bottom"});
+            },
+        }
+    });
+
+    $.delete = function (options) {
+        options.type = 'POST';
+        options.data = {_method: 'DELETE'};
+
+        return $.ajax(options);
+    };
+
+    $.put = function (options) {
+        options.type = 'POST';
+        Object.assign(options.data, {_method: 'PUT'});
+
+        return $.ajax(options);
+    };
 
     function Form ($el) {
         this.$el = $el;
         this.fieldTypes = {};
-
         this.init();
     }
 
@@ -242,13 +265,16 @@
     };
 
     function Admin () {
-        this.color = '';
+        this.configs = null;
+        this.locale = null;
+        this.routes = null;
+        this.assets = null;
+        this.color = null;
         this.inertia = null;
         this.token = $('meta[name=csrf-token]').attr('content');
-        this.user = null;
+        // this.user = null;
         this.swal = Swal;
         this.toastr = new Toast();
-        this.__trans = window.__trans;
     }
 
     Admin.prototype.confirm = function (options) {
@@ -297,7 +323,6 @@
 
     Admin.prototype.redirect = function (url) {
         this.inertia.get(url);
-        // $.pjax({container:'#pjax-container', url: url });
     };
 
     Admin.prototype.getToken = function () {
@@ -365,19 +390,122 @@
         this.form = new Form($form);
     };
 
-    Admin.prototype.trans = function (desc) {
-        let obj = this.__trans;
-        let arr = desc.split('.');
-        while(arr.length && (obj = obj[arr.shift()])) {}
-        return (typeof(obj) !== 'undefined') ? obj : desc;
+    Admin.prototype.config = function (_key = null, _default = null) {
+        if (_key) {
+            let keys = _key.split('.');
+            let return_val = this.configs;
+            $.each(keys, function (key, val) {
+                return_val = return_val[val];
+            });
+
+            return (typeof(return_val) !== 'undefined') ? return_val : (_default ?? _key);
+        }
+
+        return null;
     };
 
-    /**
-     * 排序
-     *
-     * @param object
-     * @param handle
-     */
+    Admin.prototype.trans = function (_key) {
+        let trans = this.locale;
+
+        let key = _key.split('.');
+
+        while(key.length && (trans = trans[key.shift()])) {}
+
+        return (typeof(trans) !== 'undefined') ? trans : _key;
+    };
+
+    Admin.prototype.admin_base_url = function (path = '') {
+        let prefix = this.config('admin.route.prefix');
+
+        prefix = '/' + prefix.replace(/(^\/*)|(\/*$)/g, "");
+
+        prefix = (prefix === '/') ? '' : prefix;
+
+        path = path.replace(/(^\/*)|(\/*$)/g, "");
+
+        if (path === '' || path.length === 0) {
+            return prefix ?? '/';
+        }
+
+        return prefix + '/' + path;
+    };
+
+    Admin.prototype.admin_base_route = function (name, parameter = {}) {
+        let route_name = this.config('admin.route.as') + '.' + name;
+        let uri = null;
+        $.each(this.routes, function (key, route) {
+            if (route.name === route_name) {
+                if (!$.isEmptyObject(parameter)) {
+                    $.each(parameter, function (k, v) {
+                        uri = (route.uri).replace('{' + k + '}', v);
+                    });
+                } else {
+                    uri = route.uri;
+                }
+            }
+        });
+
+        return uri;
+    };
+
+    Admin.prototype.require = function (search_el, insert_el = 'AdminLte', is_after = false) {
+        let assets = this.assets[search_el];
+        let asset_path = this.assets.asset_path;
+        // console.dir(this.assets);
+        if ("depend" in assets) {
+            this.require(assets['depend']);
+        }
+
+        if ("css" in assets) {
+            let headParent = null;
+            let headInsert = true;
+            $.each(document.head.childNodes, function (childNodesKey, childNodesVal) {
+                if (childNodesVal.nodeName === '#comment') {
+                    if (childNodesVal.nodeValue === insert_el) {
+                        headParent = childNodesVal;
+                    }
+
+                    if (childNodesVal.nodeValue === search_el) {
+                        headInsert = false;
+                    }
+                }
+            });
+            if (headInsert) {
+                let css = '<!--' + search_el + '-->';
+
+                $.each(assets.css, function (cssKey, cssVal) {
+                    css += '<link rel="stylesheet" href="' + asset_path + cssVal + '.css">';
+                });
+
+                is_after ? $(headParent).after(css) : $(headParent).before(css);
+            }
+        }
+
+        if ("js" in assets) {
+            let bodyParent = null;
+            let bodyInsert = true;
+            $.each(document.body.childNodes, function (childNodesKey, childNodesVal) {
+                if (childNodesVal.nodeName === '#comment') {
+                    if (childNodesVal.nodeValue === insert_el) {
+                        bodyParent = childNodesVal;
+                    }
+
+                    if (childNodesVal.nodeValue === search_el) {
+                        bodyInsert = false;
+                    }
+                }
+            });
+            if (bodyInsert) {
+                let js = '<!--' + search_el + '-->';
+
+                $.each(assets.js, function (jsKey, jsVal) {
+                    js += '<script src="' + asset_path + jsVal + '.js"></script>';
+                });
+                is_after ? $(bodyParent).after(js) : $(bodyParent).before(js);
+            }
+        }
+    };
+
     Admin.prototype.sortable = function (object, handle) {
         $('.' + object).sortable({
             placeholder         : 'sort-highlight',

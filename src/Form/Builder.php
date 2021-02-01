@@ -85,7 +85,7 @@ class Builder
      */
     protected $width = [
         'label' => 2,
-        'field' => 8,
+        'field' => 10,
     ];
 
     /**
@@ -257,7 +257,7 @@ class Builder
      *
      * @return $this
      */
-    public function setWidth($field = 8, $label = 2): self
+    public function setWidth($field = 10, $label = 2): self
     {
         $this->width = [
             'label' => $label,
@@ -596,6 +596,7 @@ class Builder
                 'tools' => $this->renderTools(),
                 'open' => $this->open(),
                 'tabObj' => $this->form->getTab(),
+                'container' => $this->form->container(),
                 'rows' => $this->form->getRows(),
                 'footer' => $this->renderFooter(),
                 'hiddenFields' => $this->getHiddenFields(),

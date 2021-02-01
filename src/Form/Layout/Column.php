@@ -34,7 +34,10 @@ class Column
     /**
      * Column constructor.
      *
+     * Column constructor.
      * @param int $width
+     * @param $form
+     * @param null $callback
      */
     public function __construct($width = 12, $form, $callback = null)
     {
@@ -99,10 +102,10 @@ class Column
     public function width()
     {
         if ($this->width == 12) {
-            return 'col';
+            return 'col-md';
         }
 
-        return "col-{$this->width}";
+        return "col-md-{$this->width}";
     }
 
     /**

@@ -44,11 +44,10 @@
 
         props: {
             data: Object,
-            assets: Object,
         },
 
         created() {
-            this.require('icheck-bootstrap');
+            $.admin.require('icheck-bootstrap');
         },
     }
 </script>
