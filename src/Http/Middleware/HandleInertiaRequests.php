@@ -118,12 +118,21 @@ class HandleInertiaRequests extends Middleware
                     '/admin-lte/plugins/inputmask/min/jquery.inputmask.bundle.min',
                 ]
             ],
-            'daterangepicker' => [
+            'datepicker' => [
                 'css' => [
-                    '/admin-lte/plugins/bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.min',
+                    '/admin-lte/plugins/datepicker/build/css/bootstrap-datetimepicker.min',
                 ],
                 'js' => [
-                    '/admin-lte/plugins/bootstrap4-datetimepicker/build/js/bootstrap-datetimepicker.min',
+                    '/admin-lte/plugins/datepicker/build/js/bootstrap-datetimepicker.min',
+                ],
+                'depend' => 'moment',
+            ],
+            'daterangepicker' => [
+                'css' => [
+                    '/admin-lte/plugins/daterangepicker/daterangepicker',
+                ],
+                'js' => [
+                    '/admin-lte/plugins/daterangepicker/daterangepicker',
                 ],
                 'depend' => 'moment',
             ],
@@ -151,10 +160,39 @@ class HandleInertiaRequests extends Middleware
                     '/admin-lte/plugins/select2/js/select2.full.min',
                 ],
             ],
+            'duallistbox' => [
+                'css' => [
+                    '/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min',
+                ],
+                'js'  => [
+                    '/admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min',
+                ],
+            ],
+            'colorpicker' => [
+                'css' => [
+                    '/admin-lte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min',
+                ],
+                'js'  => [
+                    '/admin-lte/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min',
+                ],
+            ],
+            'input-spinner' => [
+                'js' => [
+                    '/bootstrap-input-spinner/bootstrap-input-spinner',
+                ],
+            ],
+            'range-slider'=> [
+                'css' => [
+                    '/ion-rangeslider/css/ion.rangeSlider.min',
+                ],
+                'js'  => [
+                    '/ion-rangeslider/js/ion.rangeSlider.min',
+                ],
+            ],
             'jquery-ui' => [
                 'js' => [
                     '/admin-lte/plugins/jquery-ui/jquery-ui.min'
-                ]
+                ],
             ],
         ];
     }

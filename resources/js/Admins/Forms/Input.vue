@@ -5,12 +5,12 @@
             <div class="input-group">
                 <div class="input-group-prepend" v-html="data.prepend" v-if="data.prepend"></div>
 
-                <input v-bind="data.attributes" />
+                <input :name="data.name" v-bind="data.attributes" />
 
                 <span class="input-group-append" v-html="data.append" v-if="data.append"></span>
 
                 <span class="input-group-append" v-if="data.picker">
-                    <button type="button" class="btn btn-@color text-white" data-toggle="modal" :data-target="'#' + data.picker.picker.modal">
+                    <button type="button" class="btn btn-@color text-white" data-toggle="modal" :data-target="'#' + data.picker.modal">
                         <i class="fas fa-folder-open"></i>  {{ trans('browse') }}
                     </button>
                 </span>

@@ -7,7 +7,7 @@ class Color extends Text
     /**
      * @var string
      */
-    protected $view = 'admin::form.color';
+    protected $view = 'Forms/Color';
 
     /**
      * Use `hex` format.

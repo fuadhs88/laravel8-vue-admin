@@ -345,6 +345,22 @@ class NestedForm extends AbstractForm
     }
 
     /**
+     * Get fields of this form.
+     *
+     * @return array
+     */
+    public function getFields()
+    {
+        $fields = [];
+
+        foreach ($this->fields as $field) {
+            array_push($fields, $field->setLabelClass(['d-none'])->render());
+        }
+
+        return $fields;
+    }
+
+    /**
      * Fill data to all fields in form.
      *
      * @param array $data
@@ -365,10 +381,14 @@ class NestedForm extends AbstractForm
      * Get the html and script of template.
      *
      * @return array
+     * @throws \Throwable
      */
     public function getTemplate()
     {
-        return admin_view('admin::form.fields', ['rows' => $this->getRows()]);
+        return [
+            'rows' => $this->getRows()
+        ];
+//        return admin_view('admin::form.fields', ['rows' => $this->getRows()]);
     }
 
     /**

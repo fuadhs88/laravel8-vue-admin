@@ -6,6 +6,7 @@ use Encore\Admin\Form\EmbeddedForm;
 use Encore\Admin\Form\Field;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class Embeds extends Field
 {
@@ -240,10 +241,13 @@ class Embeds extends Field
     /**
      * Render the form.
      *
-     * @return \Illuminate\View\View
+     * @return View
+     * @throws \ReflectionException
+     * @throws \Throwable
      */
     public function render()
     {
-        return parent::fieldRender(['form' => $this->buildEmbeddedForm()]);
+        return parent::fieldRender(['rows' => $this->buildEmbeddedForm()->getRows()]);
+//        return parent::fieldRender(['form' => $this->buildEmbeddedForm()]);
     }
 }

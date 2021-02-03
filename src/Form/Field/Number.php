@@ -7,7 +7,7 @@ class Number extends Text
     /**
      * @var string
      */
-    protected $view = 'admin::form.number';
+    protected $view = 'Forms/Number';
 
     /**
      * Set min value of number field.
@@ -76,7 +76,9 @@ class Number extends Text
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array|string
+     * @throws \ReflectionException
+     * @throws \Throwable
      */
     public function render()
     {

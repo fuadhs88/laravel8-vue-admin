@@ -11,6 +11,8 @@ class Table extends HasMany
      */
     protected $viewMode = 'table';
 
+    protected $forms = [];
+
     /**
      * Table constructor.
      *
@@ -30,7 +32,7 @@ class Table extends HasMany
             list($this->label, $this->builder) = $arguments;
         }
 
-        admin_assets_require('initialize');
+//        admin_assets_require('initialize');
     }
 
     /**
@@ -44,7 +46,12 @@ class Table extends HasMany
             if (isset($data['pivot'])) {
                 $data = array_merge($data, $data['pivot']);
             }
-            $forms[$key] = $this->buildNestedForm($this->column, $this->builder, $key)->fill($data);
+
+            $form = $this->buildNestedForm($this->column, $this->builder, $key)->fill($data);
+
+            $forms[$key] = [
+                'fields' => $form->getFields(),
+            ];
         }
 
         return $forms;
@@ -78,8 +85,7 @@ class Table extends HasMany
     {
         $form = new NestedForm($column);
 
-        $form->setForm($this->form)
-            ->setKey($key);
+        $form->setForm($this->form)->setKey($key);
 
         call_user_func($builder, $form);
 
@@ -87,6 +93,20 @@ class Table extends HasMany
 
         return $form;
     }
+
+//    protected function getForms(){
+//        $this->buildRelatedForms();
+//
+//        $forms = [];
+//
+//        foreach ($this->forms as $form) {
+//            array_push($forms, [
+//                'fields' => $form->fields()
+//            ]);
+//        }
+//
+//        return $forms;
+//    }
 
     public function render()
     {

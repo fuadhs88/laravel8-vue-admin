@@ -6,7 +6,7 @@ use Encore\Admin\Form\Field;
 
 class DateRange extends Field
 {
-    protected $view = 'admin::form.daterange';
+    protected $view = 'Forms/Daterange';
 
     protected $icon = 'fa-calendar-alt';
 

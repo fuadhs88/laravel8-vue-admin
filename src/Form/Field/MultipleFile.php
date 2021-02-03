@@ -14,6 +14,11 @@ class MultipleFile extends Field
     use UploadField;
 
     /**
+     * {@inheritdoc}
+     */
+    protected $view = 'Actions/Forms/Multiplefile';
+
+    /**
      * Create a new File instance.
      *
      * @param string $column

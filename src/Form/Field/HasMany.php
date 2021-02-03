@@ -51,9 +51,9 @@ class HasMany extends Field
      * @var array
      */
     protected $views = [
-        'default' => 'admin::form.hasmany',
-        'tab'     => 'admin::form.hasmanytab',
-        'table'   => 'admin::form.hasmanytable',
+        'default' => 'Forms/Hasmany',
+        'tab'     => 'Forms/Hasmanytab',
+        'table'   => 'Forms/Hasmanytable',
     ];
 
     /**
@@ -336,15 +336,15 @@ class HasMany extends Field
         $forms = [];
 
         foreach ($this->value as $data) {
-            Arr::set(
-                $forms,
-                $data[$relation->getRelated()->getKeyName()],
-                $this->buildNestedForm(
-                    $this->column,
-                    $this->builder,
-                    $relation->getRelated()->replicate()->forceFill($data)
-                )->fill($data)
-            );
+            $key = $data[$relation->getRelated()->getKeyName()];
+
+            $value = $this->buildNestedForm(
+                $this->column,
+                $this->builder,
+                $relation->getRelated()->replicate()->forceFill($data)
+            )->fill($data);
+
+            Arr::set($forms, $key, $value);
         }
 
         return $forms;
@@ -407,9 +407,10 @@ class HasMany extends Field
     /**
      * Render the `HasMany` field for table style.
      *
-     * @throws \Exception
-     *
      * @return mixed
+     * @throws \Throwable
+     *
+     * @throws \Exception
      */
     protected function renderTable()
     {
@@ -431,20 +432,22 @@ class HasMany extends Field
         }
 
         /* Build row elements */
-        $template = array_reduce($fields, function ($all, $field) {
-            return $all."<td>{$field}</td>";
-        }, '');
+//        $template = array_reduce($fields, function ($all, $field) {
+//            return $all."<td>{$field}</td>";
+//        }, '');
 
         /* Build cell with hidden elements */
-        $template .= '<td class="d-none">'.implode('', $hidden).'</td>';
+//        $template .= '<td class="d-none">'.implode('', $hidden).'</td>';
 
         // specify a view to render.
         $this->view = $this->views[$this->viewMode];
 
         return parent::fieldRender([
             'headers'      => $headers,
+            'fields'       => array_merge($fields, $hidden),
+//            'hidden'       => $hidden,
             'forms'        => $this->buildRelatedForms(),
-            'template'     => $template,
+//            'template'     => $template,
             'relationName' => $this->relationName,
             'options'      => $this->options,
         ]);

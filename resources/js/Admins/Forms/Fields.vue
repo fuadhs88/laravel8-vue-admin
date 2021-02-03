@@ -30,19 +30,28 @@
     import ActionsFormsText from './../Actions/Forms/InputText'
 
     // forms form
-    import FormsDate from './../Forms/Date'
-    import FormsDisplay from './../Forms/Display'
-    import FormsFile from './../Forms/File'
-    import FormsInput from './../Forms/Input'
-    import FormsTextarea from './../Forms/Textarea'
-    import FormsRadio from './../Forms/Radio'
-    import FormsRadiobutton from './../Forms/Radiobutton'
-    import FormsRadiocard from './../Forms/Radiocard'
-    import FormsCheckbox from './../Forms/Checkbox'
-    import FormsCheckboxbutton from './../Forms/Checkboxbutton'
-    import FormsCheckboxcard from './../Forms/Checkboxcard'
-    import FormsSelect from './../Forms/Select'
-    import FormsMultipleselect from './../Forms/Multipleselect'
+    import FormsDate from './Date'
+    import FormsDaterange from './Daterange'
+    import FormsDisplay from './Display'
+    import FormsFile from './File'
+    import FormsInput from './Input'
+    import FormsTextarea from './Textarea'
+    import FormsRadio from './Radio'
+    import FormsRadiobutton from './Radiobutton'
+    import FormsRadiocard from './Radiocard'
+    import FormsCheckbox from './Checkbox'
+    import FormsCheckboxbutton from './Checkboxbutton'
+    import FormsCheckboxcard from './Checkboxcard'
+    import FormsSelect from './Select'
+    import FormsMultipleselect from './Multipleselect'
+    import FormsListbox from './Listbox'
+    import FormsColor from './Color'
+    import FormsNumber from './Number'
+    import FormsSlider from './Slider'
+    import FormsKeyvalue from './Keyvalue'
+    import FormsEmbeds from './Embeds'
+    import FormsListfield from './Listfield'
+    import FormsHasmanytable from './Hasmanytable'
 
     export default {
         name: "Fields",
@@ -65,6 +74,7 @@
 
             // forms form
             FormsDate,
+            FormsDaterange,
             FormsDisplay,
             FormsFile,
             FormsInput,
@@ -77,6 +87,14 @@
             FormsCheckboxcard,
             FormsSelect,
             FormsMultipleselect,
+            FormsListbox,
+            FormsColor,
+            FormsNumber,
+            FormsSlider,
+            FormsKeyvalue,
+            FormsEmbeds,
+            FormsListfield,
+            FormsHasmanytable,
         },
     }
 </script>

@@ -19,7 +19,7 @@ class KeyValue extends Field
     /**
      * @var array
      */
-    protected $value = ['' => ''];
+    protected $value = ['New' => ''];
 
     /**
      * Fill data to the field.
@@ -62,8 +62,8 @@ class KeyValue extends Field
 
         $rules["{$this->column}.keys.*"] = 'distinct';
         $rules["{$this->column}.values.*"] = $fieldRules;
-        $attributes["{$this->column}.keys.*"] = __('Key');
-        $attributes["{$this->column}.values.*"] = __('Value');
+        $attributes["{$this->column}.keys.*"] = trans('Key');
+        $attributes["{$this->column}.values.*"] = trans('Value');
 
         return validator($input, $rules, $this->getValidationMessages(), $attributes);
     }

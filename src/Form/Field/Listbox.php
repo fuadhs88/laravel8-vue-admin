@@ -2,6 +2,9 @@
 
 namespace Encore\Admin\Form\Field;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
+
 /**
  * Class ListBox.
  *
@@ -51,7 +54,9 @@ class Listbox extends MultipleSelect
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     * @return Factory|View|string
+     * @throws \ReflectionException
+     * @throws \Throwable
      */
     public function render()
     {
@@ -61,7 +66,7 @@ class Listbox extends MultipleSelect
             'infoTextFiltered'      => trans('admin.listbox.filtered'),
             'filterTextClear'       => trans('admin.listbox.filter_clear'),
             'filterPlaceHolder'     => trans('admin.listbox.filter_placeholder'),
-            'selectorMinimalHeight' => 200,
+            'selectorMinimalHeight' => 190,
         ], $this->settings);
 
         $this->addVariables([

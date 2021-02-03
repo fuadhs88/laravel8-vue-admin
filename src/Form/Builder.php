@@ -588,6 +588,7 @@ class Builder
 
         $this->hideReservedFields();
 
+//        dd($this->form->getRows());
         return [
             'view' => $this->view,
             'data' => [

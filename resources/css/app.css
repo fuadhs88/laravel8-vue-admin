@@ -31,7 +31,8 @@ i.fa, i.far, i.fas {
 /*card-group*/
 .radio-card-group .card-body,
 .checkbox-card-group .card-body {
-    padding: 8.5px 15px;
+    padding: 8.5px 3px;
+    max-height: 38px;
 }
 
 /*select2*/

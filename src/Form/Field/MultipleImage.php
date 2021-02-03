@@ -9,11 +9,6 @@ class MultipleImage extends MultipleFile
     use ImageField;
 
     /**
-     * {@inheritdoc}
-     */
-    protected $view = 'Actions/Forms/Multiplefile';
-
-    /**
      *  Validation rules.
      *
      * @var string
